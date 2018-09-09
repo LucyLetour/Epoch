@@ -1,13 +1,13 @@
 package com.epochgames.epoch.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
-import com.epochgames.epoch.Program;
+import com.epochgames.epoch.Epoch;
 
 public class MainMenu extends ScreenAdapter {
 
-    private Program game;
+    private Epoch game;
 
-    public MainMenu(Program game) {
+    public MainMenu(Epoch game) {
         this.game = game;
     }
 }

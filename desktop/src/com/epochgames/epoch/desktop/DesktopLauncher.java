@@ -2,7 +2,7 @@ package com.epochgames.epoch.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.epochgames.epoch.Program;
+import com.epochgames.epoch.Epoch;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -11,6 +11,6 @@ public class DesktopLauncher {
 		config.width = 1920;
 		config.height = 1080;
 		config.samples = 16;
-		new LwjglApplication(new Program(), config);
+		new LwjglApplication(new Epoch(), config);
 	}
 }

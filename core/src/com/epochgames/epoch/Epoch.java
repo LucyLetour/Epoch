@@ -11,7 +11,7 @@ import com.epochgames.epoch.screens.InGame;
 import com.epochgames.epoch.screens.MainMenu;
 import com.epochgames.epoch.util.Assets;
 
-public class Program extends Game {
+public class Epoch extends Game {
 	public Stage stage;
 	public Viewport viewport;
 	public OrthographicCamera camera;

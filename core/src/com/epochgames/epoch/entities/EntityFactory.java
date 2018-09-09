@@ -1,13 +1,10 @@
 package com.epochgames.epoch.entities;
 
-import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.epochgames.epoch.Program;
+import com.epochgames.epoch.Epoch;
 import com.epochgames.epoch.entities.components.*;
 import com.epochgames.epoch.util.Assets;
 
@@ -25,7 +22,7 @@ public class EntityFactory {
     private static boolean initialized = false;
 
     //Sets the viewport and batch only if the factory has not been initialized already
-    public static void init(Program game) {
+    public static void init(Epoch game) {
         if(!initialized) {
             viewport = game.viewport;
             batch = game.batch;

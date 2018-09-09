@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.epochgames.epoch.GameManager;
-import com.epochgames.epoch.Program;
+import com.epochgames.epoch.Epoch;
 import com.epochgames.epoch.entities.EntityFactory;
 import com.epochgames.epoch.entities.components.IconComponent;
 import com.epochgames.epoch.entities.components.TransformComponent;
@@ -25,13 +25,13 @@ public class InGame extends ScreenAdapter {
 
     Engine engine;
 
-    public Program game;
+    public Epoch game;
 
     public OpenSpaceMap openSpaceMap;
 
     public float targetCameraZoom;
 
-    public InGame(Program game) {
+    public InGame(Epoch game) {
         this.game = game;
 
         //Get the game manager and create a map to start on

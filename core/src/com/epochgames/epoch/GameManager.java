@@ -4,12 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.epochgames.epoch.entities.components.TiledMapClickListener;
 import com.epochgames.epoch.maps.EpochTiledMap;
 import com.epochgames.epoch.maps.OpenSpaceMap;
 import com.epochgames.epoch.screens.InGame;
 import com.epochgames.epoch.screens.InputListeners.InGameInputListener;
-import com.epochgames.epoch.util.EngineGameDesyncException;
 
 public class GameManager {
     private static GameManager instance = new GameManager();
@@ -22,9 +20,8 @@ public class GameManager {
     private GAME_STATE gameState;
     public LOCATION location;
     public EpochTiledMap currentMap;
-    public Program game;
+    public Epoch game;
 
-    public boolean turnChanged;
     public boolean playerTurn;
     public long turnNumber;
 
@@ -51,13 +48,14 @@ public class GameManager {
     }
 
     private GameManager() {
+        //TODO Read from save files
         gameState = GAME_STATE.IN_GAME;
         location = LOCATION.OPEN_SPACE;
         currentMap = new OpenSpaceMap();
         inputMultiplexer = new InputMultiplexer();
     }
 
-    public void setGame(Program game) {
+    public void setGame(Epoch game) {
         this.game = game;
     }
 
