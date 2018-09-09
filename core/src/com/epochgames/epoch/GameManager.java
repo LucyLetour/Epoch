@@ -86,10 +86,10 @@ public class GameManager {
         Stage stageProcessor;
 
         switch (gameState) {
-            /*case IN_GAME:
+            case IN_GAME:
                 screenProcessor = new InGameInputListener((InGame)game.activeScreen);
                 stageProcessor = ((InGame)game.activeScreen).tileActorStage;
-                break;*/
+                break;
             default:
                 Gdx.app.debug("Invalid Game State", "Game State was invalid, " +
                         "meaning input processors could not be assigned!");
