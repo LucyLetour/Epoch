@@ -73,7 +73,7 @@ public class GameManager {
      * Sets the game state in the GameManager, updates the game,
      * and sets the input processor to whatever it should be
      * so that it switches the active screen
-     * @param gameState
+     * @param gameState the GameState to switch to
      */
     public void setGameState(GAME_STATE gameState) {
         this.gameState = gameState;
@@ -81,6 +81,10 @@ public class GameManager {
         setInputProcessorGM(gameState);
     }
 
+    /**
+     * Defines the inputMultiplexer based off the current gameState
+     * @param gameState the current GameState
+     */
     public void setInputProcessorGM(GAME_STATE gameState) {
         InputProcessor screenProcessor;
         Stage stageProcessor;
@@ -114,14 +118,7 @@ public class GameManager {
         playerTurn = !playerTurn;
         turnNumber++;
         if(!playerTurn) {
-            try {
-                //TODO Do I want this here? Change maybe (For clarity if nothing else)
-                //Engine.instance.updateEngine(turnNumber);
-                //TODO Temp
-                throw new EngineGameDesyncException(0L, 0L);
-            } catch (EngineGameDesyncException e) {
-                e.printStackTrace();
-            }
+            //TODO L O G I C
         }
         return playerTurn;
     }
