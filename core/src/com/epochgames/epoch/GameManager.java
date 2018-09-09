@@ -1,9 +1,13 @@
 package com.epochgames.epoch;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.epochgames.epoch.entities.components.TiledMapClickListener;
 import com.epochgames.epoch.maps.EpochTiledMap;
 import com.epochgames.epoch.maps.OpenSpaceMap;
+import com.epochgames.epoch.screens.InGame;
 import com.epochgames.epoch.screens.InputListeners.InGameInputListener;
 import com.epochgames.epoch.util.EngineGameDesyncException;
 
@@ -24,7 +28,7 @@ public class GameManager {
     public boolean playerTurn;
     public long turnNumber;
 
-    public InputProcessor inputProcessor;
+    public InputMultiplexer inputMultiplexer;
 
     public enum GAME_STATE {
         MAIN_MENU,
@@ -50,6 +54,7 @@ public class GameManager {
         gameState = GAME_STATE.IN_GAME;
         location = LOCATION.OPEN_SPACE;
         currentMap = new OpenSpaceMap();
+        inputMultiplexer = new InputMultiplexer();
     }
 
     public void setGame(Program game) {
@@ -72,19 +77,31 @@ public class GameManager {
      */
     public void setGameState(GAME_STATE gameState) {
         this.gameState = gameState;
-        setInputProcessorGM(gameState);
         game.setActiveScreen(gameState);
+        setInputProcessorGM(gameState);
     }
 
     public void setInputProcessorGM(GAME_STATE gameState) {
+        InputProcessor screenProcessor;
+        Stage stageProcessor;
+
         switch (gameState) {
-            case IN_GAME:
-                inputProcessor = new InGameInputListener(game.inGameScreen);
-                break;
+            /*case IN_GAME:
+                screenProcessor = new InGameInputListener((InGame)game.activeScreen);
+                stageProcessor = ((InGame)game.activeScreen).tileActorStage;
+                break;*/
             default:
+                Gdx.app.debug("Invalid Game State", "Game State was invalid, " +
+                        "meaning input processors could not be assigned!");
+                screenProcessor = null;
+                stageProcessor = null;
                 break;
         }
-        Gdx.input.setInputProcessor(inputProcessor);
+
+        inputMultiplexer.addProcessor(screenProcessor);
+        inputMultiplexer.addProcessor(stageProcessor);
+
+        Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
     /**

@@ -17,13 +17,10 @@ public class InGameInputListener implements InputProcessor {
 
     public InGame screen;
 
-    public Interpolator interpolator;
-
     public Vector2 touchDown = new Vector2();
 
     public InGameInputListener(InGame screen) {
         this.screen = screen;
-        interpolator = new Interpolator(Interpolation.pow3Out);
     }
 
     @Override

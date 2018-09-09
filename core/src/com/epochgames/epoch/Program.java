@@ -28,6 +28,9 @@ public class Program extends Game {
 	
 	@Override
 	public void create () {
+		//Set the log level first thing so that we know what's going on
+		Gdx.app.setLogLevel(Gdx.app.LOG_DEBUG);
+
 		//Loads Assets (Go figure)
 		loadAssets();
 
@@ -85,7 +88,6 @@ public class Program extends Game {
 
 	private void loadAssets() {
 		Assets.MANAGER.load(Assets.Spritesheets.SHIPS);
-		Assets.MANAGER.load(Assets.Textures.HEXACRON);
 		Assets.MANAGER.load(Assets.TileMaps.OPEN_SPACE);
 	}
 

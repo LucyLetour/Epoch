@@ -18,8 +18,8 @@ import com.epochgames.epoch.util.EpochMath;
 
 public class InGame extends ScreenAdapter {
 
-    private Stage tileActorStage;
-    private GameManager gameManager;
+    public Stage tileActorStage;
+    public GameManager gameManager;
 
     public RenderingSystem renderingSystem;
 
@@ -43,6 +43,10 @@ public class InGame extends ScreenAdapter {
         engine = new Engine();
         renderingSystem = new RenderingSystem(game.batch, game.viewport);
         engine.addSystem(renderingSystem);
+
+        //Create a stage for the clickable things
+        tileActorStage = new Stage();
+        Gdx.input.setInputProcessor(tileActorStage);
 
         //Initialize the Entity Factory so we can create entities OTF
         EntityFactory.init(game);
