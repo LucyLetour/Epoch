@@ -1,6 +1,5 @@
 package com.epochgames.epoch.maps;
 
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.epochgames.epoch.util.Assets;
 

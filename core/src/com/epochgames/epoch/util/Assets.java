@@ -57,6 +57,7 @@ public class Assets {
      * Subclass containing {@link AssetDescriptor}s for game tileMaps
      */
     public static class TileMaps {
+        //TODO Turn the tileset for this (and all maps) into a ztk or other compressed format so everything runs smooth
         public static AssetDescriptor<TiledMap> OPEN_SPACE = new AssetDescriptor<>("maps/OpenSpaceMap.tmx", TiledMap.class);
     }
 

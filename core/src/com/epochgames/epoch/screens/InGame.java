@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.Program;
+import com.epochgames.epoch.entities.EntityFactory;
 import com.epochgames.epoch.entities.components.IconComponent;
 import com.epochgames.epoch.entities.components.TransformComponent;
 import com.epochgames.epoch.entities.systems.RenderingSystem;
@@ -31,16 +32,20 @@ public class InGame extends ScreenAdapter {
     public float targetCameraZoom;
 
     public InGame(Program game) {
-        gameManager = GameManager.getInstance();
-        openSpaceMap = new OpenSpaceMap();
         this.game = game;
 
+        //Get the game manager and create a map to start on
+        gameManager = GameManager.getInstance();
+        //TODO this needs to be based off the state in the save file (Game manager)
+        openSpaceMap = new OpenSpaceMap();
+
+        //Start our engine and add all the necessary systems
         engine = new Engine();
         renderingSystem = new RenderingSystem(game.batch, game.viewport);
-        t_createEntity();
         engine.addSystem(renderingSystem);
 
-
+        //Initialize the Entity Factory so we can create entities OTF
+        EntityFactory.init(game);
     }
 
     @Override
@@ -108,10 +113,19 @@ public class InGame extends ScreenAdapter {
 
     }
 
+    /**
+     * Zooms the camera based off mousewheel input. The zoom is clamped to prevent
+     * zooming too far/close
+     * @param delta the amount to change the zoom
+     */
     public void zoom(float delta) {
         targetCameraZoom = (float)EpochMath.clamp(targetCameraZoom + delta, 1.0f, 4.0f);
     }
 
+    @Deprecated
+    /**
+     * Creates a test entity
+     */
     public void t_createEntity() {
         Entity entity = new Entity();
 
