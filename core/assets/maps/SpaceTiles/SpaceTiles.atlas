@@ -1,0 +1,76 @@
+
+SpaceTiles.zktx
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+SpaceTiles/Space1
+  rotate: false
+  xy: 0, 1056
+  size: 457, 528
+  orig: 457, 528
+  offset: 0, 0
+  index: -1
+SpaceTiles/Space10
+  rotate: false
+  xy: 914, 0
+  size: 457, 528
+  orig: 457, 528
+  offset: 0, 0
+  index: -1
+SpaceTiles/Space2
+  rotate: false
+  xy: 0, 528
+  size: 457, 528
+  orig: 457, 528
+  offset: 0, 0
+  index: -1
+SpaceTiles/Space3
+  rotate: false
+  xy: 457, 1056
+  size: 457, 528
+  orig: 457, 528
+  offset: 0, 0
+  index: -1
+SpaceTiles/Space4
+  rotate: false
+  xy: 0, 0
+  size: 457, 528
+  orig: 457, 528
+  offset: 0, 0
+  index: -1
+SpaceTiles/Space5
+  rotate: false
+  xy: 457, 528
+  size: 457, 528
+  orig: 457, 528
+  offset: 0, 0
+  index: -1
+SpaceTiles/Space6
+  rotate: false
+  xy: 914, 1056
+  size: 457, 528
+  orig: 457, 528
+  offset: 0, 0
+  index: -1
+SpaceTiles/Space7
+  rotate: false
+  xy: 457, 0
+  size: 457, 528
+  orig: 457, 528
+  offset: 0, 0
+  index: -1
+SpaceTiles/Space8
+  rotate: false
+  xy: 914, 528
+  size: 457, 528
+  orig: 457, 528
+  offset: 0, 0
+  index: -1
+SpaceTiles/Space9
+  rotate: false
+  xy: 1371, 1056
+  size: 457, 528
+  orig: 457, 528
+  offset: 0, 0
+  index: -1

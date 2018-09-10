@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="hexagonal" renderorder="right-down" width="90" height="90" tilewidth="457" tileheight="789" infinite="0" hexsidelength="0" staggeraxis="y" staggerindex="odd" nextobjectid="1">
+<!--Tile Height should be 528, Tile Width should be 457, and Hex Side Length should be 263, but that causes an incorrect render of the map for some reason-->
+<map version="1.0" tiledversion="1.1.5" orientation="hexagonal" renderorder="right-down" width="90" height="90" tilewidth="304" tileheight="789" infinite="0" hexsidelength="0" staggeraxis="y" staggerindex="odd" nextobjectid="1">
+ <properties>
+  <property name="atlas" value="SpaceTiles/SpaceTiles.atlas"/>
+ </properties>
  <tileset firstgid="1" source="SpaceTiles.tsx"/>
  <layer name="Tile Layer 1" width="90" height="90">
   <data encoding="base64" compression="zlib">
