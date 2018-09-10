@@ -18,14 +18,6 @@ public class Point {
         this.y = (float) y;
     }
 
-    public int getXInt() {
-        return (int) x;
-    }
-
-    public int getYInt() {
-        return (int) y;
-    }
-
     /**
      * Moves the point a specified x and y
      * @param dx change in the x
@@ -42,17 +34,5 @@ public class Point {
     @Override
     public String toString() {
         return x + " " + y;
-    }
-
-    public float[] toArray() {
-        return new float[]{x, y};
-    }
-
-    /**
-     * THIS METHOD LOSES PRECISION
-     * @return a Java Awt Point
-     */
-    public java.awt.Point toPointAwt() {
-        return new java.awt.Point((int)this.x, (int)this.y);
     }
 }

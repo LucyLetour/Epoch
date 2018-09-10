@@ -1,21 +1,29 @@
 package com.epochgames.epoch.util.hexlib;
 
+import com.badlogic.gdx.Gdx;
+
 public class CubeCoord {
-    int[] coords;
+    int x, y, z;
 
     public CubeCoord(int x, int y, int z) {
-        coords = new int[3];
-        coords[0] = x;
-        coords[1] = y;
-        coords[2] = z;
+        this.x = x;
+        this.y = y;
+        this.z = z;
     }
 
-    public CubeCoord(int[] coords) {
-        coords = new int[3];
-        this.coords = coords;
+    @Override
+    public boolean equals(Object cubeCoord) {
+        if(cubeCoord instanceof CubeCoord) {
+            return ((this.x == ((CubeCoord)cubeCoord).x) && (this.y == ((CubeCoord)cubeCoord).y) && (this.z == ((CubeCoord)cubeCoord).z));
+        }
+        else {
+            Gdx.app.error("Incompatible Type", "Tried to compare an Cube Coordinate and a " + cubeCoord.getClass());
+        }
+        return false;
     }
 
-    public int[] getCoords() {
-        return coords;
+    @Override
+    public String toString() {
+        return (x + ", " + y + ", " + z);
     }
 }

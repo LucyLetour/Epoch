@@ -32,7 +32,7 @@ public class EntityFactory {
     }
 
     /**
-     * Creates a ship at the specified position
+     * Creates an NPC/Player ship at the specified position
      * @param x The x coordinate of the player based on the hex grid
      * @param y The y coordinate of the player based on the hex grid
      * @param ship The ship to create

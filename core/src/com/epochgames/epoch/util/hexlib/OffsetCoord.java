@@ -1,29 +1,28 @@
 package com.epochgames.epoch.util.hexlib;
 
+import com.badlogic.gdx.Gdx;
+
 public class OffsetCoord {
-    int[] coords;
+    public int x, y;
 
-    public OffsetCoord(int col, int row) {
-        coords = new int[2];
-        coords[0] = col;
-        coords[1] = row;
+    public OffsetCoord(int row, int col) {
+        this.x = col;
+        this.y = row;
     }
 
-    public OffsetCoord(int[] coords) {
-        coords = new int[2];
-        this.coords = coords;
-    }
-
-    public int[] getCoords() {
-        return coords;
-    }
-
-    public float[] getCoordsF() {
-        return new float[]{(float)coords[0], (float)coords[1]};
+    @Override
+    public boolean equals(Object offsetCoord) {
+        if(offsetCoord instanceof OffsetCoord) {
+            return ((this.x == ((OffsetCoord)offsetCoord).x) && (this.y == ((OffsetCoord)offsetCoord).y));
+        }
+        else {
+            Gdx.app.error("Incompatible Type", "Tried to compare an Offset Coordinate and a " + offsetCoord.getClass());
+        }
+        return false;
     }
 
     @Override
     public String toString() {
-        return (coords[0] + " " + coords[1]);
+        return (x + ", " + y);
     }
 }

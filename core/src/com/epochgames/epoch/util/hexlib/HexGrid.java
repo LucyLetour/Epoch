@@ -1,82 +1,46 @@
 package com.epochgames.epoch.util.hexlib;
 
-import java.awt.*;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.utils.Array;
 
 public class HexGrid {
-    private HexHelper.GRID_ORIENTATION orientation;
-    private Hexagon[][] grid;
-    private int tiles;
+    private Array<Array<Hexagon>> grid;
+    private int width, height;
 
-    public HexGrid(HexHelper.GRID_ORIENTATION o, HexHelper.GRID_SIZE s) {
-        orientation = o;
-        generateGrid(s);
+    public HexGrid(TiledMap tiledMap) {
+        MapProperties properties = tiledMap.getProperties();
+        generateGrid(properties.get("height", Integer.class), properties.get("width", Integer.class));
     }
 
-    public void generateGrid(HexHelper.GRID_SIZE s) {
+    public void generateGrid(int height, int width) {
         int tiles;
 
-        switch (s) {
-            case OPEN_SPACE:
-                tiles = 90;
-                break;
-            case PLANETARY_ORBIT:
-                tiles = 11;
-                break;
-            default:
-                tiles = 1;
+        this.height = height;
+        this.width = width;
+
+        grid = new Array(width);
+        Array<Hexagon> column = new Array<>(height);
+
+        for (int row = 0; row < width; row++) {
+            for (int col = 0; col < height; col++) {
+                column.add(new Hexagon(new OffsetCoord(row, col)));
+            }
+            grid.add(column);
+            column.clear();
         }
+    }
 
-        grid = new Hexagon[tiles][tiles];
-
-        for (int i = 0; i < tiles; i++) {
-            for (int j = 0; j < tiles; j++) {
-                grid[i][j] = new Hexagon(new OffsetCoord(i, j));
+    public Hexagon getHexagon(OffsetCoord offsetCoord) {
+        for (Array<Hexagon> column : grid){
+            for (Hexagon hexagon : column) {
+                if(hexagon.getOffsetCoord().equals(offsetCoord)) {
+                    return hexagon;
+                }
             }
         }
-
-        this.tiles = tiles;
-    }
-
-
-    public void drawGrid(Graphics2D g, float size, Point offset) {
-        Point[] points;
-
-        for (Hexagon[] row: grid) {
-            for (Hexagon h : row) {
-
-                //Gets the coordinates of vertices of the hexagon located at the given coordinate
-                points = HexHelper.evenRToPixelHexagonVertices(h.getOffsetCoord(), size, offset);
-                int[] xPoints = new int[]{(int)points[0].x, (int)points[1].x, (int)points[2].x, (int)points[3].x, (int)points[4].x, (int)points[5].x};
-                int[] yPoints = new int[]{(int)points[0].y, (int)points[1].y, (int)points[2].y, (int)points[3].y, (int)points[4].y, (int)points[5].y};
-                g.drawPolygon(xPoints, yPoints, 6);
-                /*g.drawString(h.getOffsetCoord().coords[0] + ", " + h.getOffsetCoord().coords[1],
-                        HexHelper.evenRToPixelHexagonCenter(h.getOffsetCoord(), size, offset).x,
-                        HexHelper.evenRToPixelHexagonCenter(h.getOffsetCoord(), size, offset).y);*/
-            }
-        }
-    }
-
-    public Hexagon getHexagon(OffsetCoord o) {
-        return grid[o.getCoords()[0]][o.getCoords()[1]];
-    }
-
-    public Hexagon[][] getGrid() {
-        return grid;
-    }
-
-    public int getSize() {
-        return tiles;
-    }
-
-    @Override
-    public String toString() {
-        String out = "";
-        for (int i = 0; i < tiles; i++) {
-            for (int j = 0; j < tiles; j++) {
-                out += grid[i][j] + " ";
-            }
-            out += "\n";
-        }
-        return out;
+        Gdx.app.error("Invalid Offset Coordinate", "Looked for a hexagon that doesn't exist and didn't find it");
+        return null;
     }
 }
