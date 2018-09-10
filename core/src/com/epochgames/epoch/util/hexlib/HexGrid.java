@@ -15,8 +15,6 @@ public class HexGrid {
     }
 
     public void generateGrid(int height, int width) {
-        int tiles;
-
         this.height = height;
         this.width = width;
 

@@ -17,8 +17,8 @@ public class GameManager {
     public static final float ZOOM_SPEED = 0.2f;
     public static final float START_ZOOM = 2.0f;
 
-    private GAME_STATE gameState;
-    public LOCATION location;
+    private gameState gameState;
+    public Location location;
     public EpochTiledMap currentMap;
     public Epoch game;
 
@@ -27,7 +27,7 @@ public class GameManager {
 
     public InputMultiplexer inputMultiplexer;
 
-    public enum GAME_STATE {
+    public enum gameState {
         MAIN_MENU,
         PAUSE_MENU,
         IN_GAME,
@@ -37,7 +37,7 @@ public class GameManager {
 
     //Will need to be expanded to include every planet variation
     //Of planetary orbit and on planet
-    public enum LOCATION {
+    public enum Location {
         OPEN_SPACE,
         PLANETARY_ORBIT,
         ON_PLANET
@@ -163,8 +163,8 @@ public class GameManager {
 
     private GameManager() {
         //TODO Read from save files
-        gameState = GAME_STATE.IN_GAME;
-        location = LOCATION.OPEN_SPACE;
+        gameState = gameState.IN_GAME;
+        location = Location.OPEN_SPACE;
         currentMap = new OpenSpaceMap();
         inputMultiplexer = new InputMultiplexer();
     }
@@ -173,11 +173,11 @@ public class GameManager {
         this.game = game;
     }
 
-    public GAME_STATE getGameState() {
+    public gameState getGameState() {
         return gameState;
     }
 
-    public LOCATION getLocation() {
+    public Location getLocation() {
         return location;
     }
 
@@ -187,7 +187,7 @@ public class GameManager {
      * so that it switches the active screen
      * @param gameState the GameState to switch to
      */
-    public void setGameState(GAME_STATE gameState) {
+    public void setGameState(gameState gameState) {
         this.gameState = gameState;
         game.setActiveScreen(gameState);
         setInputProcessorGM(gameState);
@@ -197,7 +197,7 @@ public class GameManager {
      * Defines the inputMultiplexer based off the current gameState
      * @param gameState the current GameState
      */
-    public void setInputProcessorGM(GAME_STATE gameState) {
+    public void setInputProcessorGM(gameState gameState) {
         InputProcessor screenProcessor;
         Stage stageProcessor;
 
