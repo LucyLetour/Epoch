@@ -24,8 +24,6 @@ public class RenderingSystem extends IteratingSystem {
         this.viewport = viewport;
 
         renderQueue = new Array<>();
-
-
     }
 
     @Override
