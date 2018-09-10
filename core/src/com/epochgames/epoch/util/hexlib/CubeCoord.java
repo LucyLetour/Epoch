@@ -26,4 +26,9 @@ public class CubeCoord {
     public String toString() {
         return (x + ", " + y + ", " + z);
     }
+
+    @Override
+    public int hashCode() {
+        return (31 * x + 12) + (25 * y + 45) + (13 * z + 89);
+    }
 }

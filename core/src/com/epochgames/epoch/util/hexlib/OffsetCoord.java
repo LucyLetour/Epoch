@@ -25,4 +25,9 @@ public class OffsetCoord {
     public String toString() {
         return (x + ", " + y);
     }
+
+    @Override
+    public int hashCode() {
+        return (31 * x + 12) + (25 * y + 45);
+    }
 }
