@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class HexGrid {
     private Array<Array<Hexagon>> grid;
-    private int width, height;
+    public int width, height;
 
     public HexGrid(TiledMap tiledMap) {
         MapProperties properties = tiledMap.getProperties();
@@ -28,6 +28,8 @@ public class HexGrid {
             grid.add(column);
             column.clear();
         }
+
+        Gdx.app.debug("Created InGame Hexgrid", "Grid has length of " + this.width + " and a height of " + this.height);
     }
 
     public Hexagon getHexagon(OffsetCoord offsetCoord) {

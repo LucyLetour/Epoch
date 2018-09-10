@@ -15,6 +15,7 @@ import com.epochgames.epoch.entities.systems.RenderingSystem;
 import com.epochgames.epoch.maps.OpenSpaceMap;
 import com.epochgames.epoch.util.Assets;
 import com.epochgames.epoch.util.EpochMath;
+import com.epochgames.epoch.util.hexlib.HexGrid;
 
 public class InGame extends ScreenAdapter {
 
@@ -28,6 +29,7 @@ public class InGame extends ScreenAdapter {
     public Epoch game;
 
     public OpenSpaceMap openSpaceMap;
+    public HexGrid hexGrid;
 
     public float targetCameraZoom;
 
@@ -38,6 +40,9 @@ public class InGame extends ScreenAdapter {
         gameManager = GameManager.getInstance();
         //TODO this needs to be based off the state in the save file (Game manager)
         openSpaceMap = new OpenSpaceMap();
+
+        //Create our hexgrid, which will act as a way to place objects "on" our tilemap
+        hexGrid = new HexGrid(openSpaceMap.getTiledMap());
 
         //Start our engine and add all the necessary systems
         engine = new Engine();
