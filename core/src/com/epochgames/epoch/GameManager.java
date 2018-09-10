@@ -43,6 +43,120 @@ public class GameManager {
         ON_PLANET
     }
 
+    public enum Ships {
+        //region Ship Definitions
+        ASTRAL("ASTRAL", "Astral", Companies.ALARK, ShipType.FREIGHTER, 100 , 1.0f, 100, 6),
+        ASTRALHV("ASTRAL_HV", "Astral Heavy", Companies.ALARK, ShipType.FREIGHTER, 100, 1.0f, 100, 6),
+        GADRIN("GADRIN", "Gadrin", Companies.ALARK, ShipType.FREIGHTER, 100, 1.0f, 100, 6),
+        BREAKER("BREAKER", "Breaker", Companies.ALARK, ShipType.MINER, 100, 1.0f, 100, 6),
+        NOROTON("NOROTON", "Noroton", Companies.ALARK, ShipType.MINER, 100, 1.0f, 100, 6),
+        IKERIUS("IKERIUS", "Ikerius", Companies.ALARK, ShipType.MINER, 100, 1.0f, 100, 6),
+
+        ESKEL("ESKEL", "Eskel", Companies.CREST, ShipType.FREIGHTER, 100, 1.0f, 100, 6),
+        NODON("NODON", "Nodon", Companies.CREST, ShipType.FREIGHTER, 100, 1.0f, 100, 6),
+        KARLIG("KARLIG", "Karlig", Companies.CREST, ShipType.MINER, 100, 1.0f, 100, 6),
+        ORGON("ORGON", "Orgon", Companies.CREST, ShipType.MINER, 100, 1.0f, 100, 6),
+        INDELIN("INDELIN", "Indelin", Companies.CREST, ShipType.BUILDER, 100, 1.0f, 100, 6),
+        CONTREX("CONTREX", "Contrex", Companies.CREST, ShipType.BUILDER, 100, 1.0f, 100, 6),
+
+        HEXACRON("HEXACRON", "Hexacron", Companies.HALLEON, ShipType.FIGHTER, 100, 1.0f, 100, 6),
+        IANDER("IANDER", "Iander", Companies.HALLEON, ShipType.FREIGHTER, 100, 1.0f, 100, 6),
+        VEINER("VEINER", "Veiner", Companies.HALLEON, ShipType.MINER, 100, 1.0f, 100, 6),
+        ALACRON("ALACRON", "Alacron", Companies.HALLEON, ShipType.MINER, 100, 1.0f, 100, 6),
+
+        GENESIS("GENESIS", "Genesis", Companies.JDX, ShipType.FIGHTER, 100, 1.0f, 100, 6),
+        OMEGA("OMEGA", "Omega", Companies.JDX, ShipType.FIGHTER, 100, 1.0f, 100, 6),
+
+        PRIME("PRIME", "Prime", Companies.PARAGON, ShipType.FIGHTER, 100, 1.0f, 100, 6),
+        HOME1A("HOME-1A", "Home-1A", Companies.PARAGON, ShipType.BUILDER, 100, 1.0f, 100, 6),
+
+        RAZORBACK("RAZORBACK", "Razorback", Companies.VINDICATOR, ShipType.FIGHTER, 100, 1.0f, 100, 6),
+        SHADOWBLADE("SHADOWBLADE", "Shadowblade", Companies.VINDICATOR, ShipType.FIGHTER, 100, 1.0f, 100, 6),
+        CUTTHROAT("CUTTHROAT", "CutThroat", Companies.VINDICATOR, ShipType.FIGHTER, 100, 1.0f, 100, 6);
+        //endregion
+
+        public enum ShipType {
+            FIGHTER,
+            FREIGHTER,
+            MINER,
+            BUILDER
+        }
+
+        public enum Companies {
+            ALARK("Alark Ships"),
+            CREST("Crest Industries"),
+            HALLEON("Halleon Crafts"),
+            JDX("JDX"),
+            PARAGON("Paragon"),
+            REVOLUTION("Revolution Tech"),
+            VINDICATOR("Vindicator Inc."),
+            ZENITH("Zenith Robotics");
+
+            private String name;
+
+            Companies(String name) {
+                this.name = name;
+            }
+
+            public String getName() {
+                return name;
+            }
+        }
+
+        private String atlasRegion;
+        private String shipName;
+        private Companies company;
+        private ShipType type;
+        private int health;
+        private float armor;
+        private int cargoSpace;
+        private int speed;
+
+        Ships(String atlasRegion, String name, Companies company, ShipType type,
+              int health, float armor, int cargoSpace, int speed) {
+            this.atlasRegion = atlasRegion;
+            this.shipName = name;
+            this.company = company;
+            this.type = type;
+            this.health = health;
+            this.armor = armor;
+            this.cargoSpace = cargoSpace;
+            this.speed = speed;
+        }
+
+        public String getAtlasRegion() {
+            return atlasRegion;
+        }
+
+        public String getShipName() {
+            return shipName;
+        }
+
+        public Companies getCompany() {
+            return company;
+        }
+
+        public ShipType getType() {
+            return type;
+        }
+
+        public int getHealth() {
+            return health;
+        }
+
+        public float getArmor() {
+            return armor;
+        }
+
+        public int getCargoSpace() {
+            return cargoSpace;
+        }
+
+        public int getSpeed() {
+            return speed;
+        }
+    }
+
     public static GameManager getInstance() {
         return instance;
     }

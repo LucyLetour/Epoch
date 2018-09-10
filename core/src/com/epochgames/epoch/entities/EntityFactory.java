@@ -32,26 +32,26 @@ public class EntityFactory {
     }
 
     /**
-     * Creates a player at the specified position
-     * This should probably take in the Ship the player is piloting
+     * Creates a ship at the specified position
      * @param x The x coordinate of the player based on the hex grid
      * @param y The y coordinate of the player based on the hex grid
+     * @param ship The ship to create
+     * @param isPlayer Whether or not this Entity is a player
      * @return The created entity
      */
-    public static Entity createPlayer(int x, int y) {
-        Entity player = new Entity();
+    public static Entity createShip(int x, int y, Ship ship, boolean isPlayer) {
+        Entity newShip = new Entity();
 
         ActionCompletenessComponent actionCompletenessComponent = new ActionCompletenessComponent();
-        actionCompletenessComponent.actionCompleteness = ActionCompletenessComponent.FULL;
+        //If not a player, should get distance from player every turn. If the NPC is in view of the player then this becomes true
+        actionCompletenessComponent.actionCompleteness = isPlayer ?  ActionCompletenessComponent.FULL : ActionCompletenessComponent.NONE;
 
         HealthComponent healthComponent = new HealthComponent();
-        //Arbitrary values, will be determined by player's ship
-        healthComponent.health = 100;
-        healthComponent.armor = 200;
+        healthComponent.health = ship.shipMake.getHealth();
+        healthComponent.armor = ship.shipMake.getArmor();
 
         IconComponent iconComponent = new IconComponent();
-        //Again, read off of the ship given
-        iconComponent.region = Assets.MANAGER.get(Assets.SHIP_ATLAS_REGIONS.ALACRON.getAtlasRegion());
+        iconComponent.region = Assets.MANAGER.get(ship.shipMake.getAtlasRegion());
 
         InteractableComponent interactableComponent = new InteractableComponent();
         interactableComponent.interactable = true;
@@ -67,57 +67,21 @@ public class EntityFactory {
         TurnComponent turnComponent = new TurnComponent();
 
         TypeComponent typeComponent = new TypeComponent();
-        typeComponent.type = TypeComponent.PLAYER;
+        if(!isPlayer) {
+            if(ship.isPirate) {
+                typeComponent.type = TypeComponent.ENEMY; //NPC is a pirate
+            }
+            else {
+                typeComponent.type = TypeComponent.NEUTRAL; //NPC is not a pirate
+            }
+        }
+        else {
+            typeComponent.type = TypeComponent.PLAYER; //NPC is actually the player
+        }
 
-        player.add(actionCompletenessComponent).add(healthComponent).add(iconComponent).
+        newShip.add(actionCompletenessComponent).add(healthComponent).add(iconComponent).
                 add(interactableComponent).add(transformComponent).add(turnComponent).add(typeComponent);
 
-        return player;
-    }
-
-    /**
-     * Creates an npc at the specified position
-     * This should probably take in the Ship the npc is piloting
-     * @param x The x coordinate of the player based on the hex grid
-     * @param y The y coordinate of the player based on the hex grid
-     * @return The created entity
-     */
-    public static Entity createNPC(int x, int y) {
-        Entity npc = new Entity();
-
-        ActionCompletenessComponent actionCompletenessComponent = new ActionCompletenessComponent();
-        //Should get distance from player every turn, if its in view then this becomes true
-        actionCompletenessComponent.actionCompleteness = ActionCompletenessComponent.NONE;
-
-        HealthComponent healthComponent = new HealthComponent();
-        //Arbitrary values, will be determined by npc's ship
-        healthComponent.health = 100;
-        healthComponent.armor = 200;
-
-        IconComponent iconComponent = new IconComponent();
-        //Again, read off of the ship given
-        iconComponent.region = Assets.MANAGER.get(Assets.SHIP_ATLAS_REGIONS.ALACRON.getAtlasRegion());
-
-        InteractableComponent interactableComponent = new InteractableComponent();
-        interactableComponent.interactable = true;
-        //TODO this
-        //interactableComponent.representative = new TileMapActor();
-
-        TransformComponent transformComponent = new TransformComponent();
-        //TODO this too
-        transformComponent.scale = 1.0f;
-        transformComponent.rotation = 0.0f;
-        transformComponent.position = new Vector2(x, y);
-
-        TurnComponent turnComponent = new TurnComponent();
-
-        TypeComponent typeComponent = new TypeComponent();
-        //TODO Determine this off the ship the NPC is piloting
-        typeComponent.type = TypeComponent.NEUTRAL;
-
-        npc.add(actionCompletenessComponent).add(healthComponent).add(iconComponent).
-                add(interactableComponent).add(transformComponent).add(turnComponent).add(typeComponent);
-
-        return npc;
+        return newShip;
     }
 }

@@ -136,7 +136,7 @@ public class InGame extends ScreenAdapter {
         IconComponent icon = new IconComponent();
         TransformComponent transform = new TransformComponent();
 
-        icon.region = Assets.MANAGER.get(Assets.Spritesheets.SHIPS).findRegion(Assets.SHIP_ATLAS_REGIONS.ALACRON.getAtlasRegion());
+        icon.region = Assets.MANAGER.get(Assets.Spritesheets.SHIPS).findRegion(GameManager.Ships.ALACRON.getAtlasRegion());
         transform.position.set(game.camera.position.x, game.camera.position.y);
 
         entity.add(icon);

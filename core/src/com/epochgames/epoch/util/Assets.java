@@ -29,23 +29,6 @@ public class Assets {
         MANAGER.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(new InternalFileHandleResolver()));
     }
 
-    public enum SHIP_ATLAS_REGIONS {
-        HEXACRON("HEXACRON"),
-        ALACRON("ALACRON"),
-        CONTREX("CONTREX"),
-        CUTTHROAT("CUTTHROAT");
-
-        private String atlasRegion;
-
-        SHIP_ATLAS_REGIONS(String atlasRegion) {
-            this.atlasRegion = atlasRegion;
-        }
-
-        public String getAtlasRegion() {
-            return atlasRegion;
-        }
-    }
-
     /**
      * Subclass containing {@link AssetDescriptor}s for game spritemaps
      */
@@ -65,7 +48,8 @@ public class Assets {
      * Subclass containing {@link AssetDescriptor}s for game object textures
      */
     public static class Textures {
-        public static AssetDescriptor<Texture> HEXACRON = new AssetDescriptor<>("ships/HEXACRON.png", Texture.class);
+        //Outdated
+        //public static AssetDescriptor<Texture> HEXACRON = new AssetDescriptor<>("ships/HEXACRON.png", Texture.class);
     }
 
     /**
