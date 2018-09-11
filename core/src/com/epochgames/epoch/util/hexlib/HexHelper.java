@@ -41,8 +41,8 @@ public class HexHelper {
     }
 
     public static int calculateDistance(Hexagon a, Hexagon b) {
-        CubeCoord ac = evenRToCube(a.getOffsetCoord());
-        CubeCoord bc = evenRToCube(b.getOffsetCoord());
+        CubeCoord ac = evenRToCube(a.offsetCoord);
+        CubeCoord bc = evenRToCube(b.offsetCoord);
         return (Math.abs(ac.x - bc.x) +
                 Math.abs(ac.y - bc.y) +
                 Math.abs(ac.z - bc.z)) / 2;

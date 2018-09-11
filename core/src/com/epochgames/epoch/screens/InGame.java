@@ -2,12 +2,13 @@ package com.epochgames.epoch.screens;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.*;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.Epoch;
+import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.entities.EntityFactory;
 import com.epochgames.epoch.entities.components.IconComponent;
 import com.epochgames.epoch.entities.components.TransformComponent;
