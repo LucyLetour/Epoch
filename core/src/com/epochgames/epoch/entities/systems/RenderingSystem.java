@@ -9,10 +9,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.entities.components.IconComponent;
-import com.epochgames.epoch.entities.components.Mappers;
 import com.epochgames.epoch.entities.components.TransformComponent;
-import com.epochgames.epoch.util.Assets;
-import com.epochgames.epoch.util.hexlib.Hexagon;
 import com.epochgames.epoch.util.hexlib.Point;
 
 public class RenderingSystem extends IteratingSystem {
@@ -49,24 +46,17 @@ public class RenderingSystem extends IteratingSystem {
                 Gdx.app.debug("Entity without an Icon", "An Entity was attempted to be rendered, but had no Icon to render!");
                 continue;
             }
-            if(transformComponent == null) {
-                System.out.println("dumbo");
-            }
 
             float width = iconComponent.region.getRegionWidth();
             float height = iconComponent.region.getRegionHeight();
             float centerX = width / 2.0f;
             float centerY = height / 2.0f;
-            Hexagon position = transformComponent.position;
-            Point screenPosition = position.getHexCenter();
+            Point screenPosition = transformComponent.position.getHexCenter();
 
-            GameManager.getInstance().game.camera.position.set(screenPosition.x - centerX, screenPosition.y - centerY, 0);
-
-            batch.draw(iconComponent.region, GameManager.getInstance().game.camera.position.x,
-                    GameManager.getInstance().game.camera.position.y, centerX, centerY, width,
-                    height, transformComponent.scale * 2, transformComponent.scale * 2, transformComponent.rotation);
+            batch.draw(iconComponent.region, screenPosition.x - centerX,
+                    screenPosition.y - centerY, centerX, centerY, width,
+                    height, transformComponent.scale, transformComponent.scale, transformComponent.rotation);
         }
-
         batch.end();
         renderQueue.clear();
     }

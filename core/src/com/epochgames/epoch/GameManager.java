@@ -25,11 +25,14 @@ public class GameManager {
     public boolean playerTurn;
     public long turnNumber;
 
+    //Handles our inputs
     public InputMultiplexer inputMultiplexer;
 
     //This is to determine where actors are drawn(For click detection)
     public static final int TILE_WIDTH = 457;
     public static final int TILE_HEIGHT = 528;
+
+    public static final int SPRITE_SIZE = 300;
 
     public enum gameState {
         MAIN_MENU,
@@ -219,7 +222,7 @@ public class GameManager {
         }
 
         inputMultiplexer.addProcessor(screenProcessor);
-        //inputMultiplexer.addProcessor(stageProcessor);
+        inputMultiplexer.addProcessor(stageProcessor);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
