@@ -24,7 +24,7 @@ public class HexGrid {
 
         for (int row = 0; row < grid.length; row++) {
             for (int col = 0; col < grid[0].length; col++) {
-                grid[row][col] = new Hexagon(new OffsetCoord(row, col), this);
+                grid[row][col] = new Hexagon(new OffsetCoord(row, col));
             }
         }
 

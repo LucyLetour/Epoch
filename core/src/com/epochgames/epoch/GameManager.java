@@ -219,7 +219,7 @@ public class GameManager {
         }
 
         inputMultiplexer.addProcessor(screenProcessor);
-        inputMultiplexer.addProcessor(stageProcessor);
+        //inputMultiplexer.addProcessor(stageProcessor);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
     }

@@ -1,44 +1,30 @@
 package com.epochgames.epoch.screens;
 
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.epochgames.epoch.Epoch;
 import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.entities.EntityFactory;
-import com.epochgames.epoch.entities.components.IconComponent;
-import com.epochgames.epoch.entities.components.TransformComponent;
+import com.epochgames.epoch.entities.Ship;
 import com.epochgames.epoch.entities.systems.RenderingSystem;
 import com.epochgames.epoch.maps.OpenSpaceMap;
 import com.epochgames.epoch.screens.stages.TiledMapStage;
-import com.epochgames.epoch.util.Assets;
 import com.epochgames.epoch.util.EpochMath;
 import com.epochgames.epoch.util.hexlib.HexGrid;
-import com.epochgames.epoch.util.hexlib.Hexagon;
-import com.epochgames.epoch.util.hexlib.OffsetCoord;
-import com.epochgames.epoch.util.hexlib.Point;
 
 public class InGame extends ScreenAdapter {
 
     public Stage tileActorStage;
+    public Stage shipSpriteStage;
     public GameManager gameManager;
 
     public RenderingSystem renderingSystem;
 
-    Engine engine;
+    public Engine engine;
 
     public Epoch game;
 
@@ -66,10 +52,17 @@ public class InGame extends ScreenAdapter {
         //Create a stage for the clickable things
         tileActorStage = new TiledMapStage(openSpaceMap.getTiledMap(), hexGrid);
         tileActorStage.setViewport(game.viewport);
-        Gdx.input.setInputProcessor(tileActorStage);
+
+        //Create a stage for our ships
+        shipSpriteStage = new Stage(game.viewport);
 
         //Initialize the Entity Factory so we can create entities OTF
         EntityFactory.init(game);
+
+        engine.addEntity(EntityFactory.createShip(0, 0, new Ship(GameManager.Ships.ALACRON, false), false));
+        engine.addEntity(EntityFactory.createShip(1, 0, new Ship(GameManager.Ships.CUTTHROAT, false), false));
+        engine.addEntity(EntityFactory.createShip(0, 1, new Ship(GameManager.Ships.CONTREX, false), false));
+        engine.addEntity(EntityFactory.createShip(1, 1, new Ship(GameManager.Ships.GENESIS, false), false));
     }
 
     @Override
@@ -82,7 +75,6 @@ public class InGame extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //Update and set projection matrix
-
         game.batch.setProjectionMatrix(game.camera.combined);
 
         //Handle camera zoom
@@ -103,10 +95,12 @@ public class InGame extends ScreenAdapter {
         }
 
         //Draw everything the game needs
+        tileActorStage.draw();
+        shipSpriteStage.draw();
+        engine.update(delta);
         game.batch.begin();
         {
-            tileActorStage.draw();
-            engine.update(delta);
+
         }
         game.batch.end();
 
@@ -149,24 +143,5 @@ public class InGame extends ScreenAdapter {
      */
     public void zoom(float delta) {
         targetCameraZoom = (float)EpochMath.clamp(targetCameraZoom + delta, 1.0f, 4.0f);
-    }
-
-    @Deprecated
-    /**
-     * Creates a test entity
-     */
-    public void t_createEntity() {
-        Entity entity = new Entity();
-
-        IconComponent icon = new IconComponent();
-        TransformComponent transform = new TransformComponent();
-
-        icon.region = Assets.MANAGER.get(Assets.Spritesheets.SHIPS).findRegion(GameManager.Ships.ALACRON.getAtlasRegion());
-        transform.position.set(game.camera.position.x, game.camera.position.y);
-
-        entity.add(icon);
-        entity.add(transform);
-
-        engine.addEntity(entity);
     }
 }

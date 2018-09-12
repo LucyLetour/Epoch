@@ -6,16 +6,13 @@ import com.epochgames.epoch.GameManager;
 
 public class Hexagon {
     public OffsetCoord offsetCoord;
-    public HexGrid hexGrid;
 
-    public Hexagon(CubeCoord c, HexGrid h) {
+    public Hexagon(CubeCoord c) {
         offsetCoord = HexHelper.cubeToEvenR(c);
-        hexGrid = h;
     }
 
-    public Hexagon(OffsetCoord o, HexGrid h) {
+    public Hexagon(OffsetCoord o) {
         offsetCoord = o;
-        hexGrid = h;
     }
 
     public Point getHexCenter() {

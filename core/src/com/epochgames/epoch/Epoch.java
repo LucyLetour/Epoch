@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.epochgames.epoch.screens.InGame;
 import com.epochgames.epoch.screens.MainMenu;
@@ -46,7 +45,6 @@ public class Epoch extends Game {
 		//Create the GameManager
 		gameManager = GameManager.getInstance();
 		gameManager.setGame(this);
-
 
 		//Setup the Camera, Viewport and Stage
 		camera = new OrthographicCamera();

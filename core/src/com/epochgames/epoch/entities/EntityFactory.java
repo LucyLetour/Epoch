@@ -7,6 +7,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.epochgames.epoch.Epoch;
 import com.epochgames.epoch.entities.components.*;
 import com.epochgames.epoch.util.Assets;
+import com.epochgames.epoch.util.hexlib.Hexagon;
+import com.epochgames.epoch.util.hexlib.OffsetCoord;
 
 /**
  * This is the Big Kahuna since this in the class that will
@@ -51,7 +53,7 @@ public class EntityFactory {
         healthComponent.armor = ship.shipMake.getArmor();
 
         IconComponent iconComponent = new IconComponent();
-        iconComponent.region = Assets.MANAGER.get(ship.shipMake.getAtlasRegion());
+        iconComponent.region = Assets.MANAGER.get(Assets.Spritesheets.SHIPS).findRegion(ship.shipMake.getAtlasRegion());
 
         InteractableComponent interactableComponent = new InteractableComponent();
         interactableComponent.interactable = true;
@@ -62,7 +64,7 @@ public class EntityFactory {
         //TODO this too
         transformComponent.scale = 1.0f;
         transformComponent.rotation = 0.0f;
-        transformComponent.position = new Vector2(x, y);
+        transformComponent.position = new Hexagon(new OffsetCoord(x, y));
 
         TurnComponent turnComponent = new TurnComponent();
 

@@ -12,7 +12,6 @@ public class TileMapActor extends Actor {
     public TiledMapTileLayer tiledLayer;
     public TiledMapTileLayer.Cell cell;
     public Point position;
-    public Point coordinates;
 
     public TileMapActor(TiledMap tiledMap, TiledMapTileLayer tiledLayer, TiledMapTileLayer.Cell cell, Point position) {
         this.tiledMap = tiledMap;
