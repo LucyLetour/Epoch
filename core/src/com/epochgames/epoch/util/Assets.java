@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
@@ -47,8 +48,7 @@ public class Assets {
      * Subclass containing {@link AssetDescriptor}s for game object textures
      */
     public static class Textures {
-        //Outdated
-        //public static AssetDescriptor<Texture> HEXACRON = new AssetDescriptor<>("ships/HEXACRON.png", Texture.class);
+        //public static AssetDescriptor<Texture> name = new AssetDescriptor<>("path/file.png", Texture.class);
     }
 
     /**

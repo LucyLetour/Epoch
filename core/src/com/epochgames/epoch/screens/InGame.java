@@ -4,8 +4,17 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.epochgames.epoch.Epoch;
 import com.epochgames.epoch.GameManager;
@@ -14,9 +23,13 @@ import com.epochgames.epoch.entities.components.IconComponent;
 import com.epochgames.epoch.entities.components.TransformComponent;
 import com.epochgames.epoch.entities.systems.RenderingSystem;
 import com.epochgames.epoch.maps.OpenSpaceMap;
+import com.epochgames.epoch.screens.stages.TiledMapStage;
 import com.epochgames.epoch.util.Assets;
 import com.epochgames.epoch.util.EpochMath;
 import com.epochgames.epoch.util.hexlib.HexGrid;
+import com.epochgames.epoch.util.hexlib.Hexagon;
+import com.epochgames.epoch.util.hexlib.OffsetCoord;
+import com.epochgames.epoch.util.hexlib.Point;
 
 public class InGame extends ScreenAdapter {
 
@@ -51,7 +64,8 @@ public class InGame extends ScreenAdapter {
         engine.addSystem(renderingSystem);
 
         //Create a stage for the clickable things
-        tileActorStage = new Stage();
+        tileActorStage = new TiledMapStage(openSpaceMap.getTiledMap(), hexGrid);
+        tileActorStage.setViewport(game.viewport);
         Gdx.input.setInputProcessor(tileActorStage);
 
         //Initialize the Entity Factory so we can create entities OTF
@@ -60,13 +74,15 @@ public class InGame extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        super.render(delta);
+
         //GL Stuff
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //Update and set projection matrix
-        game.camera.update();
+
         game.batch.setProjectionMatrix(game.camera.combined);
 
         //Handle camera zoom
@@ -89,6 +105,7 @@ public class InGame extends ScreenAdapter {
         //Draw everything the game needs
         game.batch.begin();
         {
+            tileActorStage.draw();
             engine.update(delta);
         }
         game.batch.end();
@@ -99,6 +116,8 @@ public class InGame extends ScreenAdapter {
 
         }
         game.guiBatch.end();
+
+        game.camera.update();
     }
 
     @Override
@@ -120,7 +139,7 @@ public class InGame extends ScreenAdapter {
 
     @Override
     public void dispose() {
-
+        tileActorStage.dispose();
     }
 
     /**

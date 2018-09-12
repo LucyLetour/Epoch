@@ -1,5 +1,7 @@
 package com.epochgames.epoch.util.hexlib;
 
+import com.epochgames.epoch.GameManager;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,5 +67,22 @@ public class HexHelper {
             z = -x - y;
 
         return new CubeCoord((int)x, (int)y, (int)z);
+    }
+
+    public static Point getCoordinatesFromHexCenter(Point hexCenter) {
+        float xCoord, yCoord;
+        float centerX = hexCenter.x;
+        float centerY = hexCenter.y;
+
+        yCoord = (((centerY / GameManager.TILE_HEIGHT) - 0.5f) / 0.75f);
+
+        if(yCoord % 2 == 1) {
+            xCoord = (((centerX / GameManager.TILE_WIDTH) - 0.5f) / 1.0f);
+        }
+        else {
+            xCoord = (((centerX / GameManager.TILE_WIDTH) - 1.0f) / 1.0f);
+        }
+
+        return new Point((int)xCoord, (int)yCoord);
     }
 }
