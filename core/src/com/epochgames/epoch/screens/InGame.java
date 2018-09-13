@@ -10,6 +10,8 @@ import com.epochgames.epoch.Epoch;
 import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.entities.EntityFactory;
 import com.epochgames.epoch.entities.Ship;
+import com.epochgames.epoch.entities.components.TypeComponent;
+import com.epochgames.epoch.entities.systems.MovementSystem;
 import com.epochgames.epoch.entities.systems.RenderingSystem;
 import com.epochgames.epoch.maps.OpenSpaceMap;
 import com.epochgames.epoch.screens.stages.TiledMapStage;
@@ -19,10 +21,10 @@ import com.epochgames.epoch.util.hexlib.HexGrid;
 public class InGame extends ScreenAdapter {
 
     public Stage tileActorStage;
-    public Stage shipSpriteStage;
     public GameManager gameManager;
 
     public RenderingSystem renderingSystem;
+    public MovementSystem movementSystem;
 
     public Engine engine;
 
@@ -32,6 +34,8 @@ public class InGame extends ScreenAdapter {
     public HexGrid hexGrid;
 
     public float targetCameraZoom;
+
+    public GameManager.CurrentAction currentAction;
 
     public InGame(Epoch game) {
         this.game = game;
@@ -47,22 +51,20 @@ public class InGame extends ScreenAdapter {
         //Start our engine and add all the necessary systems
         engine = new Engine();
         renderingSystem = new RenderingSystem(game.batch, game.viewport);
+        movementSystem = new MovementSystem();
         engine.addSystem(renderingSystem);
+        engine.addSystem(movementSystem);
 
         //Create a stage for the clickable things
         tileActorStage = new TiledMapStage(openSpaceMap.getTiledMap(), hexGrid);
         tileActorStage.setViewport(game.viewport);
 
-        //Create a stage for our ships
-        shipSpriteStage = new Stage(game.viewport);
-
         //Initialize the Entity Factory so we can create entities OTF
         EntityFactory.init(game);
 
-        engine.addEntity(EntityFactory.createShip(0, 0, new Ship(GameManager.Ships.ALACRON, false), false));
-        engine.addEntity(EntityFactory.createShip(1, 0, new Ship(GameManager.Ships.CUTTHROAT, false), false));
-        engine.addEntity(EntityFactory.createShip(0, 1, new Ship(GameManager.Ships.CONTREX, false), false));
-        engine.addEntity(EntityFactory.createShip(1, 1, new Ship(GameManager.Ships.GENESIS, false), false));
+        //Temp
+        engine.addEntity(EntityFactory.createShip(0, 0, new Ship(GameManager.Ships.CONTREX, false), true));
+        currentAction = GameManager.CurrentAction.MOVE;
     }
 
     @Override
@@ -96,8 +98,8 @@ public class InGame extends ScreenAdapter {
 
         //Draw everything the game needs
         tileActorStage.draw();
-        shipSpriteStage.draw();
         engine.update(delta);
+
         game.batch.begin();
         {
 
@@ -117,7 +119,7 @@ public class InGame extends ScreenAdapter {
     @Override
     public void show() {
         //Cool effect that zooms in on our grid when the game is initialized
-        game.camera.zoom = 10.0f;
+        game.camera.zoom = 6.0f;
         targetCameraZoom = gameManager.START_ZOOM;
     }
 
@@ -142,6 +144,6 @@ public class InGame extends ScreenAdapter {
      * @param delta the amount to change the zoom
      */
     public void zoom(float delta) {
-        targetCameraZoom = (float)EpochMath.clamp(targetCameraZoom + delta, 1.0f, 4.0f);
+        targetCameraZoom = (float)EpochMath.clamp(targetCameraZoom + delta, GameManager.MIN_ZOOM, GameManager.MAX_ZOOM);
     }
 }

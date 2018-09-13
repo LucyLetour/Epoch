@@ -2,6 +2,7 @@ package com.epochgames.epoch.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.epochgames.epoch.Epoch;
 import com.epochgames.epoch.GameManager;
@@ -65,7 +66,10 @@ public class EntityFactory {
         transformComponent.scale = iconComponent.region.getRegionHeight() < iconComponent.region.getRegionWidth() ?
                 (float)GameManager.SPRITE_SIZE / (float)iconComponent.region.getRegionHeight() : (float)GameManager.SPRITE_SIZE / (float)iconComponent.region.getRegionWidth();
         transformComponent.rotation = 0.0f;
-        transformComponent.position = new Hexagon(new OffsetCoord(x, y));
+        transformComponent.position = new Vector2(new Hexagon(new OffsetCoord(x, y)).getHexCenter().x, new Hexagon(new OffsetCoord(x, y)).getHexCenter().y);
+
+        MoveComponent moveComponent = new MoveComponent();
+
 
         TurnComponent turnComponent = new TurnComponent();
 
@@ -83,7 +87,8 @@ public class EntityFactory {
         }
 
         newShip.add(actionCompletenessComponent).add(healthComponent).add(iconComponent).
-                add(interactableComponent).add(transformComponent).add(turnComponent).add(typeComponent);
+                add(interactableComponent).add(transformComponent).add(turnComponent).
+                add(typeComponent).add(moveComponent);
 
         return newShip;
     }

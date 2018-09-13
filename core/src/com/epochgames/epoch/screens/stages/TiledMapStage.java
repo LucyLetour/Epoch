@@ -5,8 +5,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.entities.TileMapActor;
-import com.epochgames.epoch.entities.components.TiledMapClickListener;
+import com.epochgames.epoch.screens.InputListeners.TiledMapClickListener;
 import com.epochgames.epoch.util.hexlib.HexGrid;
 import com.epochgames.epoch.util.hexlib.OffsetCoord;
 import com.epochgames.epoch.util.hexlib.Point;
@@ -32,7 +33,7 @@ public class TiledMapStage extends Stage {
                 Point center = hexGrid.getHexagon(new OffsetCoord(x, y)).getHexCenter();
                 TileMapActor actor = new TileMapActor(tiledMap, tiledLayer, cell, center);
                 addActor(actor);
-                EventListener eventListener = new TiledMapClickListener(actor);
+                EventListener eventListener = new TiledMapClickListener(actor, GameManager.getInstance().game);
                 actor.addListener(eventListener);
             }
         }

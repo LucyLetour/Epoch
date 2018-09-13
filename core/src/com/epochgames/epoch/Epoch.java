@@ -59,7 +59,7 @@ public class Epoch extends Game {
 		//Set the screen to our starting screen and add all of them
 		//TODO
 		initializeScreens();
-		gameManager.setGameState(GameManager.gameState.IN_GAME);
+		gameManager.setGameState(GameManager.GameState.IN_GAME);
 	}
 
 	@Override
@@ -94,7 +94,7 @@ public class Epoch extends Game {
 		setScreen(screen);
 	}
 
-	public void setActiveScreen(GameManager.gameState gameState) {
+	public void setActiveScreen(GameManager.GameState gameState) {
 		Screen screen;
 		switch (gameState) {
 			case MAIN_MENU:

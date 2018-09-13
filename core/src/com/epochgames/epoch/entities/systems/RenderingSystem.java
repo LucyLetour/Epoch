@@ -51,7 +51,7 @@ public class RenderingSystem extends IteratingSystem {
             float height = iconComponent.region.getRegionHeight();
             float centerX = width / 2.0f;
             float centerY = height / 2.0f;
-            Point screenPosition = transformComponent.position.getHexCenter();
+            Point screenPosition = new Point(transformComponent.position.x, transformComponent.position.y);
 
             batch.draw(iconComponent.region, screenPosition.x - centerX,
                     screenPosition.y - centerY, centerX, centerY, width,

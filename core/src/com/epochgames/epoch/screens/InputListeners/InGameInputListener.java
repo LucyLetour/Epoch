@@ -65,7 +65,7 @@ public class InGameInputListener implements InputProcessor {
 
     @Override
     public boolean scrolled(int amount) {
-        screen.zoom(amount * GameManager.ZOOM_FACTOR);
+        screen.zoom(amount * GameManager.ZOOM_FACTOR * GameManager.getInstance().game.camera.zoom);
         return false;
     }
 }

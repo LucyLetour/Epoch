@@ -16,8 +16,10 @@ public class GameManager {
     public static final float ZOOM_FACTOR = 0.2f;
     public static final float ZOOM_SPEED = 0.2f;
     public static final float START_ZOOM = 2.0f;
+    public static final float MIN_ZOOM = 1.0f;
+    public static final float MAX_ZOOM = 4.0f;
 
-    private gameState gameState;
+    private GameState gameState;
     public Location location;
     public EpochTiledMap currentMap;
     public Epoch game;
@@ -34,7 +36,11 @@ public class GameManager {
 
     public static final int SPRITE_SIZE = 300;
 
-    public enum gameState {
+    public enum CurrentAction {
+        MOVE
+    }
+
+    public enum GameState {
         MAIN_MENU,
         PAUSE_MENU,
         IN_GAME,
@@ -180,7 +186,7 @@ public class GameManager {
         this.game = game;
     }
 
-    public gameState getGameState() {
+    public GameState getGameState() {
         return gameState;
     }
 
@@ -194,17 +200,17 @@ public class GameManager {
      * so that it switches the active screen
      * @param gameState the GameState to switch to
      */
-    public void setGameState(gameState gameState) {
+    public void setGameState(GameState gameState) {
         this.gameState = gameState;
         game.setActiveScreen(gameState);
         setInputProcessorGM(gameState);
     }
 
     /**
-     * Defines the inputMultiplexer based off the current gameState
+     * Defines the inputMultiplexer based off the current GameState
      * @param gameState the current GameState
      */
-    public void setInputProcessorGM(gameState gameState) {
+    public void setInputProcessorGM(GameState gameState) {
         InputProcessor screenProcessor;
         Stage stageProcessor;
 
