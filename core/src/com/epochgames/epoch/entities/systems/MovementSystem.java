@@ -38,7 +38,7 @@ public class MovementSystem extends IteratingSystem {
                 if(EpochMath.distance(new Point(transformComponent.position.x, transformComponent.position.y),
                         moveComponent.nextPosition.getHexCenter()) < 1.0f) {
                     moveComponent.isMoving = false;
-                    transformComponent.position = new Vector2(moveComponent.nextPosition.getHexCenter().x, 
+                    transformComponent.position = new Vector2(moveComponent.nextPosition.getHexCenter().x,
                             moveComponent.nextPosition.getHexCenter().y);
                     moveComponent.currentPosition = moveComponent.nextPosition;
                     moveComponent.nextPosition = null;

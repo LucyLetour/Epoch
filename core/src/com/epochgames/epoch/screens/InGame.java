@@ -13,6 +13,7 @@ import com.epochgames.epoch.entities.Ship;
 import com.epochgames.epoch.entities.components.TypeComponent;
 import com.epochgames.epoch.entities.systems.MovementSystem;
 import com.epochgames.epoch.entities.systems.RenderingSystem;
+import com.epochgames.epoch.entities.systems.RotationSystem;
 import com.epochgames.epoch.maps.OpenSpaceMap;
 import com.epochgames.epoch.screens.stages.TiledMapStage;
 import com.epochgames.epoch.util.EpochMath;
@@ -25,6 +26,7 @@ public class InGame extends ScreenAdapter {
 
     public RenderingSystem renderingSystem;
     public MovementSystem movementSystem;
+    public RotationSystem rotationSystem;
 
     public Engine engine;
 
@@ -50,10 +52,14 @@ public class InGame extends ScreenAdapter {
 
         //Start our engine and add all the necessary systems
         engine = new Engine();
+
         renderingSystem = new RenderingSystem(game.batch, game.viewport);
         movementSystem = new MovementSystem();
+        rotationSystem = new RotationSystem();
+
         engine.addSystem(renderingSystem);
         engine.addSystem(movementSystem);
+        engine.addSystem(rotationSystem);
 
         //Create a stage for the clickable things
         tileActorStage = new TiledMapStage(openSpaceMap.getTiledMap(), hexGrid);
