@@ -7,6 +7,10 @@ import com.epochgames.epoch.util.hexlib.OffsetCoord;
 
 public class TransformComponent implements Component {
     public Vector2 position = new Vector2(0, 0);
-    public float rotation = 0.0f;
     public float scale = 1.0f;
+    public float rotation = 0.0f;
+    public float nextRotation = 0.0f;
+    public boolean isRotating = false;
+    public boolean shouldRotate = false;
+    public float timeRotating = 0.0f;
 }
