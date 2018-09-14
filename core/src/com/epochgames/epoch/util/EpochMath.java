@@ -1,5 +1,7 @@
 package com.epochgames.epoch.util;
 
+import com.epochgames.epoch.util.hexlib.Point;
+
 public class EpochMath {
     private EpochMath() {}
 
@@ -14,7 +16,7 @@ public class EpochMath {
         return val <= max ? val > min ? val : min : max;
     }
 
-    public static double lerp(double start, double end, double delta) {
-        return (1.0 - delta) * start + delta * end;
+    public static double distance(Point p1, Point p2) {
+        return Math.sqrt(Math.pow(p2.x - p1.x, 2.0f) + Math.pow(p2.y - p1.y, 2.0f));
     }
 }

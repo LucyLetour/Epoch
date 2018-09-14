@@ -70,7 +70,6 @@ public class EntityFactory {
 
         MoveComponent moveComponent = new MoveComponent();
 
-
         TurnComponent turnComponent = new TurnComponent();
 
         TypeComponent typeComponent = new TypeComponent();

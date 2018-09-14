@@ -10,6 +10,10 @@ public class OffsetCoord {
         this.y = row;
     }
 
+    public OffsetCoord(Point point) {
+        this((int)point.x, (int)point.y);
+    }
+
     @Override
     public boolean equals(Object offsetCoord) {
         if(offsetCoord instanceof OffsetCoord) {

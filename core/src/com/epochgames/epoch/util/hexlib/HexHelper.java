@@ -69,18 +69,23 @@ public class HexHelper {
         return new CubeCoord((int)x, (int)y, (int)z);
     }
 
+    /**
+     * Returns grid coordinates from the center of a hex
+     * @param hexCenter
+     * @return The coordinates of the corresponding hex on the grid
+     */
     public static Point getCoordinatesFromHexCenter(Point hexCenter) {
         float xCoord, yCoord;
         float centerX = hexCenter.x;
         float centerY = hexCenter.y;
 
-        yCoord = (((centerY / GameManager.TILE_HEIGHT) - 0.5f) / 0.75f);
+        xCoord = (((centerY / GameManager.TILE_HEIGHT) - 0.5f) / 0.75f);
 
-        if(yCoord % 2 == 1) {
-            xCoord = (((centerX / GameManager.TILE_WIDTH) - 0.5f) / 1.0f);
+        if(xCoord % 2 == 1) {
+            yCoord = (((centerX / GameManager.TILE_WIDTH) - 0.5f) / 1.0f);
         }
         else {
-            xCoord = (((centerX / GameManager.TILE_WIDTH) - 1.0f) / 1.0f);
+            yCoord = (((centerX / GameManager.TILE_WIDTH) - 1.0f) / 1.0f);
         }
 
         return new Point((int)xCoord, (int)yCoord);

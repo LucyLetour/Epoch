@@ -29,8 +29,9 @@ public class TiledMapClickListener extends ClickListener {
             case MOVE:
                 for(Entity entity : game.inGameScreen.engine.getEntitiesFor(Family.all(TypeComponent.class).get())) {
                     //If the entity is the player AND TODO they are not trying to move to the place they currently are
-                    if(entity.getComponent(TypeComponent.class).type == TypeComponent.PLAYER) {
-                        entity.getComponent(MoveComponent.class).nextPosition = new Hexagon(new OffsetCoord((int) x, (int) y));
+                    if(entity.getComponent(TypeComponent.class).type == TypeComponent.PLAYER &&
+                            entity.getComponent(MoveComponent.class).isMoving == false) {
+                        entity.getComponent(MoveComponent.class).nextPosition = new Hexagon(HexHelper.getCoordinatesFromHexCenter(actor.position));
                         entity.getComponent(MoveComponent.class).shouldMove = true;
                     }
                 }

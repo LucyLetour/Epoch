@@ -1,7 +1,5 @@
 package com.epochgames.epoch.util.hexlib;
 
-import com.badlogic.gdx.maps.objects.PolygonMapObject;
-import com.badlogic.gdx.math.Polygon;
 import com.epochgames.epoch.GameManager;
 
 public class Hexagon {
@@ -15,6 +13,14 @@ public class Hexagon {
         offsetCoord = o;
     }
 
+    public Hexagon(Point p) {
+        this(new OffsetCoord(p));
+    }
+
+    /**
+     * Get the screen coordinates of the hex
+     * @return The screen coordinates of the center of the hex
+     */
     public Point getHexCenter() {
         int xPos = offsetCoord.x;
         int yPos = offsetCoord.y;
