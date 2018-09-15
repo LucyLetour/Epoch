@@ -14,7 +14,7 @@ public class RotationSystem extends IteratingSystem {
     private Array<Entity> entityProccessor;
 
     public RotationSystem() {
-        super(Family.all(TransformComponent.class).get());
+        super(Family.one(TransformComponent.class, MoveComponent.class).all(TransformComponent.class).get());
 
         entityProccessor = new Array<>();
     }
@@ -25,8 +25,9 @@ public class RotationSystem extends IteratingSystem {
 
         for(Entity entity : entityProccessor) {
             TransformComponent transformComponent = Mappers.transform.get(entity);
+            MoveComponent moveComponent = Mappers.move.get(entity);
 
-            transformComponent.isRotating = transformComponent.shouldRotate ? true : transformComponent.isRotating;
+            transformComponent.isRotating = transformComponent.shouldRotate || transformComponent.isRotating;
             transformComponent.shouldRotate = false;
 
             if(transformComponent.isRotating) {
@@ -37,6 +38,9 @@ public class RotationSystem extends IteratingSystem {
                     transformComponent.rotation = transformComponent.nextRotation;
                     transformComponent.nextRotation = 0.0f;
                     transformComponent.timeRotating = 0.0f;
+                    if(moveComponent != null) {
+                        moveComponent.shouldMove = true;
+                    }
                 }
             }
         }

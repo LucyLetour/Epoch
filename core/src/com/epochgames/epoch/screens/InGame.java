@@ -86,7 +86,7 @@ public class InGame extends ScreenAdapter {
         game.batch.setProjectionMatrix(game.camera.combined);
 
         //Handle camera zoom
-        game.camera.zoom = Interpolation.fade.apply(game.camera.zoom, targetCameraZoom, gameManager.ZOOM_SPEED);
+        game.camera.zoom = Interpolation.fade.apply(game.camera.zoom, targetCameraZoom, GameManager.ZOOM_SPEED);
 
         //Render the tilemap based on the appropriate position of the player
         switch (gameManager.getLocation()) {
@@ -126,7 +126,7 @@ public class InGame extends ScreenAdapter {
     public void show() {
         //Cool effect that zooms in on our grid when the game is initialized
         game.camera.zoom = 6.0f;
-        targetCameraZoom = gameManager.START_ZOOM;
+        targetCameraZoom = GameManager.START_ZOOM;
     }
 
     @Override

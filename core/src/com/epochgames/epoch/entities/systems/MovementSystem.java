@@ -29,7 +29,7 @@ public class MovementSystem extends IteratingSystem {
             TransformComponent transformComponent = Mappers.transform.get(entity);
             MoveComponent moveComponent = Mappers.move.get(entity);
 
-            moveComponent.isMoving = moveComponent.shouldMove ? true : moveComponent.isMoving;
+            moveComponent.isMoving = moveComponent.shouldMove || moveComponent.isMoving;
             moveComponent.shouldMove = false;
 
             if(moveComponent.isMoving) {
