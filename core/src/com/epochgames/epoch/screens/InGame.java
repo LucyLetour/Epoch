@@ -54,7 +54,7 @@ public class InGame extends ScreenAdapter {
         //Start our engine and add all the necessary systems
         engine = new Engine();
 
-        renderingSystem = new RenderingSystem(game.batch, game.viewport);
+        renderingSystem = new RenderingSystem(game.batch, game.camera);
         movementSystem = new MovementSystem();
         rotationSystem = new RotationSystem();
         turnSystem = new TurnSystem(gameManager);
@@ -129,16 +129,6 @@ public class InGame extends ScreenAdapter {
         //Cool effect that zooms in on our grid when the game is initialized
         game.camera.zoom = 6.0f;
         targetCameraZoom = GameManager.START_ZOOM;
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
     }
 
     @Override

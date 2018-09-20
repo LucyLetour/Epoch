@@ -3,7 +3,7 @@ package com.epochgames.epoch.util.hexlib;
 import com.badlogic.gdx.Gdx;
 
 public class CubeCoord {
-    int x, y, z;
+    public int x, y, z;
 
     public CubeCoord(int x, int y, int z) {
         this.x = x;

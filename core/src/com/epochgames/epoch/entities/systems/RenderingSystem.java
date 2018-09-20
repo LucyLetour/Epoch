@@ -4,10 +4,9 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.Viewport;
-import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.entities.components.IconComponent;
 import com.epochgames.epoch.entities.components.TransformComponent;
 import com.epochgames.epoch.util.hexlib.Point;
@@ -15,15 +14,15 @@ import com.epochgames.epoch.util.hexlib.Point;
 public class RenderingSystem extends IteratingSystem {
 
     private SpriteBatch batch;
-    private Viewport viewport;
+    private Camera camera;
 
     private Array<Entity> renderQueue;
 
-    public RenderingSystem(SpriteBatch batch, Viewport viewport) {
+    public RenderingSystem(SpriteBatch batch, Camera camera) {
         super(Family.all(IconComponent.class, TransformComponent.class).get());
 
         this.batch = batch;
-        this.viewport = viewport;
+        this.camera = camera;
 
         renderQueue = new Array<>();
     }
@@ -31,11 +30,11 @@ public class RenderingSystem extends IteratingSystem {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        GameManager.getInstance().game.camera.update();
+        camera.update();
 
         batch.begin();
         batch.enableBlending();
-        batch.setProjectionMatrix(GameManager.getInstance().game.camera.combined);
+        batch.setProjectionMatrix(camera.combined);
 
         for(Entity entity : renderQueue) {
             IconComponent iconComponent = entity.getComponent(IconComponent.class);

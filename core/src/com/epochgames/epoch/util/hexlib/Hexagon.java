@@ -24,7 +24,8 @@ public class Hexagon {
     public Point getHexCenter() {
         int xPos = offsetCoord.x;
         int yPos = offsetCoord.y;
-        float centerX, centerY;
+        float centerX;
+        float centerY;
         //Using height, width = (height / 2) * sqrt(3)
         if(yPos % 2 == 1) {
             centerX = ((xPos * 1.0f) + 0.5f) * GameManager.getInstance().TILE_WIDTH;

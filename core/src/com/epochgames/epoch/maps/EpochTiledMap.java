@@ -3,9 +3,7 @@ package com.epochgames.epoch.maps;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.HexagonalTiledMapRenderer;
-import com.epochgames.epoch.util.Assets;
 
 public abstract class EpochTiledMap {
     protected TiledMap tiledMap;
@@ -18,8 +16,6 @@ public abstract class EpochTiledMap {
         this.tiledMap = tiledMap;
         //TODO fix all this
         tiledMapRenderer = new HexagonalTiledMapRenderer(tiledMap);
-        //tiledMap.getLayers().get(0). = worldHeight;
-        //this.worldWidth = worldWidth;
     }
 
     public abstract void render(OrthographicCamera camera);

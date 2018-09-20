@@ -1,4 +1,4 @@
-package com.epochgames.epoch.screens.InputListeners;
+package com.epochgames.epoch.screens.inputListeners;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
@@ -8,11 +8,9 @@ import com.epochgames.epoch.Epoch;
 import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.entities.TileMapActor;
 import com.epochgames.epoch.entities.components.MoveComponent;
-import com.epochgames.epoch.entities.components.TransformComponent;
 import com.epochgames.epoch.entities.components.TypeComponent;
 import com.epochgames.epoch.util.hexlib.HexHelper;
 import com.epochgames.epoch.util.hexlib.Hexagon;
-import com.epochgames.epoch.util.hexlib.OffsetCoord;
 
 public class TiledMapClickListener extends ClickListener {
     private TileMapActor actor;

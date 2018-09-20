@@ -52,11 +52,9 @@ public class TurnSystem extends SortedIteratingSystem {
             processing = true;
             turnComponent.get(entity).isMyTurn = true;
         }
-        else if(processing) {
-            if(turnComponent.get(entity).turnFinished) {
-                turnComponent.get(entity).isMyTurn = false;
-                processing = false;
-            }
+        else if(processing && turnComponent.get(entity).turnFinished) {
+            turnComponent.get(entity).isMyTurn = false;
+            processing = false;
         }
     }
 

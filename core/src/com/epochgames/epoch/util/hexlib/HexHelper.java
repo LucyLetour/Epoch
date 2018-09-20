@@ -75,7 +75,8 @@ public class HexHelper {
      * @return The coordinates of the corresponding hex on the grid
      */
     public static Point getCoordinatesFromHexCenter(Point hexCenter) {
-        float xCoord, yCoord;
+        float xCoord;
+        float yCoord;
         float centerX = hexCenter.x;
         float centerY = hexCenter.y;
 

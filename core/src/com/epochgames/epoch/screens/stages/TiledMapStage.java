@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.entities.TileMapActor;
-import com.epochgames.epoch.screens.InputListeners.TiledMapClickListener;
+import com.epochgames.epoch.screens.inputListeners.TiledMapClickListener;
 import com.epochgames.epoch.util.hexlib.HexGrid;
 import com.epochgames.epoch.util.hexlib.OffsetCoord;
 import com.epochgames.epoch.util.hexlib.Point;

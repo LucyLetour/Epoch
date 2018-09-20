@@ -1,13 +1,9 @@
-package com.epochgames.epoch.screens.InputListeners;
+package com.epochgames.epoch.screens.inputListeners;
 
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.screens.InGame;
-import com.epochgames.epoch.util.EpochMath;
-import com.epochgames.epoch.util.Interpolator;
 
 /**
  * This class is more important than it seems at first glance because
@@ -51,6 +47,7 @@ public class InGameInputListener implements InputProcessor {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        //TODO Make this a method in InGame instead of dealing with it here
         Vector2 newTouch = new Vector2(screenX, screenY);
         Vector2 delta = newTouch.cpy().sub(touchDown);
         screen.game.camera.translate(-delta.x, delta.y);

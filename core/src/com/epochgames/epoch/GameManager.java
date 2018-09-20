@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.epochgames.epoch.maps.EpochTiledMap;
 import com.epochgames.epoch.maps.OpenSpaceMap;
 import com.epochgames.epoch.screens.InGame;
-import com.epochgames.epoch.screens.InputListeners.InGameInputListener;
+import com.epochgames.epoch.screens.inputListeners.InGameInputListener;
 
 public class GameManager {
     private static GameManager instance = new GameManager();
