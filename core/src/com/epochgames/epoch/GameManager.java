@@ -38,7 +38,7 @@ public class GameManager {
 
     public static final int SPRITE_SIZE = 300;
 
-    public enum CurrentAction {
+    public enum Actions {
         MOVE
     }
 

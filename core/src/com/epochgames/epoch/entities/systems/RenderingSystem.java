@@ -4,9 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Array;
 import com.epochgames.epoch.entities.components.IconComponent;
 import com.epochgames.epoch.entities.components.TransformComponent;
 import com.epochgames.epoch.util.hexlib.Point;
@@ -14,17 +12,11 @@ import com.epochgames.epoch.util.hexlib.Point;
 public class RenderingSystem extends IteratingSystem {
 
     private SpriteBatch batch;
-    private Camera camera;
 
-    private Array<Entity> renderQueue;
-
-    public RenderingSystem(SpriteBatch batch, Camera camera) {
+    public RenderingSystem(SpriteBatch batch) {
         super(Family.all(IconComponent.class, TransformComponent.class).get());
 
         this.batch = batch;
-        this.camera = camera;
-
-        renderQueue = new Array<>();
     }
 
     @Override

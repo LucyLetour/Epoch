@@ -38,7 +38,7 @@ public class InGame extends ScreenAdapter {
 
     public float targetCameraZoom;
 
-    public GameManager.CurrentAction currentAction;
+    public GameManager.Actions currentAction;
 
     public InGame(Epoch game) {
         this.game = game;
@@ -54,7 +54,7 @@ public class InGame extends ScreenAdapter {
         //Start our engine and add all the necessary systems
         engine = new Engine();
 
-        renderingSystem = new RenderingSystem(game.batch, game.camera);
+        renderingSystem = new RenderingSystem(game.batch);
         movementSystem = new MovementSystem();
         rotationSystem = new RotationSystem();
         turnSystem = new TurnSystem(gameManager);
@@ -72,7 +72,7 @@ public class InGame extends ScreenAdapter {
 
         //Temp
         engine.addEntity(EntityFactory.createShip(0, 0, new Ship(GameManager.Ships.CONTREX, false), true));
-        currentAction = GameManager.CurrentAction.MOVE;
+        currentAction = GameManager.Actions.MOVE;
     }
 
     @Override

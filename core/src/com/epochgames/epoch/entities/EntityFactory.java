@@ -74,12 +74,15 @@ public class EntityFactory {
         if(!isPlayer) {
             if(ship.isPirate) {
                 typeComponent.type = TypeComponent.ENEMY; //NPC is a pirate
+                turnComponent.priority = TurnComponent.PIRATE_PRIORITY;
             }
             else {
                 typeComponent.type = TypeComponent.NEUTRAL; //NPC is not a pirate
+                turnComponent.priority = TurnComponent.ENEMY_PRIORITY;
             }
         }
         else {
+            turnComponent.priority = TurnComponent.PLAYER_PRIORITY;
             typeComponent.type = TypeComponent.PLAYER; //NPC is actually the player
         }
 

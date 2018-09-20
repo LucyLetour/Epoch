@@ -14,12 +14,8 @@ import com.epochgames.epoch.util.hexlib.Point;
 
 public class MovementSystem extends IteratingSystem {
 
-    private Array<Entity> entityProccessor;
-
     public MovementSystem() {
         super(Family.all(TransformComponent.class, MoveComponent.class, TurnComponent.class).get());
-
-        entityProccessor = new Array<>();
     }
 
     @Override

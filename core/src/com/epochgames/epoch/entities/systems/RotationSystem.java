@@ -12,12 +12,8 @@ import com.epochgames.epoch.entities.components.TurnComponent;
 
 public class RotationSystem extends IteratingSystem {
 
-    private Array<Entity> entityProccessor;
-
     public RotationSystem() {
         super(Family.one(TransformComponent.class, MoveComponent.class).all(TransformComponent.class, TurnComponent.class).get());
-
-        entityProccessor = new Array<>();
     }
 
     @Override

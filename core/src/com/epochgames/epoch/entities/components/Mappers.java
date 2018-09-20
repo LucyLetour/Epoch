@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 
 public class Mappers {
     public static final ComponentMapper<ActionCompletenessComponent> actionCompleteness = ComponentMapper.getFor(ActionCompletenessComponent.class);
+    public static final ComponentMapper<ActionQueueComponent> actionQueue = ComponentMapper.getFor(ActionQueueComponent.class);
     public static final ComponentMapper<HealthComponent> health = ComponentMapper.getFor(HealthComponent.class);
     public static final ComponentMapper<IconComponent> icon = ComponentMapper.getFor(IconComponent.class);
     public static final ComponentMapper<InteractableComponent> interactable = ComponentMapper.getFor(InteractableComponent.class);
