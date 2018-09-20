@@ -106,10 +106,10 @@ public class InGame extends ScreenAdapter {
 
         //Draw everything the game needs
         tileActorStage.draw();
-        engine.update(delta);
+
 
         game.batch.begin();
-
+        engine.update(delta);
         game.batch.end();
 
         //Draw the GUI

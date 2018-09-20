@@ -8,49 +8,40 @@ import com.badlogic.gdx.utils.Array;
 import com.epochgames.epoch.entities.components.Mappers;
 import com.epochgames.epoch.entities.components.MoveComponent;
 import com.epochgames.epoch.entities.components.TransformComponent;
+import com.epochgames.epoch.entities.components.TurnComponent;
 
 public class RotationSystem extends IteratingSystem {
 
     private Array<Entity> entityProccessor;
 
     public RotationSystem() {
-        super(Family.one(TransformComponent.class, MoveComponent.class).all(TransformComponent.class).get());
+        super(Family.one(TransformComponent.class, MoveComponent.class).all(TransformComponent.class, TurnComponent.class).get());
 
         entityProccessor = new Array<>();
     }
 
     @Override
-    public void update(float deltaTime) {
-        super.update(deltaTime);
+    protected void processEntity(Entity entity, float deltaTime) {
+        TransformComponent transformComponent = Mappers.transform.get(entity);
+        MoveComponent moveComponent = Mappers.move.get(entity);
+        TurnComponent turnComponent = Mappers.turn.get(entity);
 
-        for(Entity entity : entityProccessor) {
-            TransformComponent transformComponent = Mappers.transform.get(entity);
-            MoveComponent moveComponent = Mappers.move.get(entity);
+        transformComponent.isRotating = (transformComponent.shouldRotate || transformComponent.isRotating) && turnComponent.isMyTurn;
+        transformComponent.shouldRotate = false;
 
-            transformComponent.isRotating = transformComponent.shouldRotate || transformComponent.isRotating;
-            transformComponent.shouldRotate = false;
-
-            if(transformComponent.isRotating) {
-                Interpolation.linear.apply(transformComponent.rotation, transformComponent.nextRotation,
-                        calculateEntityRotatePercentage(deltaTime, transformComponent));
-                if(Math.abs(transformComponent.rotation - transformComponent.nextRotation) < 1.0f) {
-                    transformComponent.isRotating = false;
-                    transformComponent.rotation = transformComponent.nextRotation;
-                    transformComponent.nextRotation = 0.0f;
-                    transformComponent.timeRotating = 0.0f;
-                    if(moveComponent != null) {
-                        moveComponent.shouldMove = true;
-                    }
+        if(transformComponent.isRotating) {
+            Interpolation.linear.apply(transformComponent.rotation, transformComponent.nextRotation,
+                    calculateEntityRotatePercentage(deltaTime, transformComponent));
+            if(calculateEntityRotatePercentage(deltaTime, transformComponent) == 1.0f) {
+                transformComponent.isRotating = false;
+                transformComponent.rotation = transformComponent.nextRotation;
+                transformComponent.nextRotation = 0.0f;
+                transformComponent.timeRotating = 0.0f;
+                if(moveComponent != null) {
+                    moveComponent.shouldMove = true;
                 }
             }
         }
-
-        entityProccessor.clear();
-    }
-
-    @Override
-    protected void processEntity(Entity entity, float deltaTime) {
-        entityProccessor.add(entity);
     }
 
     public float calculateEntityRotatePercentage(float deltaTime, TransformComponent transformComponent) {

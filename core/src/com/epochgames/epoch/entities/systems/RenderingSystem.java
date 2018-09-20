@@ -28,40 +28,24 @@ public class RenderingSystem extends IteratingSystem {
     }
 
     @Override
-    public void update(float deltaTime) {
-        super.update(deltaTime);
-        camera.update();
-
-        batch.begin();
-        batch.enableBlending();
-        batch.setProjectionMatrix(camera.combined);
-
-        for(Entity entity : renderQueue) {
-            IconComponent iconComponent = entity.getComponent(IconComponent.class);
-            TransformComponent transformComponent = entity.getComponent(TransformComponent.class);
-
-            if(iconComponent == null) {
-                //This Entity was not given an icon
-                Gdx.app.debug("Entity without an Icon", "An Entity was attempted to be rendered, but had no Icon to render!");
-                continue;
-            }
-
-            float width = iconComponent.region.getRegionWidth();
-            float height = iconComponent.region.getRegionHeight();
-            float centerX = width / 2.0f;
-            float centerY = height / 2.0f;
-            Point screenPosition = new Point(transformComponent.position.x, transformComponent.position.y);
-
-            batch.draw(iconComponent.region, screenPosition.x - centerX,
-                    screenPosition.y - centerY, centerX, centerY, width,
-                    height, transformComponent.scale, transformComponent.scale, transformComponent.rotation);
-        }
-        batch.end();
-        renderQueue.clear();
-    }
-
-    @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        renderQueue.add(entity);
+        IconComponent iconComponent = entity.getComponent(IconComponent.class);
+        TransformComponent transformComponent = entity.getComponent(TransformComponent.class);
+
+        if(iconComponent == null) {
+            //This Entity was not given an icon
+            Gdx.app.debug("Entity without an Icon", "An Entity was attempted to be rendered, but had no Icon to render!");
+            return;
+        }
+
+        float width = iconComponent.region.getRegionWidth();
+        float height = iconComponent.region.getRegionHeight();
+        float centerX = width / 2.0f;
+        float centerY = height / 2.0f;
+        Point screenPosition = new Point(transformComponent.position.x, transformComponent.position.y);
+
+        batch.draw(iconComponent.region, screenPosition.x - centerX,
+                screenPosition.y - centerY, centerX, centerY, width,
+                height, transformComponent.scale, transformComponent.scale, transformComponent.rotation);
     }
 }

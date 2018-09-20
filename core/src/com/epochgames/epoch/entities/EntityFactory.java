@@ -16,7 +16,6 @@ import com.epochgames.epoch.util.hexlib.OffsetCoord;
  * populate our universe with entities. Somehow it'll have to take into account
  * story but hey we'll get there /shrug
  */
-
 public class EntityFactory {
     public static Viewport viewport;
     public static SpriteBatch batch;
