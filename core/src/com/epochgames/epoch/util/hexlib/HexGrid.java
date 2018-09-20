@@ -3,7 +3,6 @@ package com.epochgames.epoch.util.hexlib;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 public class HexGrid {
     private Hexagon[][] grid;

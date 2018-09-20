@@ -109,16 +109,12 @@ public class InGame extends ScreenAdapter {
         engine.update(delta);
 
         game.batch.begin();
-        {
 
-        }
         game.batch.end();
 
         //Draw the GUI
         game.guiBatch.begin();
-        {
 
-        }
         game.guiBatch.end();
 
         game.camera.update();

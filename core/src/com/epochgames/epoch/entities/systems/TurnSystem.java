@@ -13,12 +13,11 @@ import java.util.Comparator;
 
 public class TurnSystem extends SortedIteratingSystem {
 
-    private int currentStateProcessing;
     private long currentTurnProcessing;
     private boolean processing;
     private GameManager gameManager;
     private ComponentMapper<TurnComponent> turnComponent = Mappers.turn;
-    ImmutableArray<Entity> entities;
+    private ImmutableArray<Entity> entities;
 
     public TurnSystem(GameManager gameManager) {
         super(Family.all(TurnComponent.class).get(), new PriorityComparator());
@@ -44,7 +43,7 @@ public class TurnSystem extends SortedIteratingSystem {
             setupEntitiesForNewTurn();
         }
 
-        currentStateProcessing = gameManager.turnState;
+        int currentStateProcessing = gameManager.turnState;
 
         if(!processing &&
                 turnComponent.get(entity).priority == currentStateProcessing &&
