@@ -10,10 +10,10 @@ import com.epochgames.epoch.Epoch;
 import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.entities.EntityFactory;
 import com.epochgames.epoch.entities.Ship;
-import com.epochgames.epoch.entities.components.TypeComponent;
 import com.epochgames.epoch.entities.systems.MovementSystem;
 import com.epochgames.epoch.entities.systems.RenderingSystem;
 import com.epochgames.epoch.entities.systems.RotationSystem;
+import com.epochgames.epoch.entities.systems.TurnSystem;
 import com.epochgames.epoch.maps.OpenSpaceMap;
 import com.epochgames.epoch.screens.stages.TiledMapStage;
 import com.epochgames.epoch.util.EpochMath;
@@ -27,6 +27,7 @@ public class InGame extends ScreenAdapter {
     public RenderingSystem renderingSystem;
     public MovementSystem movementSystem;
     public RotationSystem rotationSystem;
+    public TurnSystem turnSystem;
 
     public Engine engine;
 
@@ -56,6 +57,7 @@ public class InGame extends ScreenAdapter {
         renderingSystem = new RenderingSystem(game.batch, game.viewport);
         movementSystem = new MovementSystem();
         rotationSystem = new RotationSystem();
+        turnSystem = new TurnSystem(gameManager);
 
         engine.addSystem(renderingSystem);
         engine.addSystem(movementSystem);

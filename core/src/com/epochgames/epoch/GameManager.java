@@ -19,12 +19,14 @@ public class GameManager {
     public static final float MIN_ZOOM = 1.0f;
     public static final float MAX_ZOOM = 4.0f;
 
+    public static final int MAX_TURN_STATE = 7;
+
     private GameState gameState;
     public Location location;
     public EpochTiledMap currentMap;
     public Epoch game;
 
-    public boolean playerTurn;
+    public int turnState;
     public long turnNumber;
 
     //Handles our inputs
@@ -180,6 +182,8 @@ public class GameManager {
         location = Location.OPEN_SPACE;
         currentMap = new OpenSpaceMap();
         inputMultiplexer = new InputMultiplexer();
+        turnState = 0;
+        turnNumber = 0;
     }
 
     public void setGame(Epoch game) {
@@ -235,16 +239,26 @@ public class GameManager {
 
     /**
      * Goes to the next turn
-     * Handles AI turns if not the player's turn
      * increments turn number
-     * @return Whether or not it is the Player's turn
+     * @return the new turn number
      */
-    public boolean nextTurn() {
-        playerTurn = !playerTurn;
+    public int nextTurn() {
+        turnState = 0;
         turnNumber++;
-        if(!playerTurn) {
-            //TODO L O G I C
+        return turnState;
+    }
+
+    /**
+     * Increments the turn state, going to the next turn if required.
+     * @return the new turn state
+     */
+    public int nextTurnState() {
+        if(++turnState > MAX_TURN_STATE) {
+            nextTurn();
+            return turnState;
         }
-        return playerTurn;
+        else {
+            return turnState;
+        }
     }
 }
