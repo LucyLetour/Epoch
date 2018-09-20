@@ -1,3 +1,4 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3f4869bbc9f5471fb5626c47ca6ca7d8)](https://app.codacy.com/app/bluestackthingie/Epoch?utm_source=github.com&utm_medium=referral&utm_content=EnderL2000/Epoch&utm_campaign=Badge_Grade_Dashboard)
 [![CodeFactor](https://www.codefactor.io/repository/github/enderl2000/epoch/badge?style=flat-square)](https://www.codefactor.io/repository/github/enderl2000/epoch)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/091d7c8e5cb74f4d9eba73de181f9b13)](https://www.codacy.com/app/bluestackthingie/Epoch?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=EnderL2000/Epoch&amp;utm_campaign=Badge_Grade)
 # Epoch
