@@ -58,11 +58,10 @@ public class EntityFactory {
 
         InteractableComponent interactableComponent = new InteractableComponent();
         interactableComponent.interactable = true;
-        //TODO this
+        //TODO
         //interactableComponent.representative = new TileMapActor();
 
         TransformComponent transformComponent = new TransformComponent();
-        //TODO this too
         transformComponent.scale = iconComponent.region.getRegionHeight() < iconComponent.region.getRegionWidth() ?
                 (float)GameManager.SPRITE_SIZE / (float)iconComponent.region.getRegionHeight() : (float)GameManager.SPRITE_SIZE / (float)iconComponent.region.getRegionWidth();
         transformComponent.rotation = 0.0f;

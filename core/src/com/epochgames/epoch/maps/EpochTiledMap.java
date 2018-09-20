@@ -14,7 +14,6 @@ public abstract class EpochTiledMap {
 
     public EpochTiledMap(TiledMap tiledMap) {
         this.tiledMap = tiledMap;
-        //TODO fix all this
         tiledMapRenderer = new HexagonalTiledMapRenderer(tiledMap);
     }
 

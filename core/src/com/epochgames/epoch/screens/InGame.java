@@ -140,4 +140,8 @@ public class InGame extends ScreenAdapter {
     public void zoom(float delta) {
         targetCameraZoom = (float)EpochMath.clamp(targetCameraZoom + delta, GameManager.MIN_ZOOM, GameManager.MAX_ZOOM);
     }
+
+    public void scroll(float deltaX, float deltaY) {
+        game.camera.translate(deltaX, deltaY);
+    }
 }

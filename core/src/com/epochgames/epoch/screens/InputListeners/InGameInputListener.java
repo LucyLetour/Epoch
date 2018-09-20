@@ -47,10 +47,9 @@ public class InGameInputListener implements InputProcessor {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        //TODO Make this a method in InGame instead of dealing with it here
         Vector2 newTouch = new Vector2(screenX, screenY);
         Vector2 delta = newTouch.cpy().sub(touchDown);
-        screen.game.camera.translate(-delta.x, delta.y);
+        screen.scroll(-delta.x, delta.y);
         touchDown = newTouch;
         return false;
     }
