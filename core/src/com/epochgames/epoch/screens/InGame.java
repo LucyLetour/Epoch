@@ -3,7 +3,9 @@ package com.epochgames.epoch.screens;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.epochgames.epoch.Epoch;
@@ -18,6 +20,8 @@ import com.epochgames.epoch.maps.OpenSpaceMap;
 import com.epochgames.epoch.screens.stages.TiledMapStage;
 import com.epochgames.epoch.util.EpochMath;
 import com.epochgames.epoch.util.hexlib.HexGrid;
+import com.epochgames.epoch.util.hexlib.Hexagon;
+import com.epochgames.epoch.util.hexlib.Point;
 
 public class InGame extends ScreenAdapter {
 
@@ -39,6 +43,11 @@ public class InGame extends ScreenAdapter {
     public float targetCameraZoom;
 
     public GameManager.Actions currentAction;
+
+    public Hexagon t_hexOne, t_hexTwo;
+    public Point t_p1, t_p2;
+    public Hexagon[] hexPath;
+    public ShapeRenderer shapeRenderer;
 
     public InGame(Epoch game) {
         this.game = game;
@@ -71,8 +80,11 @@ public class InGame extends ScreenAdapter {
         EntityFactory.init(game);
 
         //Temp
-        engine.addEntity(EntityFactory.createShip(0, 0, new Ship(GameManager.Ships.CONTREX, false), true));
-        currentAction = GameManager.Actions.MOVE;
+        //engine.addEntity(EntityFactory.createShip(0, 0, new Ship(GameManager.Ships.CONTREX, false), true));
+        //currentAction = GameManager.Actions.MOVE;
+        shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.setProjectionMatrix(game.camera.combined);
     }
 
     @Override
@@ -107,9 +119,19 @@ public class InGame extends ScreenAdapter {
         //Draw everything the game needs
         tileActorStage.draw();
 
+        if(t_p1 != null && t_p2 != null) {
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setProjectionMatrix(game.camera.combined);
+            for (int i = 0; i < hexPath.length - 1; i++) {
+                shapeRenderer.line(hexPath[i].getHexCenter().x, hexPath[i].getHexCenter().y, hexPath[i + 1].getHexCenter().x, hexPath[i + 1].getHexCenter().y);
+            }
+            shapeRenderer.end();
+        }
 
         game.batch.begin();
-        engine.update(delta);
+        {
+            engine.update(delta);
+        }
         game.batch.end();
 
         //Draw the GUI

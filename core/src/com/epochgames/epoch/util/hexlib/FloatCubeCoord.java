@@ -2,10 +2,11 @@ package com.epochgames.epoch.util.hexlib;
 
 import com.badlogic.gdx.Gdx;
 
-public class CubeCoord {
-    public int x, y, z;
+public class FloatCubeCoord extends CubeCoord {
+    public float x, y, z;
 
-    public CubeCoord(int x, int y, int z) {
+    public FloatCubeCoord(float x, float y, float z) {
+        super((int)x, (int)y, (int)z);
         this.x = x;
         this.y = y;
         this.z = z;

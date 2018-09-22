@@ -6,7 +6,7 @@ public class Hexagon {
     public OffsetCoord offsetCoord;
 
     public Hexagon(CubeCoord c) {
-        offsetCoord = HexHelper.cubeToEvenR(c);
+        offsetCoord = HexHelper.cubeToOddR(c);
     }
 
     public Hexagon(OffsetCoord o) {

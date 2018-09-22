@@ -1,5 +1,7 @@
 package com.epochgames.epoch.util.hexlib;
 
+import com.badlogic.gdx.math.Vector2;
+
 public class Point {
     public float x, y;
 
@@ -19,6 +21,10 @@ public class Point {
         this.x += dx;
         this.y += dy;
         return this;
+    }
+
+    public Vector2 toVector2() {
+        return new Vector2(this.x, this.y);
     }
 
     @Override

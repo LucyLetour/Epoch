@@ -23,7 +23,21 @@ public class TiledMapClickListener extends ClickListener {
 
     @Override
     public void clicked(InputEvent event, float x, float y) {
-        switch (GameManager.getInstance().game.inGameScreen.currentAction) {
+        if(game.inGameScreen.t_hexOne == null) {
+            game.inGameScreen.t_hexOne = new Hexagon(HexHelper.getCoordinatesFromHexCenter(actor.position));
+            game.inGameScreen.t_p1 = actor.position;
+            System.out.println("Set hex one to " + game.inGameScreen.t_hexOne.offsetCoord.toString());
+        }
+        else if(game.inGameScreen.t_hexOne != null) {
+            game.inGameScreen.t_hexTwo = new Hexagon(HexHelper.getCoordinatesFromHexCenter(actor.position));
+            game.inGameScreen.t_p2 = actor.position;
+            System.out.println("Set hex two to " + game.inGameScreen.t_hexTwo.offsetCoord.toString());
+            game.inGameScreen.hexPath = HexHelper.hexagonLineDraw(game.inGameScreen.t_hexOne.offsetCoord,
+                    game.inGameScreen.t_hexTwo.offsetCoord);
+
+        }
+
+        /*switch (GameManager.getInstance().game.inGameScreen.currentAction) {
             case MOVE:
                 for(Entity entity : game.inGameScreen.engine.getEntitiesFor(Family.all(TypeComponent.class).get())) {
                     //If the entity is the player and they are not already moving
@@ -36,6 +50,6 @@ public class TiledMapClickListener extends ClickListener {
                 break;
             default:
                 break;
-        }
+        }*/
     }
 }
