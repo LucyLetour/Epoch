@@ -19,6 +19,9 @@ public class GameManager {
     public static final float MIN_ZOOM = 1.0f;
     public static final float MAX_ZOOM = 4.0f;
 
+    //Controls speed of camera for moving
+    public static final float MOVE_SPEED = 0.3f;
+
     public static final int MAX_TURN_STATE = 7;
 
     private GameState gameState;

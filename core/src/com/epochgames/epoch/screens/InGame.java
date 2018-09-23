@@ -1,6 +1,7 @@
 package com.epochgames.epoch.screens;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
@@ -22,6 +23,7 @@ import com.epochgames.epoch.util.EpochMath;
 import com.epochgames.epoch.util.HexMapRender.HexMapRenderer;
 import com.epochgames.epoch.util.HexagonGrid;
 import com.epochgames.epoch.util.hexlib.*;
+import org.codetome.hexameter.core.api.CubeCoordinate;
 
 public class InGame extends ScreenAdapter {
 
@@ -42,14 +44,10 @@ public class InGame extends ScreenAdapter {
     public HexMapRenderer mapRenderer;
 
     public float targetCameraZoom;
+    public float camDeltaX;
+    public float camDeltaY;
 
     public GameManager.Actions currentAction;
-
-    public Hexagon t_hexOne, t_hexTwo, t_hexZero;
-    public Point t_p1, t_p2;
-    public Hexagon[] hexPath;
-    public ShapeRenderer shapeRenderer;
-    public boolean t_printed;
 
     public InGame(Epoch game) {
         this.game = game;
@@ -60,7 +58,6 @@ public class InGame extends ScreenAdapter {
         openSpaceMap = new OpenSpaceMap();
 
         //Create our hexgrid, which will act as a way to place objects "on" our tilemap
-        //hexGrid = new HexGrid(openSpaceMap.getTiledMap());
         hexagonGrid = new HexagonGrid(openSpaceMap.getTiledMap());
         mapRenderer = HexMapRenderer.instance;
         mapRenderer.setHexGrid(hexagonGrid.hexGrid, game.camera);
@@ -85,12 +82,8 @@ public class InGame extends ScreenAdapter {
         EntityFactory.init(game);
 
         //Temp
-        //engine.addEntity(EntityFactory.createShip(0, 0, new Ship(GameManager.Ships.CONTREX, false), true));
-        //currentAction = GameManager.Actions.MOVE;
-        shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.setProjectionMatrix(game.camera.combined);
-        t_printed = false;
+        engine.addEntity(EntityFactory.createShip(CubeCoordinate.fromCoordinates(9, 5), hexagonGrid, new Ship(GameManager.Ships.CONTREX, false), true));
+        currentAction = GameManager.Actions.MOVE;
     }
 
     @Override
@@ -107,6 +100,12 @@ public class InGame extends ScreenAdapter {
 
         //Handle camera zoom
         game.camera.zoom = Interpolation.fade.apply(game.camera.zoom, targetCameraZoom, GameManager.ZOOM_SPEED);
+
+        //Handle moving the camera
+        camDeltaX = Interpolation.smoother.apply(camDeltaX, 0, GameManager.MOVE_SPEED);
+        camDeltaY = Interpolation.smoother.apply(camDeltaY, 0, GameManager.MOVE_SPEED);
+        game.camera.translate(camDeltaX, camDeltaY);
+
 
         //Render the tilemap based on the appropriate position of the player
         switch (gameManager.getLocation()) {
@@ -150,7 +149,11 @@ public class InGame extends ScreenAdapter {
 
         //Draw the GUI
         game.guiBatch.begin();
-
+        {
+            game.font.setColor(Color.GREEN);
+            game.font.draw(game.guiBatch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 50, game.viewport.getScreenHeight() - 50);
+            game.font.setColor(Color.WHITE);
+        }
         game.guiBatch.end();
 
         game.camera.update();
@@ -178,6 +181,7 @@ public class InGame extends ScreenAdapter {
     }
 
     public void scroll(float deltaX, float deltaY) {
-        game.camera.translate(deltaX, deltaY);
+        camDeltaX += deltaX;
+        camDeltaY += deltaY;
     }
 }

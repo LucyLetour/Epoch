@@ -11,6 +11,9 @@ public class DesktopLauncher {
 		config.width = 1920;
 		config.height = 1080;
 		config.samples = 16;
+		config.vSyncEnabled = true;
+		config.foregroundFPS = 60;
+		config.useGL30 = true;
 		new LwjglApplication(new Epoch(), config);
 	}
 }

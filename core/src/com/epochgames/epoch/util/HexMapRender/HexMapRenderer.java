@@ -10,10 +10,11 @@ import org.codetome.hexameter.core.api.HexagonalGrid;
 import org.codetome.hexameter.core.api.Point;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class HexMapRenderer {
+    public static final int LINE_WIDTH = 5;
+
     public int mapHeight;
     public int mapWidth;
     public HexagonOrientation orientation;
@@ -64,12 +65,12 @@ public class HexMapRenderer {
                 points.add(toVector2(point));
             }
 
-            renderer.rectLine(points.get(0), points.get(1), 2);
-            renderer.rectLine(points.get(1), points.get(2), 2);
-            renderer.rectLine(points.get(2), points.get(3), 2);
-            renderer.rectLine(points.get(3), points.get(4), 2);
-            renderer.rectLine(points.get(4), points.get(5), 2);
-            renderer.rectLine(points.get(5), points.get(0), 2);
+            renderer.rectLine(points.get(0), points.get(1), LINE_WIDTH);
+            renderer.rectLine(points.get(1), points.get(2), LINE_WIDTH);
+            renderer.rectLine(points.get(2), points.get(3), LINE_WIDTH);
+            renderer.rectLine(points.get(3), points.get(4), LINE_WIDTH);
+            renderer.rectLine(points.get(4), points.get(5), LINE_WIDTH);
+            renderer.rectLine(points.get(5), points.get(0), LINE_WIDTH);
         }
 
         renderer.end();
