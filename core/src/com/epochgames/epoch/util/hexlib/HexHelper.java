@@ -39,22 +39,20 @@ public class HexHelper {
     }
 
     public static CubeCoord oddRToCube(OffsetCoord o) {
-        int x = o.y - (o.x - (o.y & 1)) / 2;
-        int z = o.x;
+        int x = o.x - (o.y - (o.y & 1)) / 2;
+        int z = o.y;
         int y = -x - z;
         return new CubeCoord(x, y, z);
     }
 
     public static int calculateDistance(Hexagon a, Hexagon b) {
-        /*CubeCoord ac = oddRToCube(a.offsetCoord);
+        CubeCoord ac = oddRToCube(a.offsetCoord);
         CubeCoord bc = oddRToCube(b.offsetCoord);
-        return (Math.abs(ac.x - bc.x) +
-                Math.abs(ac.y - bc.y) +
-                Math.abs(ac.z - bc.z) / 2);*/
-        int penalty = ((a.offsetCoord.y % 2 == 0 && b.offsetCoord.y % 2 == 1 && (a.offsetCoord.x < b.offsetCoord.x)) ||
+        return Math.max(Math.max(Math.abs(ac.x - bc.x), Math.abs(ac.y - bc.y)), Math.abs(ac.z - bc.z));
+        /*int penalty = ((a.offsetCoord.y % 2 == 0 && b.offsetCoord.y % 2 == 1 && (a.offsetCoord.x < b.offsetCoord.x)) ||
                 (b.offsetCoord.y % 2 == 0 && a.offsetCoord.y % 2 == 1 && (b.offsetCoord.x < a.offsetCoord.x))) ? 1 : 0;
         return Math.max(Math.abs(b.offsetCoord.y - a.offsetCoord.y), Math.abs(b.offsetCoord.x - a.offsetCoord.x) + (int)Math.floor(Math.abs(b.offsetCoord.y - a.offsetCoord.y) / 2.0f) + penalty);
-    }
+    */}
 
     public static CubeCoord cubeCoordRound(float px, float py, float pz) {
         float x = Math.round(px);
@@ -129,22 +127,32 @@ public class HexHelper {
             hexLine[i] = new Hexagon(cubeCoordRound(cubeCoordinateLerp(start, end, 1.0f / distance * i)));
             System.out.println(hexLine[i].offsetCoord);
         }*/
-        OffsetCoord current = new OffsetCoord(start.x, start.y);
+        OffsetCoord current = new OffsetCoord(start);
         ArrayList<Hexagon> hexLine = new ArrayList<>();
 
         int dx, dy;
 
         hexLine.add(new Hexagon(new OffsetCoord(current.x, current.y)));
         while(!current.equals(end)) {
+            int changeX = end.x - current.x;
             dy = (int)EpochMath.clamp(end.y - current.y, -1, 1);
-            dx = dy != 1 ? (int)EpochMath.clamp(end.x - current.x, -1, 1) : 0;
+            dx = (Math.signum(changeX) > 0 && current.y % 2 == 0) || (Math.signum(changeX) < 0 && current.y % 2 == 1) || dy == 0
+                    ? (int)EpochMath.clamp(changeX, -1.0f, 1.0f) : 0;
             current.x += dx;
             current.y += dy;
-            hexLine.add(new Hexagon(new OffsetCoord(current.x, current.y)));
+            hexLine.add(new Hexagon(new OffsetCoord(current)));
+            //System.out.println("Added " + current + " to path");
+            if(hexLine.size() > 20) {
+                break;
+            }
         }
 
+        System.out.println("Ended at " + end);
         Hexagon[] h = new Hexagon[hexLine.size()];
-        System.out.println(hexLine.size());
+        System.out.println("Hex path is " + hexLine.size() + " long");
+        System.out.println("The distance is " + calculateDistance(new Hexagon(start), new Hexagon(end)));
+        System.out.println(start + ", " + end);
+        System.out.println(oddRToCube(start) + ", " +  oddRToCube(end));
         return hexLine.toArray(h);
     }
 

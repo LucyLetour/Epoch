@@ -2,6 +2,7 @@ package com.epochgames.epoch;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -17,6 +18,7 @@ public class Epoch extends Game {
 
 	public static GameManager gameManager;
 
+	public BitmapFont font;
 	public SpriteBatch batch;
 	public SpriteBatch guiBatch;
 	public boolean assetsLoaded = false;
@@ -55,6 +57,7 @@ public class Epoch extends Game {
 		//Create the Batches
 		batch = new SpriteBatch();
 		guiBatch = new SpriteBatch();
+		font = new BitmapFont();
 
 		//Set the screen to our starting screen and add all of them
 		//TODO

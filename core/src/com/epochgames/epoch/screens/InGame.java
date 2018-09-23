@@ -19,9 +19,8 @@ import com.epochgames.epoch.entities.systems.TurnSystem;
 import com.epochgames.epoch.maps.OpenSpaceMap;
 import com.epochgames.epoch.screens.stages.TiledMapStage;
 import com.epochgames.epoch.util.EpochMath;
-import com.epochgames.epoch.util.hexlib.HexGrid;
-import com.epochgames.epoch.util.hexlib.Hexagon;
-import com.epochgames.epoch.util.hexlib.Point;
+import com.epochgames.epoch.util.HexagonGrid;
+import com.epochgames.epoch.util.hexlib.*;
 
 public class InGame extends ScreenAdapter {
 
@@ -39,15 +38,17 @@ public class InGame extends ScreenAdapter {
 
     public OpenSpaceMap openSpaceMap;
     public HexGrid hexGrid;
+    public HexagonGrid hexagonGrid;
 
     public float targetCameraZoom;
 
     public GameManager.Actions currentAction;
 
-    public Hexagon t_hexOne, t_hexTwo;
+    public Hexagon t_hexOne, t_hexTwo, t_hexZero;
     public Point t_p1, t_p2;
     public Hexagon[] hexPath;
     public ShapeRenderer shapeRenderer;
+    public boolean t_printed;
 
     public InGame(Epoch game) {
         this.game = game;
@@ -58,7 +59,8 @@ public class InGame extends ScreenAdapter {
         openSpaceMap = new OpenSpaceMap();
 
         //Create our hexgrid, which will act as a way to place objects "on" our tilemap
-        hexGrid = new HexGrid(openSpaceMap.getTiledMap());
+        //hexGrid = new HexGrid(openSpaceMap.getTiledMap());
+        hexagonGrid = new HexagonGrid(openSpaceMap.getTiledMap());
 
         //Start our engine and add all the necessary systems
         engine = new Engine();
@@ -73,7 +75,7 @@ public class InGame extends ScreenAdapter {
         engine.addSystem(rotationSystem);
 
         //Create a stage for the clickable things
-        tileActorStage = new TiledMapStage(openSpaceMap.getTiledMap(), hexGrid);
+        tileActorStage = new TiledMapStage(openSpaceMap.getTiledMap(), hexagonGrid.hexGrid);
         tileActorStage.setViewport(game.viewport);
 
         //Initialize the Entity Factory so we can create entities OTF
@@ -85,6 +87,7 @@ public class InGame extends ScreenAdapter {
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.setProjectionMatrix(game.camera.combined);
+        t_printed = false;
     }
 
     @Override
@@ -124,12 +127,19 @@ public class InGame extends ScreenAdapter {
             shapeRenderer.setProjectionMatrix(game.camera.combined);
             for (int i = 0; i < hexPath.length - 1; i++) {
                 shapeRenderer.line(hexPath[i].getHexCenter().x, hexPath[i].getHexCenter().y, hexPath[i + 1].getHexCenter().x, hexPath[i + 1].getHexCenter().y);
+                if(!t_printed) {
+                    System.out.println(hexPath[i].offsetCoord);
+                }
             }
+            t_printed = true;
             shapeRenderer.end();
         }
 
         game.batch.begin();
         {
+            for (org.codetome.hexameter.core.api.Hexagon<HexSatelliteData> hexagon : hexagonGrid.hexGrid.getHexagons()){
+                game.font.draw(game.batch, HexHelper.cubeToOddR(new CubeCoord(hexagon.getGridX(), hexagon.getGridY(), hexagon.getGridZ())).toString(),(float)hexagon.getCenterX(), (float)hexagon.getCenterY());
+            }
             engine.update(delta);
         }
         game.batch.end();
