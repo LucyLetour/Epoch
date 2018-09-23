@@ -49,7 +49,7 @@ public class InGameInputListener implements InputProcessor {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         Vector2 newTouch = new Vector2(screenX, screenY);
         Vector2 delta = newTouch.cpy().sub(touchDown);
-        screen.scroll(-delta.x * 20, delta.y * 20);
+        screen.scroll(-delta.x, delta.y);
         touchDown = newTouch;
         return false;
     }

@@ -1,5 +1,6 @@
 package com.epochgames.epoch.screens.stages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -28,16 +29,6 @@ public class TiledMapStage extends Stage {
     }
 
     private void createActorsForLayer(TiledMapTileLayer tiledLayer) {
-        /*for (int x = 0; x < tiledLayer.getWidth(); x++) {
-            for (int y = 0; y < tiledLayer.getHeight(); y++) {
-                TiledMapTileLayer.Cell cell = tiledLayer.getCell(x, y);
-                Point center = hexGrid.getHexagon(new OffsetCoord(x, y)).getHexCenter();
-                TileMapActor actor = new TileMapActor(tiledMap, tiledLayer, cell, center);
-                addActor(actor);
-                EventListener eventListener = new TiledMapClickListener(actor, GameManager.getInstance().game);
-                actor.addListener(eventListener);
-            }
-        }*/
         int i = 0;
         for(Hexagon<HexSatelliteData> hexagon : hexGrid.getHexagons()) {
             TiledMapTileLayer.Cell cell = tiledLayer.getCell(hexagon.getGridX(), hexagon.getGridY());
@@ -46,7 +37,8 @@ public class TiledMapStage extends Stage {
             addActor(actor);
             EventListener eventListener = new TiledMapClickListener(actor, GameManager.getInstance().game);
             actor.addListener(eventListener);
+            i++;
         }
-        System.out.println(i + " hexagons in hexgrid");
+        Gdx.app.debug("Created Hex Actors", "Made " + i + " actors in the HexGrid");
     }
 }

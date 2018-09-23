@@ -19,6 +19,7 @@ import com.epochgames.epoch.entities.systems.TurnSystem;
 import com.epochgames.epoch.maps.OpenSpaceMap;
 import com.epochgames.epoch.screens.stages.TiledMapStage;
 import com.epochgames.epoch.util.EpochMath;
+import com.epochgames.epoch.util.HexMapRender.HexMapRenderer;
 import com.epochgames.epoch.util.HexagonGrid;
 import com.epochgames.epoch.util.hexlib.*;
 
@@ -37,8 +38,8 @@ public class InGame extends ScreenAdapter {
     public Epoch game;
 
     public OpenSpaceMap openSpaceMap;
-    public HexGrid hexGrid;
     public HexagonGrid hexagonGrid;
+    public HexMapRenderer mapRenderer;
 
     public float targetCameraZoom;
 
@@ -61,6 +62,8 @@ public class InGame extends ScreenAdapter {
         //Create our hexgrid, which will act as a way to place objects "on" our tilemap
         //hexGrid = new HexGrid(openSpaceMap.getTiledMap());
         hexagonGrid = new HexagonGrid(openSpaceMap.getTiledMap());
+        mapRenderer = HexMapRenderer.instance;
+        mapRenderer.setHexGrid(hexagonGrid.hexGrid, game.camera);
 
         //Start our engine and add all the necessary systems
         engine = new Engine();
@@ -108,7 +111,8 @@ public class InGame extends ScreenAdapter {
         //Render the tilemap based on the appropriate position of the player
         switch (gameManager.getLocation()) {
             case OPEN_SPACE:
-                openSpaceMap.render(game.camera);
+                //openSpaceMap.render(game.camera);
+                mapRenderer.renderHexGrid();
                 break;
             case PLANETARY_ORBIT:
                 break;
@@ -122,7 +126,7 @@ public class InGame extends ScreenAdapter {
         //Draw everything the game needs
         tileActorStage.draw();
 
-        if(t_p1 != null && t_p2 != null) {
+        /*if(t_p1 != null && t_p2 != null) {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             shapeRenderer.setProjectionMatrix(game.camera.combined);
             for (int i = 0; i < hexPath.length - 1; i++) {
@@ -133,7 +137,7 @@ public class InGame extends ScreenAdapter {
             }
             t_printed = true;
             shapeRenderer.end();
-        }
+        }*/
 
         game.batch.begin();
         {

@@ -13,7 +13,7 @@ public class HexagonGrid {
     public static int GRID_WIDTH = 90;
     public static HexagonalGridLayout GRID_LAYOUT = RECTANGULAR;
     public static HexagonOrientation ORIENTATION = POINTY_TOP;
-    public static double RADIUS = 30;
+    public static double RADIUS = 1;
 
 
     public HexagonalGrid<HexSatelliteData> hexGrid;
@@ -22,6 +22,7 @@ public class HexagonGrid {
     public TiledMap tiledMap;
 
     public HexagonGrid(TiledMap tiledMap) {
+        RADIUS = GameManager.TILE_WIDTH * (2.0f / 3.0f);
         HexagonalGridBuilder builder = new HexagonalGridBuilder()
                 .setGridHeight(GRID_HEIGHT)
                 .setGridWidth(GRID_WIDTH)
@@ -31,7 +32,5 @@ public class HexagonGrid {
         hexGrid = builder.build();
         hexCalculator = builder.buildCalculatorFor(hexGrid);
         this.tiledMap = tiledMap;
-
-        RADIUS = GameManager.TILE_WIDTH * (2.0f / 3.0f);
     }
 }
