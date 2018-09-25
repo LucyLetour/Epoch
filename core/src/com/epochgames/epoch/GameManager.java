@@ -36,8 +36,8 @@ public class GameManager {
     public InputMultiplexer inputMultiplexer;
 
     //This is to determine where actors are drawn(For click detection)
-    public static final int TILE_WIDTH = 457;
-    public static final int TILE_HEIGHT = 528;
+    public static final int TILE_WIDTH = 395;
+    public static final int TILE_HEIGHT = 578;
 
     public static final int SPRITE_SIZE = 300;
 

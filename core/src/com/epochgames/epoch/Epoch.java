@@ -91,6 +91,7 @@ public class Epoch extends Game {
 		Assets.MANAGER.load(Assets.Spritesheets.SHIPS);
 		Assets.MANAGER.load(Assets.TileMaps.OPEN_SPACE);
 		Assets.MANAGER.load(Assets.TileMaps.OPEN_SPACE_TILE_SET);
+		Assets.MANAGER.load(Assets.Textures.HEX_TILE);
 	}
 
 	public void setActiveScreen(Screen screen) {

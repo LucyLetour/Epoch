@@ -19,6 +19,7 @@ import com.epochgames.epoch.entities.systems.RotationSystem;
 import com.epochgames.epoch.entities.systems.TurnSystem;
 import com.epochgames.epoch.maps.OpenSpaceMap;
 import com.epochgames.epoch.screens.stages.TiledMapStage;
+import com.epochgames.epoch.util.Assets;
 import com.epochgames.epoch.util.EpochMath;
 import com.epochgames.epoch.util.HexMapRender.HexMapRenderer;
 import com.epochgames.epoch.util.HexagonGrid;
@@ -60,7 +61,7 @@ public class InGame extends ScreenAdapter {
         //Create our hexgrid, which will act as a way to place objects "on" our tilemap
         hexagonGrid = new HexagonGrid(openSpaceMap.getTiledMap());
         mapRenderer = HexMapRenderer.instance;
-        mapRenderer.setHexGrid(hexagonGrid.hexGrid, game.camera);
+        mapRenderer.setHexGrid(hexagonGrid.hexGrid, game, Assets.MANAGER.get(Assets.Textures.HEX_TILE));
 
         //Start our engine and add all the necessary systems
         engine = new Engine();
@@ -107,20 +108,7 @@ public class InGame extends ScreenAdapter {
         game.camera.translate(camDeltaX, camDeltaY);
 
 
-        //Render the tilemap based on the appropriate position of the player
-        switch (gameManager.getLocation()) {
-            case OPEN_SPACE:
-                //openSpaceMap.render(game.camera);
-                mapRenderer.renderHexGrid();
-                break;
-            case PLANETARY_ORBIT:
-                break;
-            case ON_PLANET:
-                break;
-            default:
-                Gdx.app.error("Error", "No map to be loaded because the location doesn't exist!");
-                break;
-        }
+
 
         //Draw everything the game needs
         tileActorStage.draw();
@@ -140,6 +128,20 @@ public class InGame extends ScreenAdapter {
 
         game.batch.begin();
         {
+            //Render the tilemap based on the appropriate position of the player
+            switch (gameManager.getLocation()) {
+                case OPEN_SPACE:
+                    //openSpaceMap.render(game.camera);
+                    mapRenderer.renderHexGrid();
+                    break;
+                case PLANETARY_ORBIT:
+                    break;
+                case ON_PLANET:
+                    break;
+                default:
+                    Gdx.app.error("Error", "No map to be loaded because the location doesn't exist!");
+                    break;
+            }
             for (org.codetome.hexameter.core.api.Hexagon<HexSatelliteData> hexagon : hexagonGrid.hexGrid.getHexagons()){
                 game.font.draw(game.batch, HexHelper.cubeToOddR(new CubeCoord(hexagon.getGridX(), hexagon.getGridY(), hexagon.getGridZ())).toString(),(float)hexagon.getCenterX(), (float)hexagon.getCenterY());
             }
