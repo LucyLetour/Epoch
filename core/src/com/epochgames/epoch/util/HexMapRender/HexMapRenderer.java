@@ -2,6 +2,8 @@ package com.epochgames.epoch.util.HexMapRender;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.epochgames.epoch.Epoch;
+import com.epochgames.epoch.util.hexlib.CubeCoord;
+import com.epochgames.epoch.util.hexlib.HexHelper;
 import com.epochgames.epoch.util.hexlib.HexSatelliteData;
 import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonOrientation;
@@ -46,7 +48,6 @@ public class HexMapRenderer {
 
     public void renderHexGrid() {
         for (Hexagon<HexSatelliteData> hexagon : hexGrid.getHexagons()) {
-
             game.batch.draw(hexTexture, (float)hexagon.getCenterX() - (hexTexture.getWidth() / 2),
                     (float)hexagon.getCenterY() - (hexTexture.getHeight() / 2));
         }

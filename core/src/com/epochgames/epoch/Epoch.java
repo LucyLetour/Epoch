@@ -12,7 +12,8 @@ import com.epochgames.epoch.screens.MainMenu;
 import com.epochgames.epoch.util.Assets;
 
 public class Epoch extends Game {
-	public Stage stage;
+    public static boolean debug = false;
+
 	public Viewport viewport;
 	public OrthographicCamera camera;
 
@@ -26,11 +27,16 @@ public class Epoch extends Game {
 	public Screen activeScreen;
 	public InGame inGameScreen;
 	public MainMenu mainMenuScreen;
-	
+
+	public Epoch(boolean debugMode) {
+	    super();
+	    debug = debugMode;
+    }
+
 	@Override
 	public void create () {
 		//Set the log level first thing so that we know what's going on
-		Gdx.app.setLogLevel(Gdx.app.LOG_DEBUG);
+		Gdx.app.setLogLevel(debug ? Gdx.app.LOG_DEBUG : Gdx.app.LOG_INFO);
 
 		//Loads Assets (Go figure)
 		loadAssets();
@@ -51,7 +57,6 @@ public class Epoch extends Game {
 		//Setup the Camera, Viewport and Stage
 		camera = new OrthographicCamera();
 		viewport = new ExtendViewport(1920, 1080, camera);
-		stage = new Stage(viewport);
 		camera.setToOrtho(false, viewport.getScreenWidth(), viewport.getScreenHeight());
 
 		//Create the Batches
@@ -80,6 +85,7 @@ public class Epoch extends Game {
 	public void dispose () {
 		batch.dispose();
 		guiBatch.dispose();
+		font.dispose();
 	}
 
 	private void initializeScreens() {

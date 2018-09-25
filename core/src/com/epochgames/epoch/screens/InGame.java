@@ -1,12 +1,10 @@
 package com.epochgames.epoch.screens;
 
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.epochgames.epoch.Epoch;
@@ -23,8 +21,11 @@ import com.epochgames.epoch.util.Assets;
 import com.epochgames.epoch.util.EpochMath;
 import com.epochgames.epoch.util.HexMapRender.HexMapRenderer;
 import com.epochgames.epoch.util.HexagonGrid;
-import com.epochgames.epoch.util.hexlib.*;
+import com.epochgames.epoch.util.hexlib.CubeCoord;
+import com.epochgames.epoch.util.hexlib.HexHelper;
+import com.epochgames.epoch.util.hexlib.HexSatelliteData;
 import org.codetome.hexameter.core.api.CubeCoordinate;
+import org.codetome.hexameter.core.api.Hexagon;
 
 public class InGame extends ScreenAdapter {
 
@@ -107,31 +108,14 @@ public class InGame extends ScreenAdapter {
         camDeltaY = Interpolation.smoother.apply(camDeltaY, 0, GameManager.MOVE_SPEED);
         game.camera.translate(camDeltaX, camDeltaY);
 
-
-
-
-        //Draw everything the game needs
+        //Draw the tile actors
         tileActorStage.draw();
-
-        /*if(t_p1 != null && t_p2 != null) {
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-            shapeRenderer.setProjectionMatrix(game.camera.combined);
-            for (int i = 0; i < hexPath.length - 1; i++) {
-                shapeRenderer.line(hexPath[i].getHexCenter().x, hexPath[i].getHexCenter().y, hexPath[i + 1].getHexCenter().x, hexPath[i + 1].getHexCenter().y);
-                if(!t_printed) {
-                    System.out.println(hexPath[i].offsetCoord);
-                }
-            }
-            t_printed = true;
-            shapeRenderer.end();
-        }*/
 
         game.batch.begin();
         {
             //Render the tilemap based on the appropriate position of the player
             switch (gameManager.getLocation()) {
                 case OPEN_SPACE:
-                    //openSpaceMap.render(game.camera);
                     mapRenderer.renderHexGrid();
                     break;
                 case PLANETARY_ORBIT:
@@ -142,9 +126,13 @@ public class InGame extends ScreenAdapter {
                     Gdx.app.error("Error", "No map to be loaded because the location doesn't exist!");
                     break;
             }
-            for (org.codetome.hexameter.core.api.Hexagon<HexSatelliteData> hexagon : hexagonGrid.hexGrid.getHexagons()){
-                game.font.draw(game.batch, HexHelper.cubeToOddR(new CubeCoord(hexagon.getGridX(), hexagon.getGridY(), hexagon.getGridZ())).toString(),(float)hexagon.getCenterX(), (float)hexagon.getCenterY());
+
+            if(Epoch.debug) {
+                for (Hexagon<HexSatelliteData> hexagon : hexagonGrid.hexGrid.getHexagons()) {
+                    game.font.draw(game.batch, HexHelper.cubeToOddR(new CubeCoord(hexagon.getGridX(), hexagon.getGridY(), hexagon.getGridZ())).toString(), (float) hexagon.getCenterX(), (float) hexagon.getCenterY());
+                }
             }
+
             engine.update(delta);
         }
         game.batch.end();
@@ -183,7 +171,7 @@ public class InGame extends ScreenAdapter {
     }
 
     public void scroll(float deltaX, float deltaY) {
-        camDeltaX += deltaX;
-        camDeltaY += deltaY;
+        camDeltaX += deltaX * GameManager.MOVE_FACTOR * game.camera.zoom / 2.0f;
+        camDeltaY += deltaY * GameManager.MOVE_FACTOR * game.camera.zoom / 2.0f;
     }
 }

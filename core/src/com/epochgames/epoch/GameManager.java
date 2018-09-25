@@ -21,6 +21,7 @@ public class GameManager {
 
     //Controls speed of camera for moving
     public static final float MOVE_SPEED = 0.3f;
+    public static final float MOVE_FACTOR = 0.5f;
 
     public static final int MAX_TURN_STATE = 7;
 
@@ -36,8 +37,8 @@ public class GameManager {
     public InputMultiplexer inputMultiplexer;
 
     //This is to determine where actors are drawn(For click detection)
-    public static final int TILE_WIDTH = 395;
-    public static final int TILE_HEIGHT = 578;
+    public static final int TILE_WIDTH = 394;
+    public static final int TILE_HEIGHT = 455;
 
     public static final int SPRITE_SIZE = 300;
 
