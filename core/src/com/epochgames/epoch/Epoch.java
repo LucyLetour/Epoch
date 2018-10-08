@@ -10,8 +10,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.epochgames.epoch.screens.InGame;
 import com.epochgames.epoch.screens.MainMenu;
 import com.epochgames.epoch.util.Assets;
+import org.codetome.hexameter.core.api.CubeCoordinate;
 
 public class Epoch extends Game {
+
     public static boolean debug = false;
 
 	public Viewport viewport;
@@ -61,6 +63,7 @@ public class Epoch extends Game {
 
 		//Create the Batches
 		batch = new SpriteBatch();
+		batch.enableBlending();
 		guiBatch = new SpriteBatch();
 		font = new BitmapFont();
 

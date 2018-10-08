@@ -1,6 +1,7 @@
 package com.epochgames.epoch.screens;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
@@ -51,6 +52,12 @@ public class InGame extends ScreenAdapter {
 
     public GameManager.Actions currentAction;
 
+    /*
+	Move this player location to an actual class that handles the player. For now,
+	this is used just to determine which Hexagons to render (view range)
+	 */
+    public CubeCoordinate playerPos;
+
     public InGame(Epoch game) {
         this.game = game;
 
@@ -62,7 +69,7 @@ public class InGame extends ScreenAdapter {
         //Create our hexgrid, which will act as a way to place objects "on" our tilemap
         hexagonGrid = new HexagonGrid(openSpaceMap.getTiledMap());
         mapRenderer = HexMapRenderer.instance;
-        mapRenderer.setHexGrid(hexagonGrid.hexGrid, game, Assets.MANAGER.get(Assets.Textures.HEX_TILE));
+        mapRenderer.setHexGrid(hexagonGrid, game, Assets.MANAGER.get(Assets.Textures.HEX_TILE));
 
         //Start our engine and add all the necessary systems
         engine = new Engine();
@@ -86,6 +93,7 @@ public class InGame extends ScreenAdapter {
         //Temp
         engine.addEntity(EntityFactory.createShip(CubeCoordinate.fromCoordinates(9, 5), hexagonGrid, new Ship(GameManager.Ships.CONTREX, false), true));
         currentAction = GameManager.Actions.MOVE;
+        playerPos = CubeCoordinate.fromCoordinates(5, 5);
     }
 
     @Override
@@ -129,7 +137,7 @@ public class InGame extends ScreenAdapter {
 
             if(Epoch.debug) {
                 for (Hexagon<HexSatelliteData> hexagon : hexagonGrid.hexGrid.getHexagons()) {
-                    game.font.draw(game.batch, HexHelper.cubeToOddR(new CubeCoord(hexagon.getGridX(), hexagon.getGridY(), hexagon.getGridZ())).toString(), (float) hexagon.getCenterX(), (float) hexagon.getCenterY());
+                    //game.font.draw(game.batch, hexagon.getCubeCoordinate().toAxialKey(), (float) hexagon.getCenterX(), (float) hexagon.getCenterY());
                 }
             }
 
@@ -140,9 +148,12 @@ public class InGame extends ScreenAdapter {
         //Draw the GUI
         game.guiBatch.begin();
         {
-            game.font.setColor(Color.GREEN);
-            game.font.draw(game.guiBatch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 50, game.viewport.getScreenHeight() - 50);
-            game.font.setColor(Color.WHITE);
+            if(Epoch.debug) {
+                //draw FPS counter
+                game.font.setColor(Color.GREEN);
+                game.font.draw(game.guiBatch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 50, game.viewport.getScreenHeight() - 50);
+                game.font.setColor(Color.WHITE);
+            }
         }
         game.guiBatch.end();
 

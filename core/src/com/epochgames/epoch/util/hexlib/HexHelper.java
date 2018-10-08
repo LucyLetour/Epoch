@@ -49,10 +49,7 @@ public class HexHelper {
         CubeCoord ac = oddRToCube(a.offsetCoord);
         CubeCoord bc = oddRToCube(b.offsetCoord);
         return Math.max(Math.max(Math.abs(ac.x - bc.x), Math.abs(ac.y - bc.y)), Math.abs(ac.z - bc.z));
-        /*int penalty = ((a.offsetCoord.y % 2 == 0 && b.offsetCoord.y % 2 == 1 && (a.offsetCoord.x < b.offsetCoord.x)) ||
-                (b.offsetCoord.y % 2 == 0 && a.offsetCoord.y % 2 == 1 && (b.offsetCoord.x < a.offsetCoord.x))) ? 1 : 0;
-        return Math.max(Math.abs(b.offsetCoord.y - a.offsetCoord.y), Math.abs(b.offsetCoord.x - a.offsetCoord.x) + (int)Math.floor(Math.abs(b.offsetCoord.y - a.offsetCoord.y) / 2.0f) + penalty);
-    */}
+    }
 
     public static CubeCoord cubeCoordRound(float px, float py, float pz) {
         float x = Math.round(px);
