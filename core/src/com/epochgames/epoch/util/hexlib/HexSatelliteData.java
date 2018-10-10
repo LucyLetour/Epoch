@@ -1,10 +1,12 @@
 package com.epochgames.epoch.util.hexlib;
 
+import com.badlogic.ashley.core.Entity;
 import org.codetome.hexameter.core.api.contract.SatelliteData;
 
 public class HexSatelliteData implements SatelliteData {
     public boolean passable;
-    //TODO Make the satellite hold the entity the hex contains
+    public boolean visible;
+    public Entity entityContained;
 
     @Override
     public boolean isPassable() {
@@ -13,7 +15,23 @@ public class HexSatelliteData implements SatelliteData {
 
     @Override
     public void setPassable(boolean passable) {
+        this.passable = passable;
+    }
 
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    public Entity getEntityContained() {
+        return entityContained;
+    }
+
+    public void setEntityContained(Entity entity) {
+        this.entityContained = entity;
     }
 
     @Override

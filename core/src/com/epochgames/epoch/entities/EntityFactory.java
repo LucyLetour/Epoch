@@ -57,17 +57,14 @@ public class EntityFactory {
         IconComponent iconComponent = new IconComponent();
         iconComponent.region = Assets.MANAGER.get(Assets.Spritesheets.SHIPS).findRegion(ship.shipMake.getAtlasRegion());
 
-        InteractableComponent interactableComponent = new InteractableComponent();
-        interactableComponent.interactable = true;
-        //TODO
-        //interactableComponent.representative = new TileMapActor();
-
         TransformComponent transformComponent = new TransformComponent();
         transformComponent.scale = iconComponent.region.getRegionHeight() < iconComponent.region.getRegionWidth() ?
-                (float)GameManager.SPRITE_SIZE / (float)iconComponent.region.getRegionHeight() : (float)GameManager.SPRITE_SIZE / (float)iconComponent.region.getRegionWidth();
+                (float)GameManager.SPRITE_SIZE / (float)iconComponent.region.getRegionHeight() :
+                (float)GameManager.SPRITE_SIZE / (float)iconComponent.region.getRegionWidth();
         transformComponent.rotation = 0.0f;
         //HexagonGrid c = game.inGameScreen.hexagonGrid;
-        transformComponent.position = new Vector2((float)hexagonGrid.hexGrid.getByCubeCoordinate(coordinates).get().getCenterX(),
+        transformComponent.position = new Vector2(
+                (float)hexagonGrid.hexGrid.getByCubeCoordinate(coordinates).get().getCenterX(),
                 (float)hexagonGrid.hexGrid.getByCubeCoordinate(coordinates).get().getCenterY());
 
         MoveComponent moveComponent = new MoveComponent();
@@ -91,7 +88,7 @@ public class EntityFactory {
         }
 
         newShip.add(actionCompletenessComponent).add(healthComponent).add(iconComponent).
-                add(interactableComponent).add(transformComponent).add(turnComponent).
+                add(transformComponent).add(turnComponent).
                 add(typeComponent).add(moveComponent);
 
         return newShip;

@@ -15,6 +15,6 @@ public class TurnComponent implements Component {
     public static final int OTHER_PRIORITY = 7; //For things like planets, asteroids, etc.
 
     public int priority = OTHER_PRIORITY;
-    public boolean isMyTurn = false;
+    public boolean isMyTurn = true;
     public boolean turnFinished = false;
 }

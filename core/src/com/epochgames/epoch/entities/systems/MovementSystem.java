@@ -9,12 +9,16 @@ import com.epochgames.epoch.entities.components.MoveComponent;
 import com.epochgames.epoch.entities.components.TransformComponent;
 import com.epochgames.epoch.entities.components.TurnComponent;
 import com.epochgames.epoch.util.EpochMath;
+import com.epochgames.epoch.util.HexagonGrid;
 import com.epochgames.epoch.util.hexlib.Point;
 
 public class MovementSystem extends IteratingSystem {
 
-    public MovementSystem() {
+    private HexagonGrid hexagonGrid;
+
+    public MovementSystem(HexagonGrid hexagonGrid) {
         super(Family.all(TransformComponent.class, MoveComponent.class, TurnComponent.class).get());
+        this.hexagonGrid = hexagonGrid;
     }
 
     @Override
@@ -27,13 +31,13 @@ public class MovementSystem extends IteratingSystem {
         moveComponent.shouldMove = false;
 
         if(moveComponent.isMoving) {
-            transformComponent.position.lerp(new Vector2(moveComponent.nextPosition.getHexCenter().x, moveComponent.nextPosition.getHexCenter().y),
-                    calculateEntityMovePercentage(deltaTime, moveComponent));
-            if(EpochMath.distance(new Point(transformComponent.position.x, transformComponent.position.y),
-                    moveComponent.nextPosition.getHexCenter()) < 1.0f) {
+            float nextPosX = (float)hexagonGrid.hexGrid.getByCubeCoordinate(moveComponent.nextPosition).get().getCenterX();
+            float nextPosY = (float)hexagonGrid.hexGrid.getByCubeCoordinate(moveComponent.nextPosition).get().getCenterY();
+
+            transformComponent.position.lerp(new Vector2(nextPosX, nextPosY), calculateEntityMovePercentage(deltaTime, moveComponent));
+            if(EpochMath.distance(new Point(transformComponent.position.x, transformComponent.position.y), new Point(nextPosX, nextPosY )) < 1.0f) {
                 moveComponent.isMoving = false;
-                transformComponent.position = new Vector2(moveComponent.nextPosition.getHexCenter().x,
-                        moveComponent.nextPosition.getHexCenter().y);
+                transformComponent.position = new Vector2(nextPosX, nextPosY);
                 moveComponent.currentPosition = moveComponent.nextPosition;
                 moveComponent.nextPosition = null;
                 moveComponent.timeMoving = 0.0f;

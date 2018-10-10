@@ -75,7 +75,7 @@ public class InGame extends ScreenAdapter {
         engine = new Engine();
 
         renderingSystem = new RenderingSystem(game.batch);
-        movementSystem = new MovementSystem();
+        movementSystem = new MovementSystem(hexagonGrid);
         rotationSystem = new RotationSystem();
         turnSystem = new TurnSystem(gameManager);
 
