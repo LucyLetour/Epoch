@@ -8,6 +8,9 @@ import com.epochgames.epoch.maps.EpochTiledMap;
 import com.epochgames.epoch.maps.OpenSpaceMap;
 import com.epochgames.epoch.screens.InGame;
 import com.epochgames.epoch.screens.inputListeners.InGameInputListener;
+import com.epochgames.epoch.util.hexlib.HexSatelliteData;
+import org.codetome.hexameter.core.api.CubeCoordinate;
+import org.codetome.hexameter.core.api.Hexagon;
 
 public class GameManager {
     private static GameManager instance = new GameManager();
@@ -267,5 +270,11 @@ public class GameManager {
         else {
             return turnState;
         }
+    }
+
+    public boolean checkTileVisibilty(CubeCoordinate position) {
+        Hexagon<HexSatelliteData> playerHexagon = game.inGameScreen.hexagonGrid.hexGrid.getByCubeCoordinate(game.inGameScreen.playerPos).get();
+        Hexagon<HexSatelliteData> positionHex = game.inGameScreen.hexagonGrid.hexGrid.getByCubeCoordinate(position).get();
+        return game.inGameScreen.hexagonGrid.hexCalculator.calculateDistanceBetween(playerHexagon, positionHex) <= GameManager.PLAYER_VIEW_RANGE;
     }
 }

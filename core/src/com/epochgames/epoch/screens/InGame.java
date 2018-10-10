@@ -12,10 +12,7 @@ import com.epochgames.epoch.Epoch;
 import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.entities.EntityFactory;
 import com.epochgames.epoch.entities.Ship;
-import com.epochgames.epoch.entities.systems.MovementSystem;
-import com.epochgames.epoch.entities.systems.RenderingSystem;
-import com.epochgames.epoch.entities.systems.RotationSystem;
-import com.epochgames.epoch.entities.systems.TurnSystem;
+import com.epochgames.epoch.entities.systems.*;
 import com.epochgames.epoch.maps.OpenSpaceMap;
 import com.epochgames.epoch.screens.stages.TiledMapStage;
 import com.epochgames.epoch.util.Assets;
@@ -37,6 +34,7 @@ public class InGame extends ScreenAdapter {
     public MovementSystem movementSystem;
     public RotationSystem rotationSystem;
     public TurnSystem turnSystem;
+    public StorageSystem storageSystem;
 
     public Engine engine;
 
@@ -78,10 +76,12 @@ public class InGame extends ScreenAdapter {
         movementSystem = new MovementSystem(hexagonGrid);
         rotationSystem = new RotationSystem();
         turnSystem = new TurnSystem(gameManager);
+        storageSystem = new StorageSystem(game, hexagonGrid);
 
         engine.addSystem(renderingSystem);
         engine.addSystem(movementSystem);
         engine.addSystem(rotationSystem);
+        engine.addSystem(storageSystem);
 
         //Create a stage for the clickable things
         tileActorStage = new TiledMapStage(openSpaceMap.getTiledMap(), hexagonGrid.hexGrid);
@@ -144,6 +144,10 @@ public class InGame extends ScreenAdapter {
             engine.update(delta);
         }
         game.batch.end();
+
+        if(movementSystem.pathManager != null) {
+            //movementSystem.pathManager.drawCatmullRomSpline();
+        }
 
         //Draw the GUI
         game.guiBatch.begin();

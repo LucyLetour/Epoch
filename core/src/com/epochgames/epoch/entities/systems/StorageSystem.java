@@ -4,26 +4,34 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.epochgames.epoch.Epoch;
 import com.epochgames.epoch.entities.components.Mappers;
-import com.epochgames.epoch.entities.components.StorageComponent;
+import com.epochgames.epoch.entities.components.MoveComponent;
+import com.epochgames.epoch.entities.components.TypeComponent;
 import com.epochgames.epoch.util.HexagonGrid;
 import com.epochgames.epoch.util.hexlib.HexSatelliteData;
+import org.codetome.hexameter.core.api.CubeCoordinate;
+import org.codetome.hexameter.core.api.Hexagon;
 
 public class StorageSystem extends IteratingSystem {
 
-    HexagonGrid hexagonGrid;
-    private ComponentMapper<StorageComponent> storage = Mappers.storage;
+    private HexagonGrid hexagonGrid;
+    private Epoch game;
+    private ComponentMapper<MoveComponent> move = Mappers.move;
 
-    public StorageSystem(HexagonGrid hexagonGrid) {
-        super(Family.all(StorageComponent.class).get());
+    public StorageSystem(Epoch game, HexagonGrid hexagonGrid) {
+        super(Family.all(MoveComponent.class).get());
         this.hexagonGrid = hexagonGrid;
+        this.game = game;
     }
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        HexSatelliteData satelliteData = hexagonGrid.hexGrid.getByCubeCoordinate(storage.get(entity).cubeCoordinate).get().getSatelliteData().get();
-        if(satelliteData.getEntityContained() == null) {
-
+        CubeCoordinate entityPos = move.get(entity).currentPosition;
+        Hexagon<HexSatelliteData> hexagon = hexagonGrid.hexGrid.getByCubeCoordinate(entityPos).get();
+        hexagon.setSatelliteData(new HexSatelliteData(entity, entityPos));
+        if(Mappers.type.get(entity) != null && Mappers.type.get(entity).type == TypeComponent.PLAYER) {
+            game.inGameScreen.playerPos = entityPos;
         }
     }
 }

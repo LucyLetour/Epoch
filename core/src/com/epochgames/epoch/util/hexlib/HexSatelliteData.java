@@ -1,21 +1,21 @@
 package com.epochgames.epoch.util.hexlib;
 
 import com.badlogic.ashley.core.Entity;
+import com.epochgames.epoch.GameManager;
+import org.codetome.hexameter.core.api.CubeCoordinate;
 import org.codetome.hexameter.core.api.contract.SatelliteData;
+import org.codetome.hexameter.core.api.defaults.DefaultSatelliteData;
 
-public class HexSatelliteData implements SatelliteData {
+public class HexSatelliteData extends DefaultSatelliteData {
     public boolean passable;
     public boolean visible;
     public Entity entityContained;
+    public CubeCoordinate position;
 
-    @Override
-    public boolean isPassable() {
-        return passable;
-    }
-
-    @Override
-    public void setPassable(boolean passable) {
-        this.passable = passable;
+    public HexSatelliteData(Entity entityContained, CubeCoordinate position) {
+        this.entityContained = entityContained;
+        this.position = position;
+        this.visible = GameManager.getInstance().checkTileVisibilty(position);
     }
 
     public boolean isVisible() {
@@ -32,25 +32,5 @@ public class HexSatelliteData implements SatelliteData {
 
     public void setEntityContained(Entity entity) {
         this.entityContained = entity;
-    }
-
-    @Override
-    public boolean isOpaque() {
-        return false;
-    }
-
-    @Override
-    public void setOpaque(boolean opaque) {
-
-    }
-
-    @Override
-    public double getMovementCost() {
-        return 0;
-    }
-
-    @Override
-    public void setMovementCost(double movementCost) {
-
     }
 }
