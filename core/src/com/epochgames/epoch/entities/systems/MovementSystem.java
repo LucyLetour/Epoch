@@ -13,6 +13,8 @@ import com.epochgames.epoch.util.HexagonGrid;
 import com.epochgames.epoch.util.PathManager;
 import com.epochgames.epoch.util.hexlib.Point;
 
+import static com.epochgames.epoch.GameManager.SHIP_SPEED;
+
 public class MovementSystem extends IteratingSystem {
 
     private HexagonGrid hexagonGrid;
@@ -44,24 +46,22 @@ public class MovementSystem extends IteratingSystem {
             float nextPosX = (float)hexagonGrid.hexGrid.getByCubeCoordinate(moveComponent.nextPosition).get().getCenterX();
             float nextPosY = (float)hexagonGrid.hexGrid.getByCubeCoordinate(moveComponent.nextPosition).get().getCenterY();
             current = calculateEntityMovePercentage(deltaTime, moveComponent);
-            transformComponent.position = pathManager.getSplineAtPoint(current).position;
-            System.out.println(current);
+            transformComponent.position = pathManager.getSplineAtPoint(current, transformComponent).position;
+            transformComponent.rotation = pathManager.getSplineAtPoint(current, transformComponent).rotation;
 
-            //transformComponent.position = pathManager.getSplineAtPoint(calculateEntityMovePercentage(deltaTime, moveComponent));
-            //.lerp(new Vector2(nextPosX, nextPosY), calculateEntityMovePercentage(deltaTime, moveComponent));
-            if(current >= 1) {//calculateEntityMovePercentage(deltaTime, moveComponent) >= 1.0f) {
+            if(current >= 1) {
                 moveComponent.isMoving = false;
                 transformComponent.position = new Vector2(nextPosX, nextPosY);
                 moveComponent.currentPosition = moveComponent.nextPosition;
                 moveComponent.nextPosition = null;
                 moveComponent.timeMoving = 0.0f;
                 current = 0;
-                System.out.println("done");
             }
         }
     }
 
     public float calculateEntityMovePercentage(float deltaTime, MoveComponent moveComponent) {
-        return current += deltaTime * 0.1f;
+        pathManager.catmullRomSpline.derivativeAt(pathManager.output, current);
+        return current += (deltaTime * SHIP_SPEED / pathManager.catmullRomSpline.spanCount) / pathManager.output.len();
     }
 }

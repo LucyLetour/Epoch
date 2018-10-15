@@ -45,8 +45,9 @@ public class GameManager {
 
     public static final int SPRITE_SIZE = 300;
 
-    //The view range of the player. This should (maybe) be moved to a specific player class
+    //The view range and speed of the player. This should (maybe) be moved to a specific player class
     public static final int PLAYER_VIEW_RANGE = 10;
+    public static final float SHIP_SPEED = 1000.0f;
 
     public enum Actions {
         MOVE

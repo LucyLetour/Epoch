@@ -34,7 +34,6 @@ public class InGame extends ScreenAdapter {
 
     public RenderingSystem renderingSystem;
     public MovementSystem movementSystem;
-    public RotationSystem rotationSystem;
     public TurnSystem turnSystem;
     public StorageSystem storageSystem;
 
@@ -78,13 +77,11 @@ public class InGame extends ScreenAdapter {
 
         renderingSystem = new RenderingSystem(game.batch);
         movementSystem = new MovementSystem(hexagonGrid);
-        rotationSystem = new RotationSystem();
         turnSystem = new TurnSystem(gameManager);
         storageSystem = new StorageSystem(game, hexagonGrid);
 
         engine.addSystem(renderingSystem);
         engine.addSystem(movementSystem);
-        engine.addSystem(rotationSystem);
         engine.addSystem(storageSystem);
 
         //Create a stage for the clickable things
