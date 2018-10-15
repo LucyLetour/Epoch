@@ -1,5 +1,6 @@
 package com.epochgames.epoch.util;
 
+import com.badlogic.gdx.math.Vector2;
 import com.epochgames.epoch.util.hexlib.Point;
 
 public class EpochMath {
@@ -18,5 +19,15 @@ public class EpochMath {
 
     public static double distance(Point p1, Point p2) {
         return Math.sqrt(Math.pow(p2.x - p1.x, 2.0f) + Math.pow(p2.y - p1.y, 2.0f));
+    }
+
+    public static Vector2 averageVector(Vector2... vectors) {
+        int xSum = 0;
+        int ySum = 0;
+        for (Vector2 v : vectors) {
+            xSum += v.x;
+            ySum += v.y;
+        }
+        return new Vector2(xSum / vectors.length, ySum / vectors.length);
     }
 }

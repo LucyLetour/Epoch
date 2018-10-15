@@ -44,19 +44,19 @@ public class MovementSystem extends IteratingSystem {
             float nextPosX = (float)hexagonGrid.hexGrid.getByCubeCoordinate(moveComponent.nextPosition).get().getCenterX();
             float nextPosY = (float)hexagonGrid.hexGrid.getByCubeCoordinate(moveComponent.nextPosition).get().getCenterY();
             current = calculateEntityMovePercentage(deltaTime, moveComponent);
-            if(current >= 1) {
-                current -= 1;
-            }
-            transformComponent.position = pathManager.getSplineAtPoint(current);
+            transformComponent.position = pathManager.getSplineAtPoint(current).position;
+            System.out.println(current);
 
             //transformComponent.position = pathManager.getSplineAtPoint(calculateEntityMovePercentage(deltaTime, moveComponent));
             //.lerp(new Vector2(nextPosX, nextPosY), calculateEntityMovePercentage(deltaTime, moveComponent));
-            if(false) {//calculateEntityMovePercentage(deltaTime, moveComponent) >= 1.0f) {
+            if(current >= 1) {//calculateEntityMovePercentage(deltaTime, moveComponent) >= 1.0f) {
                 moveComponent.isMoving = false;
                 transformComponent.position = new Vector2(nextPosX, nextPosY);
                 moveComponent.currentPosition = moveComponent.nextPosition;
                 moveComponent.nextPosition = null;
                 moveComponent.timeMoving = 0.0f;
+                current = 0;
+                System.out.println("done");
             }
         }
     }

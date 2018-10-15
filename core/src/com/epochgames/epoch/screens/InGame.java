@@ -6,7 +6,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.epochgames.epoch.Epoch;
 import com.epochgames.epoch.GameManager;
@@ -49,6 +51,8 @@ public class InGame extends ScreenAdapter {
     public float camDeltaY;
 
     public GameManager.Actions currentAction;
+
+    public ShapeRenderer renderer;
 
     /*
 	Move this player location to an actual class that handles the player. For now,
@@ -94,6 +98,7 @@ public class InGame extends ScreenAdapter {
         engine.addEntity(EntityFactory.createShip(CubeCoordinate.fromCoordinates(9, 5), hexagonGrid, new Ship(GameManager.Ships.CONTREX, false), true));
         currentAction = GameManager.Actions.MOVE;
         playerPos = CubeCoordinate.fromCoordinates(5, 5);
+        renderer = new ShapeRenderer();
     }
 
     @Override
@@ -145,9 +150,16 @@ public class InGame extends ScreenAdapter {
         }
         game.batch.end();
 
+
+        renderer.begin(ShapeRenderer.ShapeType.Filled);
+        renderer.setProjectionMatrix(game.camera.combined);
         if(movementSystem.pathManager != null) {
-            //movementSystem.pathManager.drawCatmullRomSpline();
+            Vector2[] points = movementSystem.pathManager.points;
+            for(int i = 0; i < points.length; i++) {
+                renderer.circle(points[i].x, points[i].y, 5);
+            }
         }
+        renderer.end();
 
         //Draw the GUI
         game.guiBatch.begin();
