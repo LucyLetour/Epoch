@@ -1,20 +1,13 @@
 package com.epochgames.epoch.entities;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.epochgames.epoch.Epoch;
 import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.entities.components.*;
-import com.epochgames.epoch.screens.InGame;
 import com.epochgames.epoch.util.Assets;
 import com.epochgames.epoch.util.HexagonGrid;
-import com.epochgames.epoch.util.hexlib.HexSatelliteData;
-import com.epochgames.epoch.util.hexlib.Hexagon;
-import com.epochgames.epoch.util.hexlib.OffsetCoord;
 import org.codetome.hexameter.core.api.CubeCoordinate;
-import org.codetome.hexameter.core.api.HexagonalGrid;
 
 /**
  * This is the Big Kahuna since this in the class that will

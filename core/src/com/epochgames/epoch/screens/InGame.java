@@ -1,7 +1,6 @@
 package com.epochgames.epoch.screens;
 
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
@@ -21,8 +20,6 @@ import com.epochgames.epoch.util.Assets;
 import com.epochgames.epoch.util.EpochMath;
 import com.epochgames.epoch.util.HexMapRender.HexMapRenderer;
 import com.epochgames.epoch.util.HexagonGrid;
-import com.epochgames.epoch.util.hexlib.CubeCoord;
-import com.epochgames.epoch.util.hexlib.HexHelper;
 import com.epochgames.epoch.util.hexlib.HexSatelliteData;
 import org.codetome.hexameter.core.api.CubeCoordinate;
 import org.codetome.hexameter.core.api.Hexagon;

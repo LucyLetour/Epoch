@@ -8,10 +8,8 @@ import com.epochgames.epoch.entities.components.Mappers;
 import com.epochgames.epoch.entities.components.MoveComponent;
 import com.epochgames.epoch.entities.components.TransformComponent;
 import com.epochgames.epoch.entities.components.TurnComponent;
-import com.epochgames.epoch.util.EpochMath;
 import com.epochgames.epoch.util.HexagonGrid;
 import com.epochgames.epoch.util.PathManager;
-import com.epochgames.epoch.util.hexlib.Point;
 
 import static com.epochgames.epoch.GameManager.SHIP_SPEED;
 

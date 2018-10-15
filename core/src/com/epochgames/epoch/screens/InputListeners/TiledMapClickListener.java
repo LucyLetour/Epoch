@@ -9,8 +9,6 @@ import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.entities.TileMapActor;
 import com.epochgames.epoch.entities.components.MoveComponent;
 import com.epochgames.epoch.entities.components.TypeComponent;
-import com.epochgames.epoch.util.hexlib.HexHelper;
-import com.epochgames.epoch.util.hexlib.Hexagon;
 
 public class TiledMapClickListener extends ClickListener {
     private TileMapActor actor;

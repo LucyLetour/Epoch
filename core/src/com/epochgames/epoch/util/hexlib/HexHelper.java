@@ -45,12 +45,6 @@ public class HexHelper {
         return new CubeCoord(x, y, z);
     }
 
-    public static int calculateDistance(Hexagon a, Hexagon b) {
-        CubeCoord ac = oddRToCube(a.offsetCoord);
-        CubeCoord bc = oddRToCube(b.offsetCoord);
-        return Math.max(Math.max(Math.abs(ac.x - bc.x), Math.abs(ac.y - bc.y)), Math.abs(ac.z - bc.z));
-    }
-
     public static CubeCoord cubeCoordRound(float px, float py, float pz) {
         float x = Math.round(px);
         float y = Math.round(py);
