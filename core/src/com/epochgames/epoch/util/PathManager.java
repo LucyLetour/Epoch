@@ -45,6 +45,10 @@ public class PathManager {
      * @return
      */
     public Transform getSplineAtPoint(float alpha, TransformComponent transformComponent) {
+        float pointInterval = 1.0f / points.length;
+        int subPoint = (int)Math.floor(alpha / pointInterval);
+        float subAlpha = (alpha % pointInterval) / pointInterval;
+
         if(alpha >= 1.0f) {
             return new Transform(points[points.length - 1], transformComponent.rotation);
         }

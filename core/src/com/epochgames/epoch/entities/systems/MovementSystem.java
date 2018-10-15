@@ -4,12 +4,14 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Vector2;
+import com.epochgames.epoch.Epoch;
 import com.epochgames.epoch.entities.components.Mappers;
 import com.epochgames.epoch.entities.components.MoveComponent;
 import com.epochgames.epoch.entities.components.TransformComponent;
 import com.epochgames.epoch.entities.components.TurnComponent;
 import com.epochgames.epoch.util.HexagonGrid;
 import com.epochgames.epoch.util.PathManager;
+import org.codetome.hexameter.core.api.CubeCoordinate;
 
 import static com.epochgames.epoch.GameManager.SHIP_SPEED;
 
@@ -18,11 +20,14 @@ public class MovementSystem extends IteratingSystem {
     private HexagonGrid hexagonGrid;
     public PathManager pathManager;
 
+    public Epoch game;
+
     public float current;
 
-    public MovementSystem(HexagonGrid hexagonGrid) {
+    public MovementSystem(Epoch game, HexagonGrid hexagonGrid) {
         super(Family.all(TransformComponent.class, MoveComponent.class, TurnComponent.class).get());
         this.hexagonGrid = hexagonGrid;
+        this.game = game;
     }
 
     @Override
