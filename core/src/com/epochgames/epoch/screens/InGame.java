@@ -89,9 +89,9 @@ public class InGame extends ScreenAdapter {
         EntityFactory.init(game);
 
         //Temp
-        engine.addEntity(EntityFactory.createShip(CubeCoordinate.fromCoordinates(9, 5), hexagonGrid, new Ship(GameManager.Ships.CONTREX, false), true));
-        currentAction = GameManager.Actions.MOVE;
         playerPos = CubeCoordinate.fromCoordinates(5, 5);
+        engine.addEntity(EntityFactory.createShip(playerPos, hexagonGrid, new Ship(GameManager.Ships.ALACRON, false), true));
+        currentAction = GameManager.Actions.MOVE;
         renderer = new ShapeRenderer();
     }
 

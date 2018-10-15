@@ -55,12 +55,12 @@ public class EntityFactory {
                 (float)GameManager.SPRITE_SIZE / (float)iconComponent.region.getRegionHeight() :
                 (float)GameManager.SPRITE_SIZE / (float)iconComponent.region.getRegionWidth();
         transformComponent.rotation = 0.0f;
-        //HexagonGrid c = game.inGameScreen.hexagonGrid;
         transformComponent.position = new Vector2(
                 (float)hexagonGrid.hexGrid.getByCubeCoordinate(coordinates).get().getCenterX(),
                 (float)hexagonGrid.hexGrid.getByCubeCoordinate(coordinates).get().getCenterY());
 
         MoveComponent moveComponent = new MoveComponent();
+        moveComponent.currentPosition = hexagonGrid.hexGrid.getByPixelCoordinate(transformComponent.position.x, transformComponent.position.y).get().getCubeCoordinate();
 
         TurnComponent turnComponent = new TurnComponent();
 
