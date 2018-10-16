@@ -3,15 +3,11 @@ package com.epochgames.epoch.util;
 import com.badlogic.gdx.math.CatmullRomSpline;
 import com.badlogic.gdx.math.Vector2;
 import com.epochgames.epoch.entities.components.TransformComponent;
-import com.epochgames.epoch.util.hexlib.HexSatelliteData;
 import org.codetome.hexameter.core.api.Hexagon;
 
 import java.util.List;
 
 public class PathManager {
-
-    public static final int PATH_FIDELITY = 20;
-    public static final float PATH_AVERAGE_DISTANCE = 0.01f;
 
     public List<Hexagon> hexagonPath;
 

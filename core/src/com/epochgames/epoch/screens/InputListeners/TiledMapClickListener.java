@@ -29,6 +29,9 @@ public class TiledMapClickListener extends ClickListener {
                             !entity.getComponent(MoveComponent.class).isMoving) {
                         entity.getComponent(MoveComponent.class).nextPosition =
                                 game.inGameScreen.hexagonGrid.hexGrid.getByPixelCoordinate(actor.position.x, actor.position.y).get().getCubeCoordinate();
+                        if(entity.getComponent(MoveComponent.class).currentPosition.equals(entity.getComponent(MoveComponent.class).nextPosition)) {
+                            return;
+                        }
                         entity.getComponent(MoveComponent.class).shouldMove = true;
                     }
                 }

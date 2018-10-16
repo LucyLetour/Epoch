@@ -32,6 +32,7 @@ public class EntityFactory {
     /**
      * Creates an NPC/Player ship at the specified position
      * @param coordinates The cube Coordinates of where to create the ship
+     * @param hexagonGrid The hexagon grid to put the ship on
      * @param ship The ship to create
      * @param isPlayer Whether or not this Entity is a player
      * @return The created entity
@@ -51,9 +52,7 @@ public class EntityFactory {
         iconComponent.region = Assets.MANAGER.get(Assets.Spritesheets.SHIPS).findRegion(ship.shipMake.getAtlasRegion());
 
         TransformComponent transformComponent = new TransformComponent();
-        transformComponent.scale = iconComponent.region.getRegionHeight() < iconComponent.region.getRegionWidth() ?
-                (float)GameManager.SPRITE_SIZE / (float)iconComponent.region.getRegionHeight() :
-                (float)GameManager.SPRITE_SIZE / (float)iconComponent.region.getRegionWidth();
+        transformComponent.scale = (float)GameManager.SPRITE_SIZE / (float)iconComponent.region.getRegionWidth();
         transformComponent.rotation = 0.0f;
         transformComponent.position = new Vector2(
                 (float)hexagonGrid.hexGrid.getByCubeCoordinate(coordinates).get().getCenterX(),
@@ -85,5 +84,39 @@ public class EntityFactory {
                 add(typeComponent).add(moveComponent);
 
         return newShip;
+    }
+
+    /**
+     * Creates an planet at the specified position
+     * @param coordinates The cube Coordinates of where to create the planet
+     * @param hexagonGrid The hexagon grid to put the planet on
+     * @param planet The planet to create
+     * @return The created entity
+     */
+    public static Entity createPlanet(CubeCoordinate coordinates, HexagonGrid hexagonGrid, Planet planet) {
+        Entity newPlanet = new Entity();
+
+        IconComponent iconComponent = new IconComponent();
+        iconComponent.region = Assets.MANAGER.get(Assets.Spritesheets.PLANETS).findRegion(planet.planet.getAtlasRegion());
+
+        TransformComponent transformComponent = new TransformComponent();
+        float hexagonGridDiameter =  (float)HexagonGrid.RADIUS * 2.0f;
+        System.out.println(hexagonGridDiameter);
+        transformComponent.scale = (float)(HexagonGrid.RADIUS * planet.planet.getSize()) * 2.0f / (float)iconComponent.region.getRegionWidth();
+        transformComponent.rotation = 0.0f;
+        transformComponent.position = new Vector2(
+                (float)hexagonGrid.hexGrid.getByCubeCoordinate(coordinates).get().getCenterX(),
+                (float)hexagonGrid.hexGrid.getByCubeCoordinate(coordinates).get().getCenterY());
+
+        MoveComponent moveComponent = new MoveComponent();
+        moveComponent.currentPosition = hexagonGrid.hexGrid.getByPixelCoordinate(transformComponent.position.x, transformComponent.position.y).get().getCubeCoordinate();
+
+        TurnComponent turnComponent = new TurnComponent();
+        turnComponent.priority = TurnComponent.OTHER_PRIORITY;
+
+        newPlanet.add(iconComponent).add(transformComponent).
+                  add(turnComponent).add(moveComponent);
+
+        return newPlanet;
     }
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.epochgames.epoch.entities.Planet;
 import com.epochgames.epoch.maps.EpochTiledMap;
 import com.epochgames.epoch.maps.OpenSpaceMap;
 import com.epochgames.epoch.screens.InGame;
@@ -44,6 +45,7 @@ public class GameManager {
     public static final int TILE_HEIGHT = 455;
 
     public static final int SPRITE_SIZE = 300;
+    public static final int PLANET_PADDING = 100;
 
     //The view range and speed of the player. This should (maybe) be moved to a specific player class
     public static final int PLAYER_VIEW_RANGE = 10;
@@ -180,6 +182,44 @@ public class GameManager {
 
         public int getSpeed() {
             return speed;
+        }
+    }
+
+    public enum Planets {
+        //region Planet Definitions
+        RHEDIAN("RHEDIAN", null, 5),
+        EREAS("EREAS", RHEDIAN, 4),
+        SKRALLEN("SKRALLEN", RHEDIAN, 2),
+        ONATH("ONATH", SKRALLEN, 3),
+        ILLUSTIRADE("ILLUSTIRADE", RHEDIAN, 2),
+        CESSNIA("CESSNIA", RHEDIAN, 1),
+        KORB("KORB", RHEDIAN, 3),
+        ALLIE("ALLIE", KORB, 1),
+        UFNO("UFNO", KORB, 1),
+        ZERNO("ZERNO", KORB, 1),
+        YALDIN_PARIAH("YALDIN_PARIAH", RHEDIAN, 2);
+        //endregion
+
+        private String atlasRegion;
+        private Planets orbitPoint;
+        private int size;
+
+        Planets(String atlasRegion, Planets orbitPoint, int size) {
+            this.atlasRegion = atlasRegion;
+            this.orbitPoint = orbitPoint;
+            this.size = size;
+        }
+
+        public String getAtlasRegion() {
+            return atlasRegion;
+        }
+
+        public Planets getOrbitPoint() {
+            return orbitPoint;
+        }
+
+        public int getSize() {
+            return size;
         }
     }
 

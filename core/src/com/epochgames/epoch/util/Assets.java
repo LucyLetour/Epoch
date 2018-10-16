@@ -34,6 +34,7 @@ public class Assets {
      */
     public static class Spritesheets {
         public static AssetDescriptor<TextureAtlas> SHIPS = new AssetDescriptor<>("ships/Ships.atlas", TextureAtlas.class);
+        public static AssetDescriptor<TextureAtlas> PLANETS = new AssetDescriptor<>("planets/Planets.atlas", TextureAtlas.class);
     }
 
     /**

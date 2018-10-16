@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.epochgames.epoch.Epoch;
 import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.entities.EntityFactory;
+import com.epochgames.epoch.entities.Planet;
 import com.epochgames.epoch.entities.Ship;
 import com.epochgames.epoch.entities.systems.*;
 import com.epochgames.epoch.maps.OpenSpaceMap;
@@ -65,7 +66,7 @@ public class InGame extends ScreenAdapter {
         openSpaceMap = new OpenSpaceMap();
 
         //Create our hexgrid, which will act as a way to place objects "on" our tilemap
-        hexagonGrid = new HexagonGrid(openSpaceMap.getTiledMap());
+        hexagonGrid = new HexagonGrid();
         mapRenderer = HexMapRenderer.instance;
         mapRenderer.setHexGrid(hexagonGrid, game, Assets.MANAGER.get(Assets.Textures.HEX_TILE));
 
@@ -91,6 +92,10 @@ public class InGame extends ScreenAdapter {
         //Temp
         playerPos = CubeCoordinate.fromCoordinates(5, 5);
         engine.addEntity(EntityFactory.createShip(playerPos, hexagonGrid, new Ship(GameManager.Ships.ALACRON, false), true));
+        CubeCoordinate ereasPos = CubeCoordinate.fromCoordinates(10, 10);
+        engine.addEntity(EntityFactory.createPlanet(ereasPos, hexagonGrid, new Planet(GameManager.Planets.EREAS)));
+        CubeCoordinate onathPos = CubeCoordinate.fromCoordinates(7, 2);
+        engine.addEntity(EntityFactory.createPlanet(onathPos, hexagonGrid, new Planet(GameManager.Planets.ONATH)));
         currentAction = GameManager.Actions.MOVE;
         renderer = new ShapeRenderer();
     }

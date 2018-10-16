@@ -11,7 +11,6 @@ import com.epochgames.epoch.entities.components.TransformComponent;
 import com.epochgames.epoch.entities.components.TurnComponent;
 import com.epochgames.epoch.util.HexagonGrid;
 import com.epochgames.epoch.util.PathManager;
-import org.codetome.hexameter.core.api.CubeCoordinate;
 
 import static com.epochgames.epoch.GameManager.SHIP_SPEED;
 
@@ -48,7 +47,7 @@ public class MovementSystem extends IteratingSystem {
         if(moveComponent.isMoving) {
             float nextPosX = (float)hexagonGrid.hexGrid.getByCubeCoordinate(moveComponent.nextPosition).get().getCenterX();
             float nextPosY = (float)hexagonGrid.hexGrid.getByCubeCoordinate(moveComponent.nextPosition).get().getCenterY();
-            current = calculateEntityMovePercentage(deltaTime, moveComponent);
+            current = calculateEntityMovePercentage(deltaTime);
             transformComponent.position = pathManager.getSplineAtPoint(current, transformComponent).position;
             transformComponent.rotation = pathManager.getSplineAtPoint(current, transformComponent).rotation;
 
@@ -63,7 +62,7 @@ public class MovementSystem extends IteratingSystem {
         }
     }
 
-    public float calculateEntityMovePercentage(float deltaTime, MoveComponent moveComponent) {
+    public float calculateEntityMovePercentage(float deltaTime) {
         pathManager.catmullRomSpline.derivativeAt(pathManager.output, current);
         return current += (deltaTime * SHIP_SPEED / pathManager.catmullRomSpline.spanCount) / pathManager.output.len();
     }
