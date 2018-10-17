@@ -188,9 +188,9 @@ public class GameManager {
     public enum Planets {
         //region Planet Definitions
         RHEDIAN("RHEDIAN", null, 5),
-        EREAS("EREAS", RHEDIAN, 4),
+        EREAS("EREAS", RHEDIAN, 1),
         SKRALLEN("SKRALLEN", RHEDIAN, 2),
-        ONATH("ONATH", SKRALLEN, 3),
+        ONATH("ONATH", SKRALLEN, 1),
         ILLUSTIRADE("ILLUSTIRADE", RHEDIAN, 2),
         CESSNIA("CESSNIA", RHEDIAN, 1),
         KORB("KORB", RHEDIAN, 3),

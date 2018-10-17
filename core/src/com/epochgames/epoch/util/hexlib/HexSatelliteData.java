@@ -8,22 +8,21 @@ import org.codetome.hexameter.core.api.defaults.DefaultSatelliteData;
 
 public class HexSatelliteData extends DefaultSatelliteData {
     public boolean passable;
-    public boolean visible;
+    public float visibility;
     public Entity entityContained;
     public CubeCoordinate position;
 
     public HexSatelliteData(Entity entityContained, CubeCoordinate position) {
         this.entityContained = entityContained;
         this.position = position;
-        this.visible = GameManager.getInstance().checkTileVisibilty(position);
     }
 
-    public boolean isVisible() {
-        return visible;
+    public float getVisibility() {
+        return visibility;
     }
 
-    public void setVisible(boolean visible) {
-        this.visible = visible;
+    public void setVisibility(float visibility) {
+        this.visibility = visibility;
     }
 
     public Entity getEntityContained() {

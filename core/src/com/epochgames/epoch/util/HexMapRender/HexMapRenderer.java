@@ -50,16 +50,28 @@ public class HexMapRenderer {
         setHexGrid(hexGrid, Stagger.EVEN, game, hexTexture);
     }
 
-    //game.inGameScreen.playerPos.getGridX() + GameManager.PLAYER_VIEW_RANGE, game.inGameScreen.playerPos.getGridZ()
     public void renderHexGrid() {
         Sprite hexagonSprite = new Sprite(hexTexture);
         Hexagon<HexSatelliteData> playerHexagon = hexGrid.hexGrid.getByCubeCoordinate(game.inGameScreen.playerPos).get();
-        for (Hexagon hexagon : (Set<Hexagon>)hexGrid.hexCalculator.calculateMovementRangeFrom(playerHexagon, GameManager.PLAYER_VIEW_RANGE)) {
+        float alpha;
+        for (Hexagon<HexSatelliteData> hexagon : (Set<Hexagon>)hexGrid.hexCalculator.calculateMovementRangeFrom(playerHexagon, GameManager.PLAYER_VIEW_RANGE)) {
             hexagonSprite.setPosition((float)hexagon.getCenterX() - (hexagonSprite.getWidth() / 2), (float)hexagon.getCenterY() - (hexagonSprite.getHeight() / 2));
-            hexagonSprite.setAlpha(1.0f - ((float)hexGrid.hexCalculator.calculateDistanceBetween(playerHexagon, hexagon) / (float)GameManager.PLAYER_VIEW_RANGE));
+            if(GameManager.getInstance().checkTileVisibilty(hexagon.getCubeCoordinate())) {
+                alpha = 1.0f - ((float) game.inGameScreen.hexagonGrid.hexCalculator.calculateDistanceBetween(playerHexagon, hexagon) / (float) GameManager.PLAYER_VIEW_RANGE);
+            }
+            else {
+                alpha = 0.0f;
+            }
+
+            if(hexagon.getSatelliteData().isPresent()) {
+                hexagon.getSatelliteData().get().setVisibility(alpha);
+            }
+            else {
+                hexagon.setSatelliteData(new HexSatelliteData(null, hexagon.getCubeCoordinate()));
+                hexagon.getSatelliteData().get().setVisibility(alpha);
+            }
+            hexagonSprite.setAlpha(alpha);
             hexagonSprite.draw(game.batch);
-            //game.batch.draw(hexTexture, (float)hexagon.getCenterX() - (hexTexture.getWidth() / 2),
-            //        (float)hexagon.getCenterY() - (hexTexture.getHeight() / 2));
         }
     }
 }

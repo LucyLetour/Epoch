@@ -96,6 +96,8 @@ public class EntityFactory {
     public static Entity createPlanet(CubeCoordinate coordinates, HexagonGrid hexagonGrid, Planet planet) {
         Entity newPlanet = new Entity();
 
+        ActionCompletenessComponent actionCompletenessComponent = new ActionCompletenessComponent();
+
         IconComponent iconComponent = new IconComponent();
         iconComponent.region = Assets.MANAGER.get(Assets.Spritesheets.PLANETS).findRegion(planet.planet.getAtlasRegion());
 
@@ -115,7 +117,8 @@ public class EntityFactory {
         turnComponent.priority = TurnComponent.OTHER_PRIORITY;
 
         newPlanet.add(iconComponent).add(transformComponent).
-                  add(turnComponent).add(moveComponent);
+                  add(turnComponent).add(moveComponent).
+                  add(actionCompletenessComponent);
 
         return newPlanet;
     }
