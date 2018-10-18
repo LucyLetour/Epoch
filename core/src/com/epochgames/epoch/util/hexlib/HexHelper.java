@@ -3,9 +3,11 @@ package com.epochgames.epoch.util.hexlib;
 import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.entities.components.Mappers;
 import com.epochgames.epoch.util.EpochMath;
+import org.codetome.hexameter.core.api.Hexagon;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class HexHelper {
@@ -99,5 +101,15 @@ public class HexHelper {
         return new FloatCubeCoord(hexagonLerp(start.x, end.x, alpha),
                              hexagonLerp(start.y, end.y, alpha),
                              hexagonLerp(start.z, end.z, alpha));
+    }
+
+    public List<Hexagon<HexSatelliteData>> getPath(Hexagon<HexSatelliteData> fromHex, Hexagon<HexSatelliteData> toHex) {
+        List<Hexagon<HexSatelliteData>> path = new ArrayList<>();
+        path.add(fromHex);
+        List<Hexagon<HexSatelliteData>> cameFrom;
+        List<Integer> costSoFar;
+
+
+        return path;
     }
 }

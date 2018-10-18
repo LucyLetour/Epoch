@@ -102,9 +102,7 @@ public class EntityFactory {
         iconComponent.region = Assets.MANAGER.get(Assets.Spritesheets.PLANETS).findRegion(planet.planet.getAtlasRegion());
 
         TransformComponent transformComponent = new TransformComponent();
-        float hexagonGridDiameter =  (float)HexagonGrid.RADIUS * 2.0f;
-        System.out.println(hexagonGridDiameter);
-        transformComponent.scale = (float)(HexagonGrid.RADIUS * planet.planet.getSize()) * 2.0f / (float)iconComponent.region.getRegionWidth();
+        transformComponent.scale = (float)GameManager.SPRITE_SIZE / (float)iconComponent.region.getRegionWidth();
         transformComponent.rotation = 0.0f;
         transformComponent.position = new Vector2(
                 (float)hexagonGrid.hexGrid.getByCubeCoordinate(coordinates).get().getCenterX(),

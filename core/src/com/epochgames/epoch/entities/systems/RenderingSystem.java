@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.epochgames.epoch.entities.components.IconComponent;
@@ -32,9 +33,10 @@ public class RenderingSystem extends IteratingSystem {
 
         Sprite entitySprite = new Sprite(iconComponent.region);
         entitySprite.setOriginBasedPosition(transformComponent.position.x, transformComponent.position.y);
-        entitySprite.setAlpha(iconComponent.alpha);
         entitySprite.setRotation(transformComponent.rotation);
         entitySprite.scale(transformComponent.scale);
+        entitySprite.setColor(entitySprite.getColor().r * iconComponent.alpha,
+                entitySprite.getColor().g * iconComponent.alpha, entitySprite.getColor().b * iconComponent.alpha, entitySprite.getColor().a);
         entitySprite.draw(batch);
     }
 }
