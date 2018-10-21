@@ -33,6 +33,7 @@ public class StorageSystem extends IteratingSystem {
         }
 
         if(hexagon.getSatelliteData().isPresent()) {
+            hexagon.getSatelliteData().get().setEntityContained(entity);
             if(hexagon.getSatelliteData().get().getVisibility() > 0.0f) {
                 Mappers.actionCompleteness.get(entity).actionCompleteness = ActionCompletenessComponent.FULL;
                 Mappers.icon.get(entity).alpha = (float)EpochMath.clamp(

@@ -13,7 +13,7 @@ public class HexSatelliteData extends DefaultSatelliteData {
     public CubeCoordinate position;
 
     public HexSatelliteData(Entity entityContained, CubeCoordinate position) {
-        this.entityContained = entityContained;
+        setEntityContained(entityContained);
         this.position = position;
     }
 
@@ -31,5 +31,6 @@ public class HexSatelliteData extends DefaultSatelliteData {
 
     public void setEntityContained(Entity entity) {
         this.entityContained = entity;
+        this.passable = false;
     }
 }

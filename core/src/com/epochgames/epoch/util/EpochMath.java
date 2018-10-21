@@ -21,6 +21,10 @@ public class EpochMath {
         return Math.sqrt(Math.pow(p2.x - p1.x, 2.0f) + Math.pow(p2.y - p1.y, 2.0f));
     }
 
+    public static double distance(Vector2 p1, Vector2 p2) {
+        return distance(new Point(p1.x, p1.y), new Point(p2.x, p2.y));
+    }
+
     public static Vector2 averageVector(Vector2... vectors) {
         int xSum = 0;
         int ySum = 0;
