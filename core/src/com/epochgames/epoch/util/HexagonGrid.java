@@ -12,7 +12,7 @@ public class HexagonGrid {
     public static int GRID_WIDTH = 90;
     public static HexagonalGridLayout GRID_LAYOUT = RECTANGULAR;
     public static HexagonOrientation ORIENTATION = POINTY_TOP;
-    public static double RADIUS = 1;
+    public static double RADIUS;
 
 
     public HexagonalGrid<HexSatelliteData> hexGrid;

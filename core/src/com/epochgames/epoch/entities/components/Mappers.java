@@ -1,7 +1,12 @@
 package com.epochgames.epoch.entities.components;
 
 import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Entity;
 
+/**
+ * Provides mappers for quick access to an {@link Entity}'s
+ * components
+ */
 public class Mappers {
     public static final ComponentMapper<ActionCompletenessComponent> actionCompleteness = ComponentMapper.getFor(ActionCompletenessComponent.class);
     public static final ComponentMapper<ActionQueueComponent> actionQueue = ComponentMapper.getFor(ActionQueueComponent.class);

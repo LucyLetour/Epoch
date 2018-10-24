@@ -1,7 +1,5 @@
 package com.epochgames.epoch.entities;
 
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.util.hexlib.Point;

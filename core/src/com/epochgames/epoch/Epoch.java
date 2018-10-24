@@ -4,13 +4,11 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.epochgames.epoch.screens.InGame;
 import com.epochgames.epoch.screens.MainMenu;
 import com.epochgames.epoch.util.Assets;
-import org.codetome.hexameter.core.api.CubeCoordinate;
 
 public class Epoch extends Game {
 
@@ -32,13 +30,13 @@ public class Epoch extends Game {
 
 	public Epoch(boolean debugMode) {
 	    super();
-	    debug = debugMode;
+	    Epoch.debug = debugMode;
     }
 
 	@Override
 	public void create () {
 		//Set the log level first thing so that we know what's going on
-		Gdx.app.setLogLevel(debug ? Gdx.app.LOG_DEBUG : Gdx.app.LOG_INFO);
+		Gdx.app.setLogLevel(Epoch.debug ? Gdx.app.LOG_DEBUG : Gdx.app.LOG_INFO);
 
 		//Loads Assets (Go figure)
 		loadAssets();
@@ -99,8 +97,6 @@ public class Epoch extends Game {
 	private void loadAssets() {
 		Assets.MANAGER.load(Assets.Spritesheets.SHIPS);
 		Assets.MANAGER.load(Assets.Spritesheets.PLANETS);
-		Assets.MANAGER.load(Assets.TileMaps.OPEN_SPACE);
-		Assets.MANAGER.load(Assets.TileMaps.OPEN_SPACE_TILE_SET);
 		Assets.MANAGER.load(Assets.Textures.HEX_TILE);
 	}
 
