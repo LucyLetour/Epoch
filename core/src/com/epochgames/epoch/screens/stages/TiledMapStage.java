@@ -15,25 +15,19 @@ import org.codetome.hexameter.core.api.Hexagon;
 import org.codetome.hexameter.core.api.HexagonalGrid;
 
 public class TiledMapStage extends Stage {
-    public TiledMap tiledMap;
     public HexagonalGrid<HexSatelliteData> hexGrid;
 
-    public TiledMapStage(TiledMap tiledMap, HexagonalGrid hexGrid) {
-        this.tiledMap = tiledMap;
+    public TiledMapStage(HexagonalGrid hexGrid) {
         this.hexGrid = hexGrid;
 
-        for(MapLayer layer : tiledMap.getLayers()) {
-            TiledMapTileLayer tiledLayer = (TiledMapTileLayer)layer;
-            createActorsForLayer(tiledLayer);
-        }
+        createActors();
     }
 
-    private void createActorsForLayer(TiledMapTileLayer tiledLayer) {
+    private void createActors() {
         int i = 0;
         for(Hexagon<HexSatelliteData> hexagon : hexGrid.getHexagons()) {
-            TiledMapTileLayer.Cell cell = tiledLayer.getCell(hexagon.getGridX(), hexagon.getGridY());
             Point centerCoords = new Point((int)hexagon.getCenterX(), (int)hexagon.getCenterY());
-            TileMapActor actor = new TileMapActor(tiledMap, tiledLayer, cell, centerCoords);
+            TileMapActor actor = new TileMapActor(centerCoords);
             addActor(actor);
             EventListener eventListener = new TiledMapClickListener(actor, GameManager.getInstance().game);
             actor.addListener(eventListener);

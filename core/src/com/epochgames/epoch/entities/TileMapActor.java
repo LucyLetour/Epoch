@@ -7,16 +7,9 @@ import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.util.hexlib.Point;
 
 public class TileMapActor extends Actor {
-    public TiledMap tiledMap;
-    public TiledMapTileLayer tiledLayer;
-    public TiledMapTileLayer.Cell cell;
     public Point position;
 
-    public TileMapActor(TiledMap tiledMap, TiledMapTileLayer tiledLayer, TiledMapTileLayer.Cell cell, Point position) {
-        this.tiledMap = tiledMap;
-        this.tiledLayer = tiledLayer;
-        this.cell = cell;
-
+    public TileMapActor(Point position) {
         this.position = position;
     }
 

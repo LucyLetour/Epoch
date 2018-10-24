@@ -15,7 +15,6 @@ import com.epochgames.epoch.entities.EntityFactory;
 import com.epochgames.epoch.entities.Planet;
 import com.epochgames.epoch.entities.Ship;
 import com.epochgames.epoch.entities.systems.*;
-import com.epochgames.epoch.maps.OpenSpaceMap;
 import com.epochgames.epoch.screens.stages.TiledMapStage;
 import com.epochgames.epoch.util.Assets;
 import com.epochgames.epoch.util.EpochMath;
@@ -39,7 +38,6 @@ public class InGame extends ScreenAdapter {
 
     public Epoch game;
 
-    public OpenSpaceMap openSpaceMap;
     public HexagonGrid hexagonGrid;
     public HexMapRenderer mapRenderer;
 
@@ -63,7 +61,6 @@ public class InGame extends ScreenAdapter {
         //Get the game manager and create a map to start on
         gameManager = GameManager.getInstance();
         //TODO this needs to be based off the state in the save file (Game manager)
-        openSpaceMap = new OpenSpaceMap();
 
         //Create our hexgrid, which will act as a way to place objects "on" our tilemap
         hexagonGrid = new HexagonGrid();
@@ -83,7 +80,7 @@ public class InGame extends ScreenAdapter {
         engine.addSystem(storageSystem);
 
         //Create a stage for the clickable things
-        tileActorStage = new TiledMapStage(openSpaceMap.getTiledMap(), hexagonGrid.hexGrid);
+        tileActorStage = new TiledMapStage(hexagonGrid.hexGrid);
         tileActorStage.setViewport(game.viewport);
 
         //Initialize the Entity Factory so we can create entities OTF

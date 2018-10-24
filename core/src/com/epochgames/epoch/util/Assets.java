@@ -25,7 +25,6 @@ public class Assets {
     // Initialize the asset manager by constructing it.
     static {
         MANAGER = new AssetManager();
-        MANAGER.setLoader(TiledMap.class, new AtlasTmxMapLoader(new InternalFileHandleResolver()));
         MANAGER.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(new InternalFileHandleResolver()));
     }
 
@@ -42,7 +41,6 @@ public class Assets {
      */
     public static class TileMaps {
         //TODO Turn the tileset for this (and all maps) into a ztk or other compressed format so everything runs smooth
-        public static AssetDescriptor<TiledMap> OPEN_SPACE = new AssetDescriptor<>("maps/OpenSpaceMap.tmx", TiledMap.class);
         public static AssetDescriptor<TextureAtlas> OPEN_SPACE_TILE_SET = new AssetDescriptor<>("maps/SpaceTiles/SpaceTiles.atlas", TextureAtlas.class);
     }
 

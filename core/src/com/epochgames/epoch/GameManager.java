@@ -4,9 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.epochgames.epoch.entities.Planet;
-import com.epochgames.epoch.maps.EpochTiledMap;
-import com.epochgames.epoch.maps.OpenSpaceMap;
 import com.epochgames.epoch.screens.InGame;
 import com.epochgames.epoch.screens.inputListeners.InGameInputListener;
 import com.epochgames.epoch.util.hexlib.HexSatelliteData;
@@ -31,7 +28,6 @@ public class GameManager {
 
     private GameState gameState;
     public Location location;
-    public EpochTiledMap currentMap;
     public Epoch game;
 
     public int turnState;
@@ -231,7 +227,6 @@ public class GameManager {
         //TODO Read from save files
         gameState = gameState.IN_GAME;
         location = Location.OPEN_SPACE;
-        currentMap = new OpenSpaceMap();
         inputMultiplexer = new InputMultiplexer();
         turnState = 0;
         turnNumber = 0;
