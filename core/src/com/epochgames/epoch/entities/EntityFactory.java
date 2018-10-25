@@ -61,6 +61,8 @@ public class EntityFactory {
         MoveComponent moveComponent = new MoveComponent();
         moveComponent.currentPosition = hexagonGrid.hexGrid.getByPixelCoordinate(transformComponent.position.x, transformComponent.position.y).get().getCubeCoordinate();
 
+        StorageComponent storageComponent = new StorageComponent();
+
         TurnComponent turnComponent = new TurnComponent();
 
         TypeComponent typeComponent = new TypeComponent();
@@ -80,7 +82,7 @@ public class EntityFactory {
         }
 
         newShip.add(actionCompletenessComponent).add(healthComponent).add(iconComponent).
-                add(transformComponent).add(turnComponent).
+                add(transformComponent).add(turnComponent).add(storageComponent).
                 add(typeComponent).add(moveComponent);
 
         return newShip;
@@ -99,7 +101,7 @@ public class EntityFactory {
         ActionCompletenessComponent actionCompletenessComponent = new ActionCompletenessComponent();
 
         IconComponent iconComponent = new IconComponent();
-        iconComponent.region = Assets.MANAGER.get(Assets.Spritesheets.PLANETS).findRegion(planet.planet.getAtlasRegion());
+        iconComponent.region = Assets.MANAGER.get(Assets.Spritesheets.PLANETS).findRegion(planet.getPlanet().getAtlasRegion());
 
         TransformComponent transformComponent = new TransformComponent();
         transformComponent.scale = (float)GameManager.SPRITE_SIZE / (float)iconComponent.region.getRegionWidth();
@@ -111,11 +113,14 @@ public class EntityFactory {
         MoveComponent moveComponent = new MoveComponent();
         moveComponent.currentPosition = hexagonGrid.hexGrid.getByPixelCoordinate(transformComponent.position.x, transformComponent.position.y).get().getCubeCoordinate();
 
+        StorageComponent storageComponent = new StorageComponent();
+
         TurnComponent turnComponent = new TurnComponent();
         turnComponent.priority = TurnComponent.OTHER_PRIORITY;
 
         newPlanet.add(iconComponent).add(transformComponent).
                   add(turnComponent).add(moveComponent).
+                  add(storageComponent).
                   add(actionCompletenessComponent);
 
         return newPlanet;

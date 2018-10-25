@@ -19,7 +19,7 @@ public class StorageSystem extends IteratingSystem {
     private ComponentMapper<TransformComponent> transform = Mappers.transform;
 
     public StorageSystem(Epoch game, HexagonGrid hexagonGrid) {
-        super(Family.all(MoveComponent.class).get());
+        super(Family.all(MoveComponent.class, StorageComponent.class).get());
         this.hexagonGrid = hexagonGrid;
         this.game = game;
     }
@@ -28,9 +28,12 @@ public class StorageSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         CubeCoordinate entityPos = hexagonGrid.hexGrid.getByPixelCoordinate(transform.get(entity).position.x, transform.get(entity).position.y).get().getCubeCoordinate();
         Hexagon<HexSatelliteData> hexagon = hexagonGrid.hexGrid.getByCubeCoordinate(entityPos).get();
-        if(Mappers.type.get(entity) != null && Mappers.type.get(entity).type == TypeComponent.PLAYER) {
+
+        if(Mappers.type.has(entity) && Mappers.type.get(entity).type == TypeComponent.PLAYER) {
             game.inGameScreen.playerPos = entityPos;
         }
+
+        Mappers.storage.get(entity).cubeCoordinate = entityPos;
 
         if(hexagon.getSatelliteData().isPresent()) {
             hexagon.getSatelliteData().get().setEntityContained(entity);
@@ -38,6 +41,7 @@ public class StorageSystem extends IteratingSystem {
                 Mappers.actionCompleteness.get(entity).actionCompleteness = ActionCompletenessComponent.FULL;
                 Mappers.icon.get(entity).alpha = (float)EpochMath.clamp(
                         hexagon.getSatelliteData().get().getVisibility() * 2.0, 0.0, 1.0f);
+
             }
             else {
                 Mappers.actionCompleteness.get(entity).actionCompleteness = ActionCompletenessComponent.NONE;
