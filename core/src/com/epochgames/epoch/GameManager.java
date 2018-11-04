@@ -7,8 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.epochgames.epoch.screens.InGame;
 import com.epochgames.epoch.screens.inputListeners.InGameInputListener;
 import com.epochgames.epoch.util.hexlib.HexSatelliteData;
-import org.codetome.hexameter.core.api.CubeCoordinate;
-import org.codetome.hexameter.core.api.Hexagon;
+import org.hexworks.mixite.core.api.CubeCoordinate;
+import org.hexworks.mixite.core.api.Hexagon;
 
 public class GameManager {
     private static GameManager instance = new GameManager();

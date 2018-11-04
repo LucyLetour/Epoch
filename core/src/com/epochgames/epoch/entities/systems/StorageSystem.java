@@ -9,8 +9,8 @@ import com.epochgames.epoch.entities.components.*;
 import com.epochgames.epoch.util.EpochMath;
 import com.epochgames.epoch.util.HexagonGrid;
 import com.epochgames.epoch.util.hexlib.HexSatelliteData;
-import org.codetome.hexameter.core.api.CubeCoordinate;
-import org.codetome.hexameter.core.api.Hexagon;
+import org.hexworks.mixite.core.api.CubeCoordinate;
+import org.hexworks.mixite.core.api.Hexagon;
 
 public class StorageSystem extends IteratingSystem {
 

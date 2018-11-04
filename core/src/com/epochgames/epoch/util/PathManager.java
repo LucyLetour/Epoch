@@ -3,7 +3,7 @@ package com.epochgames.epoch.util;
 import com.badlogic.gdx.math.CatmullRomSpline;
 import com.badlogic.gdx.math.Vector2;
 import com.epochgames.epoch.entities.components.TransformComponent;
-import org.codetome.hexameter.core.api.Hexagon;
+import org.hexworks.mixite.core.api.Hexagon;
 
 import java.util.List;
 

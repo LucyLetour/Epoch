@@ -1,10 +1,8 @@
 package com.epochgames.epoch.util.hexlib;
 
 import com.badlogic.ashley.core.Entity;
-import com.epochgames.epoch.GameManager;
-import org.codetome.hexameter.core.api.CubeCoordinate;
-import org.codetome.hexameter.core.api.contract.SatelliteData;
-import org.codetome.hexameter.core.api.defaults.DefaultSatelliteData;
+import org.hexworks.mixite.core.api.CubeCoordinate;
+import org.hexworks.mixite.core.api.defaults.DefaultSatelliteData;
 
 public class HexSatelliteData extends DefaultSatelliteData {
     public boolean passable;

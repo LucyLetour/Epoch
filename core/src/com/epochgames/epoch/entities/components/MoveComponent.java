@@ -2,7 +2,7 @@ package com.epochgames.epoch.entities.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
-import org.codetome.hexameter.core.api.CubeCoordinate;
+import org.hexworks.mixite.core.api.CubeCoordinate;
 
 /**
  * Contains various different utilities to determine how and if

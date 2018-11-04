@@ -7,7 +7,7 @@ import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.entities.components.*;
 import com.epochgames.epoch.util.Assets;
 import com.epochgames.epoch.util.HexagonGrid;
-import org.codetome.hexameter.core.api.CubeCoordinate;
+import org.hexworks.mixite.core.api.CubeCoordinate;
 
 /**
  * This is the Big Kahuna since this in the class that will

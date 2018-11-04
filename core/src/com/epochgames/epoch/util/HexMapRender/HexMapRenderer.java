@@ -6,8 +6,8 @@ import com.epochgames.epoch.Epoch;
 import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.util.HexagonGrid;
 import com.epochgames.epoch.util.hexlib.HexSatelliteData;
-import org.codetome.hexameter.core.api.Hexagon;
-import org.codetome.hexameter.core.api.HexagonOrientation;
+import org.hexworks.mixite.core.api.Hexagon;
+import org.hexworks.mixite.core.api.HexagonOrientation;
 
 import java.util.Set;
 

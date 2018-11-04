@@ -2,16 +2,13 @@ package com.epochgames.epoch.util;
 
 import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.util.hexlib.HexSatelliteData;
-import org.codetome.hexameter.core.api.*;
-
-import static org.codetome.hexameter.core.api.HexagonalGridLayout.RECTANGULAR;
-import static org.codetome.hexameter.core.api.HexagonOrientation.POINTY_TOP;
+import org.hexworks.mixite.core.api.*;
 
 public class HexagonGrid {
     public static int GRID_HEIGHT = 90;
     public static int GRID_WIDTH = 90;
-    public static HexagonalGridLayout GRID_LAYOUT = RECTANGULAR;
-    public static HexagonOrientation ORIENTATION = POINTY_TOP;
+    public static HexagonalGridLayout GRID_LAYOUT = HexagonalGridLayout.RECTANGULAR;
+    public static HexagonOrientation ORIENTATION = HexagonOrientation.POINTY_TOP;
     public static double RADIUS;
 
 

@@ -8,8 +8,8 @@ import com.epochgames.epoch.entities.TileMapActor;
 import com.epochgames.epoch.screens.inputListeners.TiledMapClickListener;
 import com.epochgames.epoch.util.hexlib.HexSatelliteData;
 import com.epochgames.epoch.util.hexlib.Point;
-import org.codetome.hexameter.core.api.Hexagon;
-import org.codetome.hexameter.core.api.HexagonalGrid;
+import org.hexworks.mixite.core.api.Hexagon;
+import org.hexworks.mixite.core.api.HexagonalGrid;
 
 public class TiledMapStage extends Stage {
     public HexagonalGrid<HexSatelliteData> hexGrid;
