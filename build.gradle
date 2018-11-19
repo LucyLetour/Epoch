@@ -27,6 +27,8 @@ allprojects {
         box2DLightsVersion = '1.4'
         ashleyVersion = '1.7.3'
         aiVersion = '1.8.1'
+        mixiteVersion = '2018.0.4'
+        zirconVersion = '2018.5.0'
     }
 
     repositories {
@@ -71,7 +73,8 @@ project(":core") {
         compile "com.kotcrab.vis:vis-ui:1.4.1"
         compile "com.underwaterapps.overlap2druntime:overlap2d-runtime-libgdx:0.1.1"
         compile "net.dermetfan.libgdx-utils:libgdx-utils-box2d:0.13.4"
-        implementation 'com.github.Hexworks:mixite:2018.0.4-PREVIEW'
+        compile "org.hexworks.zircon:zircon.jvm.swing:$zirconVersion-RELEASE"
+        implementation "com.github.Hexworks:mixite:$mixiteVersion-PREVIEW"
         //compile "org.hexworks.mixite:mixite.core:2018.0.3"
         //compile "org.codetome.hexameter:hexameter.core:2018.1.0"
         //compile "io.reactivex.rxjava2:rxjava:2.2.2"
