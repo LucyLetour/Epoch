@@ -52,7 +52,7 @@ public class HexMapRenderer {
         Sprite hexagonSprite = new Sprite(hexTexture);
         Hexagon<HexSatelliteData> playerHexagon = hexGrid.hexGrid.getByCubeCoordinate(game.inGameScreen.playerPos).get();
         float alpha;
-        for (Hexagon<HexSatelliteData> hexagon : (Set<Hexagon>)hexGrid.hexCalculator.calculateMovementRangeFrom(playerHexagon, GameManager.PLAYER_VIEW_RANGE)) {
+        for (Hexagon<HexSatelliteData> hexagon : (Set<Hexagon<HexSatelliteData>>)hexGrid.hexCalculator.calculateMovementRangeFrom(playerHexagon, GameManager.PLAYER_VIEW_RANGE)) {
             hexagonSprite.setPosition((float)hexagon.getCenterX() - (hexagonSprite.getWidth() / 2), (float)hexagon.getCenterY() - (hexagonSprite.getHeight() / 2));
             if(GameManager.getInstance().checkTileVisibilty(hexagon.getCubeCoordinate())) {
                 alpha = 1.0f - ((float) game.inGameScreen.hexagonGrid.hexCalculator.calculateDistanceBetween(playerHexagon, hexagon) / (float) GameManager.PLAYER_VIEW_RANGE);
@@ -62,10 +62,6 @@ public class HexMapRenderer {
             }
 
             if(hexagon.getSatelliteData().isPresent()) {
-                hexagon.getSatelliteData().get().setVisibility(alpha);
-            }
-            else {
-                hexagon.setSatelliteData(new HexSatelliteData(null, hexagon.getCubeCoordinate()));
                 hexagon.getSatelliteData().get().setVisibility(alpha);
             }
             hexagonSprite.setAlpha(alpha);

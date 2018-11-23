@@ -11,17 +11,18 @@ import com.epochgames.epoch.entities.components.TransformComponent;
 import com.epochgames.epoch.entities.components.TurnComponent;
 import com.epochgames.epoch.util.HexagonGrid;
 import com.epochgames.epoch.util.PathManager;
+import com.epochgames.epoch.util.Pathfinding.PathfindingAlgorithm;
+import com.epochgames.epoch.util.hexlib.HexagonGridUtil;
 
 import static com.epochgames.epoch.GameManager.SHIP_SPEED;
 
 public class MovementSystem extends IteratingSystem {
 
     private HexagonGrid hexagonGrid;
-    public PathManager pathManager;
 
-    public Epoch game;
+    private Epoch game;
 
-    public float current;
+    private float current;
 
     public MovementSystem(Epoch game, HexagonGrid hexagonGrid) {
         super(Family.all(TransformComponent.class, MoveComponent.class, TurnComponent.class).get());
@@ -36,9 +37,10 @@ public class MovementSystem extends IteratingSystem {
         TurnComponent turnComponent = Mappers.turn.get(entity);
 
         if(moveComponent.shouldMove) {
-            pathManager = new PathManager(hexagonGrid.hexCalculator.drawLine(
-                    hexagonGrid.hexGrid.getByCubeCoordinate(moveComponent.currentPosition).get(),
-                    hexagonGrid.hexGrid.getByCubeCoordinate(moveComponent.nextPosition).get()));
+            PathManager.init(PathfindingAlgorithm.findPath(
+                    HexagonGridUtil.hexGridToNodes(),
+                    HexagonGridUtil.hexagonToNode(hexagonGrid.hexGrid.getByCubeCoordinate(moveComponent.currentPosition).get()),
+                    HexagonGridUtil.hexagonToNode(hexagonGrid.hexGrid.getByCubeCoordinate(moveComponent.nextPosition).get())));
         }
 
         moveComponent.isMoving = (moveComponent.shouldMove || moveComponent.isMoving) && turnComponent.isMyTurn;
@@ -48,12 +50,13 @@ public class MovementSystem extends IteratingSystem {
             float nextPosX = (float)hexagonGrid.hexGrid.getByCubeCoordinate(moveComponent.nextPosition).get().getCenterX();
             float nextPosY = (float)hexagonGrid.hexGrid.getByCubeCoordinate(moveComponent.nextPosition).get().getCenterY();
             current = calculateEntityMovePercentage(deltaTime);
-            transformComponent.position = pathManager.getSplineAtPoint(current, transformComponent).position;
-            transformComponent.rotation = pathManager.getSplineAtPoint(current, transformComponent).rotation;
+            transformComponent.position = PathManager.getSplineAtPoint(current, transformComponent).position;
+            transformComponent.rotation = PathManager.getSplineAtPoint(current, transformComponent).rotation;
 
             if(current >= 1) {
                 moveComponent.isMoving = false;
                 transformComponent.position = new Vector2(nextPosX, nextPosY);
+                moveComponent.lastPosition = moveComponent.currentPosition;
                 moveComponent.currentPosition = moveComponent.nextPosition;
                 moveComponent.nextPosition = null;
                 moveComponent.timeMoving = 0.0f;
@@ -62,8 +65,8 @@ public class MovementSystem extends IteratingSystem {
         }
     }
 
-    public float calculateEntityMovePercentage(float deltaTime) {
-        pathManager.catmullRomSpline.derivativeAt(pathManager.output, current);
-        return current += (deltaTime * SHIP_SPEED / pathManager.catmullRomSpline.spanCount) / pathManager.output.len();
+    private float calculateEntityMovePercentage(float deltaTime) {
+        PathManager.catmullRomSpline.derivativeAt(PathManager.output, current);
+        return current += (deltaTime * SHIP_SPEED / PathManager.catmullRomSpline.spanCount) / PathManager.output.len();
     }
 }

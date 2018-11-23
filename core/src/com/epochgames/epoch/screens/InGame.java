@@ -20,7 +20,9 @@ import com.epochgames.epoch.util.Assets;
 import com.epochgames.epoch.util.EpochMath;
 import com.epochgames.epoch.util.HexMapRender.HexMapRenderer;
 import com.epochgames.epoch.util.HexagonGrid;
+import com.epochgames.epoch.util.PathManager;
 import com.epochgames.epoch.util.hexlib.HexSatelliteData;
+import com.epochgames.epoch.util.hexlib.HexagonGridUtil;
 import org.hexworks.mixite.core.api.CubeCoordinate;
 import org.hexworks.mixite.core.api.Hexagon;
 
@@ -66,6 +68,8 @@ public class InGame extends ScreenAdapter {
         hexagonGrid = new HexagonGrid();
         mapRenderer = HexMapRenderer.instance;
         mapRenderer.setHexGrid(hexagonGrid, game, Assets.MANAGER.get(Assets.Textures.HEX_TILE));
+
+        HexagonGridUtil.init(hexagonGrid);
 
         //Start our engine and add all the necessary systems
         engine = new Engine();
@@ -149,8 +153,8 @@ public class InGame extends ScreenAdapter {
 
         renderer.begin(ShapeRenderer.ShapeType.Filled);
         renderer.setProjectionMatrix(game.camera.combined);
-        if(movementSystem.pathManager != null) {
-            Vector2[] points = movementSystem.pathManager.points;
+        if(PathManager.isInitialized()) {
+            Vector2[] points = PathManager.points;
             for(int i = 0; i < points.length; i++) {
                 renderer.circle(points[i].x, points[i].y, 5);
             }

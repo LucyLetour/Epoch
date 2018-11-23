@@ -34,4 +34,14 @@ public class EpochMath {
         }
         return new Vector2(xSum / vectors.length, ySum / vectors.length);
     }
+
+    public static float Maximum(float... nums) {
+        float biggest = nums[0];
+        for (float f : nums) {
+            if(f > biggest) {
+                biggest = f;
+            }
+        }
+        return biggest;
+    }
 }

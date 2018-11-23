@@ -5,10 +5,10 @@ import org.hexworks.mixite.core.api.CubeCoordinate;
 import org.hexworks.mixite.core.api.defaults.DefaultSatelliteData;
 
 public class HexSatelliteData extends DefaultSatelliteData {
-    public boolean passable;
-    public float visibility;
-    public Entity entityContained;
-    public CubeCoordinate position;
+    private boolean passable;
+    private float visibility;
+    private Entity entityContained;
+    private CubeCoordinate position;
 
     public HexSatelliteData(Entity entityContained, CubeCoordinate position) {
         setEntityContained(entityContained);
@@ -29,6 +29,10 @@ public class HexSatelliteData extends DefaultSatelliteData {
 
     public void setEntityContained(Entity entity) {
         this.entityContained = entity;
-        this.passable = false;
+        this.passable = entity == null;
+    }
+
+    public boolean getPassable() {
+        return passable;
     }
 }

@@ -60,6 +60,7 @@ public class EntityFactory {
 
         MoveComponent moveComponent = new MoveComponent();
         moveComponent.currentPosition = hexagonGrid.hexGrid.getByPixelCoordinate(transformComponent.position.x, transformComponent.position.y).get().getCubeCoordinate();
+        moveComponent.lastPosition = moveComponent.currentPosition;
 
         StorageComponent storageComponent = new StorageComponent();
 
@@ -112,8 +113,10 @@ public class EntityFactory {
 
         MoveComponent moveComponent = new MoveComponent();
         moveComponent.currentPosition = hexagonGrid.hexGrid.getByPixelCoordinate(transformComponent.position.x, transformComponent.position.y).get().getCubeCoordinate();
+        moveComponent.lastPosition = moveComponent.currentPosition;
 
         StorageComponent storageComponent = new StorageComponent();
+        storageComponent.currentHexagon = hexagonGrid.hexGrid.getByCubeCoordinate(moveComponent.currentPosition).get();
 
         TurnComponent turnComponent = new TurnComponent();
         turnComponent.priority = TurnComponent.OTHER_PRIORITY;

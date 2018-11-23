@@ -9,14 +9,13 @@ import com.epochgames.epoch.entities.components.*;
 import com.epochgames.epoch.util.EpochMath;
 import com.epochgames.epoch.util.HexagonGrid;
 import com.epochgames.epoch.util.hexlib.HexSatelliteData;
-import org.hexworks.mixite.core.api.CubeCoordinate;
 import org.hexworks.mixite.core.api.Hexagon;
 
 public class StorageSystem extends IteratingSystem {
 
     private HexagonGrid hexagonGrid;
     private Epoch game;
-    private ComponentMapper<TransformComponent> transform = Mappers.transform;
+    private ComponentMapper<MoveComponent> move = Mappers.move;
 
     public StorageSystem(Epoch game, HexagonGrid hexagonGrid) {
         super(Family.all(MoveComponent.class, StorageComponent.class).get());
@@ -26,14 +25,11 @@ public class StorageSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        CubeCoordinate entityPos = hexagonGrid.hexGrid.getByPixelCoordinate(transform.get(entity).position.x, transform.get(entity).position.y).get().getCubeCoordinate();
-        Hexagon<HexSatelliteData> hexagon = hexagonGrid.hexGrid.getByCubeCoordinate(entityPos).get();
+        Hexagon<HexSatelliteData> hexagon = hexagonGrid.hexGrid.getByCubeCoordinate(move.get(entity).currentPosition).get();
 
         if(Mappers.type.has(entity) && Mappers.type.get(entity).type == TypeComponent.PLAYER) {
-            game.inGameScreen.playerPos = entityPos;
+            game.inGameScreen.playerPos = hexagonGrid.hexGrid.getByPixelCoordinate(Mappers.transform.get(entity).position.x, Mappers.transform.get(entity).position.y).get().getCubeCoordinate();
         }
-
-        Mappers.storage.get(entity).cubeCoordinate = entityPos;
 
         if(hexagon.getSatelliteData().isPresent()) {
             hexagon.getSatelliteData().get().setEntityContained(entity);
@@ -49,7 +45,11 @@ public class StorageSystem extends IteratingSystem {
             }
         }
         else {
-            hexagon.setSatelliteData(new HexSatelliteData(entity, entityPos));
+            hexagon.setSatelliteData(new HexSatelliteData(entity, hexagon.getCubeCoordinate()));
+        }
+
+        if(!move.get(entity).currentPosition.equals(move.get(entity).lastPosition)) {
+            hexagonGrid.hexGrid.getByCubeCoordinate(move.get(entity).lastPosition).get().clearSatelliteData();
         }
     }
 }

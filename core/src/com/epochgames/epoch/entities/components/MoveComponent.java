@@ -11,6 +11,7 @@ import org.hexworks.mixite.core.api.CubeCoordinate;
 public class MoveComponent implements Component {
     public CubeCoordinate currentPosition = CubeCoordinate.fromCoordinates(0, 0);
     public CubeCoordinate nextPosition = null;
+    public CubeCoordinate lastPosition = null;
     public boolean isMoving = false;
     public boolean shouldMove = false;
     public float timeMoving = 0.0f;

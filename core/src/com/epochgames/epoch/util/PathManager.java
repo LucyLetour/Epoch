@@ -3,9 +3,12 @@ package com.epochgames.epoch.util;
 import com.badlogic.gdx.math.CatmullRomSpline;
 import com.badlogic.gdx.math.Vector2;
 import com.epochgames.epoch.entities.components.TransformComponent;
+import com.epochgames.epoch.util.Pathfinding.Node;
+import com.epochgames.epoch.util.hexlib.HexSatelliteData;
+import com.epochgames.epoch.util.hexlib.HexagonGridUtil;
 import org.hexworks.mixite.core.api.Hexagon;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * The {@code PathManager} class creates a {@link CatmullRomSpline} that
@@ -13,31 +16,34 @@ import java.util.List;
  */
 public class PathManager {
 
-    private List<Hexagon> hexagonPath;
+    private static ArrayList<Hexagon<HexSatelliteData>> hexagonPath;
 
-    public CatmullRomSpline<Vector2> catmullRomSpline;
+    public static CatmullRomSpline<Vector2> catmullRomSpline;
 
-    public Vector2[] points;
-    public Vector2 output;
-    private float rotation;
+    public static Vector2[] points;
+    public static Vector2 output;
+    private static float rotation;
 
-    public PathManager(List<Hexagon> hexagonPath) {
-        this.hexagonPath = hexagonPath;
+    private static boolean initialized;
+
+    public static void init(ArrayList<Node> nodePath) {
+        hexagonPath = HexagonGridUtil.nodesToHexGrid(nodePath);
         seedPoints();
         output = new Vector2();
         rotation = 0.0f;
+        initialized = true;
     }
 
     /**
      * Seeds the points for the path based on the hexagon path given
      */
-    private void seedPoints() {
+    private static void seedPoints() {
         points = new Vector2[hexagonPath.size() + 2];
 
         points[0] = new Vector2((float)hexagonPath.get(0).getCenterX(), (float)hexagonPath.get(0).getCenterY());
         for (int i = 0; i < points.length - 2; i++) {
             points[i + 1] = new Vector2((float)hexagonPath.get(i).getCenterX(), (float)hexagonPath.get(i).getCenterY());
-            System.out.println(hexagonPath.get(i).getCubeCoordinate().toAxialKey());
+            //System.out.println(hexagonPath.get(i).getCubeCoordinate().toAxialKey());
         }
         points[points.length - 1] = new Vector2((float)hexagonPath.get(hexagonPath.size() - 1).getCenterX(), (float)hexagonPath.get(hexagonPath.size() - 1).getCenterY());
         catmullRomSpline = new CatmullRomSpline<>(points, false);
@@ -50,7 +56,7 @@ public class PathManager {
      *              ever used
      * @return a {@link Transform} object
      */
-    public Transform getSplineAtPoint(float alpha, TransformComponent transformComponent) {
+    public static Transform getSplineAtPoint(float alpha, TransformComponent transformComponent) {
         alpha = (float)EpochMath.clamp(alpha, 0.0, 1.0);
 
         if(alpha == 1.0f) {
@@ -61,5 +67,9 @@ public class PathManager {
         output = catmullRomSpline.valueAt(output, alpha);
 
         return new Transform(output, rotation);
+    }
+
+    public static boolean isInitialized() {
+        return initialized;
     }
 }
