@@ -1,6 +1,8 @@
 package com.epochgames.epoch.util.hexlib;
 
 import com.badlogic.gdx.Gdx;
+import com.epochgames.epoch.Epoch;
+import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.util.HexagonGrid;
 import com.epochgames.epoch.util.Pathfinding.Node;
 import org.hexworks.mixite.core.api.CubeCoordinate;
@@ -43,5 +45,10 @@ public class HexagonGridUtil {
             hexagons.add(hexGrid.hexGrid.getByCubeCoordinate(CubeCoordinate.fromCoordinates(node.getxCoord(), node.getzCoord())).get());
         }
         return hexagons;
+    }
+
+    public static float getAlphaBetweenHexes(Hexagon hexagon) {
+        Hexagon<HexSatelliteData> playerHexagon = hexGrid.hexGrid.getByCubeCoordinate(GameManager.getInstance().game.inGameScreen.playerPos).get();
+        return 1.0f - ((float) hexGrid.hexCalculator.calculateDistanceBetween(playerHexagon, hexagon) / (float) GameManager.PLAYER_VIEW_RANGE);
     }
 }

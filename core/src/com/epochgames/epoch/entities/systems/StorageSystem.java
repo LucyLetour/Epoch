@@ -9,6 +9,7 @@ import com.epochgames.epoch.entities.components.*;
 import com.epochgames.epoch.util.EpochMath;
 import com.epochgames.epoch.util.HexagonGrid;
 import com.epochgames.epoch.util.hexlib.HexSatelliteData;
+import com.epochgames.epoch.util.hexlib.HexagonGridUtil;
 import org.hexworks.mixite.core.api.Hexagon;
 
 public class StorageSystem extends IteratingSystem {
@@ -35,8 +36,9 @@ public class StorageSystem extends IteratingSystem {
             hexagon.getSatelliteData().get().setEntityContained(entity);
             if(hexagon.getSatelliteData().get().getVisibility() > 0.0f) {
                 Mappers.actionCompleteness.get(entity).actionCompleteness = ActionCompletenessComponent.FULL;
+                Hexagon entityPos = hexagonGrid.hexGrid.getByPixelCoordinate(Mappers.transform.get(entity).position.x, Mappers.transform.get(entity).position.y).get();
                 Mappers.icon.get(entity).alpha = (float)EpochMath.clamp(
-                        hexagon.getSatelliteData().get().getVisibility() * 2.0, 0.0, 1.0f);
+                        HexagonGridUtil.getAlphaBetweenHexes(entityPos) * 2.0, 0.0, 1.0f);
 
             }
             else {

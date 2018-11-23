@@ -6,6 +6,7 @@ import com.epochgames.epoch.Epoch;
 import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.util.HexagonGrid;
 import com.epochgames.epoch.util.hexlib.HexSatelliteData;
+import com.epochgames.epoch.util.hexlib.HexagonGridUtil;
 import org.hexworks.mixite.core.api.Hexagon;
 import org.hexworks.mixite.core.api.HexagonOrientation;
 
@@ -50,12 +51,12 @@ public class HexMapRenderer {
 
     public void renderHexGrid() {
         Sprite hexagonSprite = new Sprite(hexTexture);
-        Hexagon<HexSatelliteData> playerHexagon = hexGrid.hexGrid.getByCubeCoordinate(game.inGameScreen.playerPos).get();
+        Hexagon<HexSatelliteData> playerHex = hexGrid.hexGrid.getByCubeCoordinate(GameManager.getInstance().game.inGameScreen.playerPos).get();
         float alpha;
-        for (Hexagon<HexSatelliteData> hexagon : (Set<Hexagon<HexSatelliteData>>)hexGrid.hexCalculator.calculateMovementRangeFrom(playerHexagon, GameManager.PLAYER_VIEW_RANGE)) {
+        for (Hexagon<HexSatelliteData> hexagon : (Set<Hexagon<HexSatelliteData>>)hexGrid.hexCalculator.calculateMovementRangeFrom(playerHex, GameManager.PLAYER_VIEW_RANGE)) {
             hexagonSprite.setPosition((float)hexagon.getCenterX() - (hexagonSprite.getWidth() / 2), (float)hexagon.getCenterY() - (hexagonSprite.getHeight() / 2));
             if(GameManager.getInstance().checkTileVisibilty(hexagon.getCubeCoordinate())) {
-                alpha = 1.0f - ((float) game.inGameScreen.hexagonGrid.hexCalculator.calculateDistanceBetween(playerHexagon, hexagon) / (float) GameManager.PLAYER_VIEW_RANGE);
+                alpha = HexagonGridUtil.getAlphaBetweenHexes(hexagon);
             }
             else {
                 alpha = 0.0f;
