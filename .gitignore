@@ -97,7 +97,7 @@ nbactions.xml
 nb-configuration.xml
 
 ## Out
-/core/out/production/classes/lib/
+/core/out/production/classes/lib/*
 
 ## Gradle
 
