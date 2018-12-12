@@ -103,6 +103,8 @@ nb-configuration.xml
 .gradle/
 gradle-app.setting
 
+/core/out/
+
 ## OS Specific
 .DS_Store
 Thumbs.db
@@ -117,4 +119,4 @@ Thumbs.db
 !/ios-moe/xcode/*.xcodeproj/xcshareddata
 !/ios-moe/xcode/*.xcodeproj/project.pbxproj
 /ios-moe/xcode/native/
-/core/out/
+
