@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.epochgames.epoch.Epoch;
 import com.epochgames.epoch.GameManager;
+import com.epochgames.epoch.dialogue.DialogueEngine;
 import com.epochgames.epoch.entities.EntityFactory;
 import com.epochgames.epoch.entities.Planet;
 import com.epochgames.epoch.entities.Ship;
@@ -39,6 +40,8 @@ public class InGame extends ScreenAdapter {
     public Engine engine;
 
     public Epoch game;
+
+    public DialogueEngine dialogueEngine;
 
     public HexagonGrid hexagonGrid;
     public HexMapRenderer mapRenderer;
@@ -90,14 +93,17 @@ public class InGame extends ScreenAdapter {
         //Initialize the Entity Factory so we can create entities OTF
         EntityFactory.init(game);
 
+        dialogueEngine = new DialogueEngine();
+
         //Temp
         playerPos = CubeCoordinate.fromCoordinates(5, 5);
         engine.addEntity(EntityFactory.createShip(playerPos, hexagonGrid, new Ship(GameManager.Ships.ALACRON, false), true));
+        engine.addEntity(EntityFactory.createShip(CubeCoordinate.fromCoordinates(0, 0), hexagonGrid, new Ship(GameManager.Ships.CONTREX, false), false));
         CubeCoordinate ereasPos = CubeCoordinate.fromCoordinates(10, 10);
         engine.addEntity(EntityFactory.createPlanet(ereasPos, hexagonGrid, new Planet(GameManager.Planets.EREAS)));
         CubeCoordinate onathPos = CubeCoordinate.fromCoordinates(7, 2);
         engine.addEntity(EntityFactory.createPlanet(onathPos, hexagonGrid, new Planet(GameManager.Planets.ONATH)));
-        currentAction = GameManager.Actions.MOVE;
+        currentAction = GameManager.Actions.INTERACT;
         renderer = new ShapeRenderer();
     }
 

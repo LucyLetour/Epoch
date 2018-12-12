@@ -7,8 +7,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.epochgames.epoch.Epoch;
 import com.epochgames.epoch.GameManager;
 import com.epochgames.epoch.entities.TileMapActor;
+import com.epochgames.epoch.entities.components.DialogueComponent;
+import com.epochgames.epoch.entities.components.Mappers;
 import com.epochgames.epoch.entities.components.MoveComponent;
 import com.epochgames.epoch.entities.components.TypeComponent;
+import com.epochgames.epoch.util.hexlib.HexSatelliteData;
+import org.hexworks.mixite.core.api.Hexagon;
+import org.hexworks.mixite.core.api.contract.SatelliteData;
 
 public class TiledMapClickListener extends ClickListener {
     private TileMapActor actor;
@@ -33,6 +38,15 @@ public class TiledMapClickListener extends ClickListener {
                             return;
                         }
                         entity.getComponent(MoveComponent.class).shouldMove = true;
+                    }
+                }
+                break;
+            case INTERACT:
+                Hexagon<HexSatelliteData> selectedHex = game.inGameScreen.hexagonGrid.hexGrid.getByPixelCoordinate(actor.position.x, actor.position.y).get();
+                if(selectedHex.getSatelliteData().isPresent() && selectedHex.getSatelliteData().get().getEntityContained() != null) {
+                    Entity selectedEntity = selectedHex.getSatelliteData().get().getEntityContained();
+                    if(selectedEntity.getComponent(DialogueComponent.class) != null) {
+                        game.inGameScreen.dialogueEngine.actDialogue(Mappers.dialogue.get(selectedEntity).dialogueScript);
                     }
                 }
                 break;

@@ -10,6 +10,7 @@ import com.badlogic.ashley.core.Entity;
 public class Mappers {
     public static final ComponentMapper<ActionCompletenessComponent> actionCompleteness = ComponentMapper.getFor(ActionCompletenessComponent.class);
     public static final ComponentMapper<ActionQueueComponent> actionQueue = ComponentMapper.getFor(ActionQueueComponent.class);
+    public static final ComponentMapper<DialogueComponent> dialogue = ComponentMapper.getFor(DialogueComponent.class);
     public static final ComponentMapper<HealthComponent> health = ComponentMapper.getFor(HealthComponent.class);
     public static final ComponentMapper<IconComponent> icon = ComponentMapper.getFor(IconComponent.class);
     public static final ComponentMapper<MoveComponent> move = ComponentMapper.getFor(MoveComponent.class);

@@ -9,6 +9,8 @@ import com.epochgames.epoch.screens.inputListeners.InGameInputListener;
 import com.epochgames.epoch.util.hexlib.HexSatelliteData;
 import org.hexworks.mixite.core.api.CubeCoordinate;
 import org.hexworks.mixite.core.api.Hexagon;
+import org.hexworks.zircon.api.application.Application;
+import org.hexworks.zircon.internal.Zircon;
 
 public class GameManager {
     private static GameManager instance = new GameManager();
@@ -33,6 +35,8 @@ public class GameManager {
     public int turnState;
     public long turnNumber;
 
+    public Application zirconApplication;
+
     //Handles our inputs
     public InputMultiplexer inputMultiplexer;
 
@@ -48,7 +52,8 @@ public class GameManager {
     public static final float SHIP_SPEED = 1000.0f;
 
     public enum Actions {
-        MOVE
+        MOVE,
+        INTERACT
     }
 
     public enum GameState {

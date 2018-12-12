@@ -96,6 +96,9 @@ com_crashlytics_export_strings.xml
 nbactions.xml
 nb-configuration.xml
 
+## Out
+/core/out/
+
 ## Gradle
 
 /local.properties
