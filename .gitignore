@@ -96,8 +96,6 @@ com_crashlytics_export_strings.xml
 nbactions.xml
 nb-configuration.xml
 
-## Out
-/core/out/production/classes/lib/kotlin.js
 
 ## Gradle
 
@@ -111,6 +109,7 @@ gradle-app.setting
 /html/build/
 /ios/build/
 /ios-moe/build/
+/core/out/
 
 ## OS Specific
 .DS_Store
