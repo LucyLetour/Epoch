@@ -69,4 +69,13 @@ public class HexMapRenderer {
             hexagonSprite.draw(game.batch);
         }
     }
+
+    public void renderPlanetaryOrbitHexGrid() {
+        Sprite hexagonSprite = new Sprite(hexTexture);
+        Hexagon<HexSatelliteData> playerHex = hexGrid.hexGrid.getByCubeCoordinate(GameManager.getInstance().game.inGameScreen.playerPos).get();
+        for (Hexagon<HexSatelliteData> hexagon : (Set<Hexagon<HexSatelliteData>>)hexGrid.hexCalculator.calculateMovementRangeFrom(playerHex, GameManager.PLAYER_VIEW_RANGE)) {
+            hexagonSprite.setPosition((float)hexagon.getCenterX() - (hexagonSprite.getWidth() / 2), (float)hexagon.getCenterY() - (hexagonSprite.getHeight() / 2));
+            hexagonSprite.draw(game.batch);
+        }
+    }
 }

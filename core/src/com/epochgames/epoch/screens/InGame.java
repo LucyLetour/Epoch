@@ -26,6 +26,18 @@ import com.epochgames.epoch.util.hexlib.HexSatelliteData;
 import com.epochgames.epoch.util.hexlib.HexagonGridUtil;
 import org.hexworks.mixite.core.api.CubeCoordinate;
 import org.hexworks.mixite.core.api.Hexagon;
+import org.hexworks.zircon.api.*;
+import org.hexworks.zircon.api.application.Application;
+import org.hexworks.zircon.api.color.TileColor;
+import org.hexworks.zircon.api.component.CheckBox;
+import org.hexworks.zircon.api.component.ColorTheme;
+import org.hexworks.zircon.api.component.Header;
+import org.hexworks.zircon.api.component.Panel;
+import org.hexworks.zircon.api.input.KeyStroke;
+import org.hexworks.zircon.api.input.MouseAction;
+import org.hexworks.zircon.api.resource.BuiltInCP437TilesetResource;
+import org.hexworks.zircon.api.screen.Screen;
+import org.hexworks.zircon.internal.application.LibgdxApplication;
 
 public class InGame extends ScreenAdapter {
 
@@ -42,6 +54,7 @@ public class InGame extends ScreenAdapter {
     public Epoch game;
 
     public DialogueEngine dialogueEngine;
+    public LibgdxApplication zirconApplication;
 
     public HexagonGrid hexagonGrid;
     public HexMapRenderer mapRenderer;
@@ -94,6 +107,18 @@ public class InGame extends ScreenAdapter {
         EntityFactory.init(game);
 
         dialogueEngine = new DialogueEngine();
+        BuiltInCP437TilesetResource tileset = BuiltInCP437TilesetResource.WANDERLUST_16X16;
+        ColorTheme colorTheme = ColorThemes.afterTheHeist();
+        zirconApplication = LibgdxApplications.buildApplication(
+                AppConfigs.newConfig()
+                        .withDefaultTileset(tileset)
+                        .withSize(Sizes.create(
+                                23,//game.screenWidth / tileset.getWidth(),
+                                63))//game.screenHeight / tileset.getHeight()))
+                        .build()
+        );
+        zirconApplication.start();
+        setupZircon();
 
         //Temp
         playerPos = CubeCoordinate.fromCoordinates(5, 5);
@@ -132,7 +157,7 @@ public class InGame extends ScreenAdapter {
 
         game.batch.begin();
         {
-            //Render the tilemap based on the appropriate position of the player
+            //Render the hexgrid at the player's location
             switch (gameManager.getLocation()) {
                 case OPEN_SPACE:
                     mapRenderer.renderHexGrid();
@@ -157,15 +182,17 @@ public class InGame extends ScreenAdapter {
         game.batch.end();
 
 
-        renderer.begin(ShapeRenderer.ShapeType.Filled);
-        renderer.setProjectionMatrix(game.camera.combined);
-        if(PathManager.isInitialized()) {
-            Vector2[] points = PathManager.points;
-            for(int i = 0; i < points.length; i++) {
-                renderer.circle(points[i].x, points[i].y, 5);
+        if(Epoch.debug) {
+            renderer.begin(ShapeRenderer.ShapeType.Filled);
+            renderer.setProjectionMatrix(game.camera.combined);
+            if (PathManager.isInitialized()){
+                Vector2[] points = PathManager.points;
+                for (int i = 0; i < points.length; i++) {
+                    renderer.circle(points[i].x, points[i].y, 5);
+                }
             }
+            renderer.end();
         }
-        renderer.end();
 
         //Draw the GUI
         game.guiBatch.begin();
@@ -178,6 +205,8 @@ public class InGame extends ScreenAdapter {
             }
         }
         game.guiBatch.end();
+
+        zirconApplication.render();
 
         game.camera.update();
     }
@@ -206,5 +235,33 @@ public class InGame extends ScreenAdapter {
     public void scroll(float deltaX, float deltaY) {
         camDeltaX += deltaX * GameManager.MOVE_FACTOR * game.camera.zoom / 2.0f;
         camDeltaY += deltaY * GameManager.MOVE_FACTOR * game.camera.zoom / 2.0f;
+    }
+
+    public void setupZircon() {
+        final Screen screen = Screens.createScreenFor(zirconApplication.getTileGrid());
+
+        Panel panel = Components.panel()
+                .wrapWithBox(true)
+                .withTitle("Test Window")
+                .withSize(Sizes.create(20, 60))
+                .withPosition(Positions.create(3, 3))
+                .build();
+
+        final Header header = Components.header()
+                .withPosition(Positions.offset1x1())
+                .withText("Header")
+                .build();
+
+        final CheckBox checkBox = Components.checkBox()
+                .withText("Check me!")
+                .withPosition(Positions.create(0, 1)
+                        .relativeToBottomOf(header))
+                .build();
+
+        panel.addComponent(header);
+        panel.addComponent(checkBox);
+        screen.addComponent(panel);
+        panel.applyColorTheme(ColorThemes.afterTheHeist());
+        screen.display();
     }
 }

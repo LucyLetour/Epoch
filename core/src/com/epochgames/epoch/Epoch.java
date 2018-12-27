@@ -28,9 +28,14 @@ public class Epoch extends Game {
 	public InGame inGameScreen;
 	public MainMenu mainMenuScreen;
 
-	public Epoch(boolean debugMode) {
+	public int screenWidth;
+	public int screenHeight;
+
+	public Epoch(boolean debugMode, int screenWidth, int screenHeight) {
 	    super();
 	    Epoch.debug = debugMode;
+	    this.screenHeight = screenHeight;
+	    this.screenWidth = screenWidth;
     }
 
 	@Override

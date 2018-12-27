@@ -11,6 +11,7 @@ import org.hexworks.mixite.core.api.CubeCoordinate;
 import org.hexworks.mixite.core.api.Hexagon;
 import org.hexworks.zircon.api.application.Application;
 import org.hexworks.zircon.internal.Zircon;
+import org.hexworks.zircon.internal.listeners.ZirconInputListener;
 
 public class GameManager {
     private static GameManager instance = new GameManager();
@@ -268,22 +269,27 @@ public class GameManager {
     public void setInputProcessorGM(GameState gameState) {
         InputProcessor screenProcessor;
         Stage stageProcessor;
+        InputProcessor zirconInputProcessor;
 
         switch (gameState) {
             case IN_GAME:
                 screenProcessor = new InGameInputListener((InGame)game.activeScreen);
                 stageProcessor = ((InGame)game.activeScreen).tileActorStage;
+                zirconInputProcessor = new ZirconInputListener(
+                        ((InGame)game.activeScreen).zirconApplication.getTileGrid().currentTileset().getWidth(),
+                        ((InGame)game.activeScreen).zirconApplication.getTileGrid().currentTileset().getHeight());
                 break;
             default:
-                Gdx.app.debug("Invalid Game State", "Game State was invalid, " +
+                Gdx.app.error("Invalid Game State", "Game State was invalid, " +
                         "meaning input processors could not be assigned!");
-                screenProcessor = null;
-                stageProcessor = null;
-                break;
+                Gdx.app.exit();
+                throw new RuntimeException();
         }
+
 
         inputMultiplexer.addProcessor(screenProcessor);
         inputMultiplexer.addProcessor(stageProcessor);
+        inputMultiplexer.addProcessor(zirconInputProcessor);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
