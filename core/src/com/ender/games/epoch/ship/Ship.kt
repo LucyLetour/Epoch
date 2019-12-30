@@ -2,8 +2,12 @@ package com.ender.games.epoch.ship
 
 import com.badlogic.ashley.core.Entity
 import com.ender.games.epoch.Ships
-import com.ender.games.epoch.ship.weapons.LightBlaster
+import com.ender.games.epoch.entities.Player
+import com.ender.games.epoch.ship.weapons.InvalidMunitionType
+import com.ender.games.epoch.ship.weapons.Munition
 import com.ender.games.epoch.ship.weapons.Weapon
+import com.ender.games.epoch.util.MutablePair
+import kotlin.reflect.KClass
 
 class Ship(baseStats: Ships, val entity: Entity) {
     val ar = baseStats.atlasRegion
@@ -16,7 +20,7 @@ class Ship(baseStats: Ships, val entity: Entity) {
     var speed = baseStats.speed
 
     val weaponSlots = 2
-    val weaponArray = MutableList<Weapon?>(weaponSlots){ null }
+    val weaponArray = MutableList<MutablePair<Weapon, KClass<out Munition>>?>(weaponSlots){ null }
 
     val maxAffixLvl = 3
 
@@ -31,7 +35,7 @@ class Ship(baseStats: Ships, val entity: Entity) {
     fun affixWeapon(weapon: Weapon, slot: Int) {
         if(weapon.level <= maxAffixLvl) {
             if (weaponArray[slot] == null) {
-                weaponArray[slot] = weapon
+                weaponArray[slot] = MutablePair(weapon, weapon.munitionType)
             }
         } else {
             throw InvalidAffixationException("Weapon level too high")
@@ -40,7 +44,19 @@ class Ship(baseStats: Ships, val entity: Entity) {
 
     fun fire() {
         for(weapon in weaponArray.filterNotNull()) {
-            weapon.fireIfAble()
+            if(weapon.first.magEmpty()) {
+                try {
+                    if (entity is Player) {
+                        weapon.first.load((Player.inventory.removeItem(weapon.second) as Munition?))
+                    } else {
+                        weapon.first.load(weapon.second.objectInstance as Munition)
+                    }
+                } catch (e: InvalidMunitionType) {
+                    // TODO Communicate there is no available ammo
+                }
+            } else {
+                weapon.first.fireIfAble()
+            }
         }
     }
 }

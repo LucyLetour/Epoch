@@ -1,7 +1,6 @@
 package com.ender.games.epoch.entities
 
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.CircleShape
 import com.badlogic.gdx.physics.box2d.FixtureDef
@@ -25,7 +24,7 @@ object Player: Entity() {
     private val world = GAME_MANAGER.game!!.inGameScreen.world
     private val body = world.createBody(BodyDef().apply {
         type = BodyDef.BodyType.DynamicBody
-        position.set(2f, 2f)
+        position.set(0f, 0f)
         angularDamping = 0.2f
     }).apply {
         createFixture(FixtureDef().apply {

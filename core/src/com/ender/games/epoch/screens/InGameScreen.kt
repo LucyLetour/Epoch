@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.ender.games.epoch.*
+import com.ender.games.epoch.entities.Asteroid
 import com.ender.games.epoch.entities.Player
 import com.ender.games.epoch.entities.components.physics
 import com.ender.games.epoch.entities.components.player
@@ -20,6 +21,7 @@ import com.ender.games.epoch.entities.systems.BulletSystem
 import com.ender.games.epoch.entities.systems.PhysicsSystem
 import com.ender.games.epoch.entities.systems.PlayerControllerSystem
 import com.ender.games.epoch.entities.systems.RenderSystem
+import com.ender.games.epoch.ship.weapons.LightAmmo
 import com.ender.games.epoch.smoothCamera.SmoothCamSubject
 import com.ender.games.epoch.smoothCamera.SmoothCamWorld
 import org.hexworks.zircon.api.AppConfigs
@@ -138,6 +140,11 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
         targetCameraZoom = START_ZOOM
         camWorld = SmoothCamWorld(player.get(Player).smoothCamSubject)
         engine.addEntity(Player)
+        repeat(100) {
+            engine.addEntity(Asteroid((-100..100).random().toFloat(), (-100..100).random().toFloat()))
+        }
+        Player.inventory.addItem(LightAmmo())
+        Player.inventory.addItem(LightAmmo())
     }
 
     fun zoom(delta: Float) {
