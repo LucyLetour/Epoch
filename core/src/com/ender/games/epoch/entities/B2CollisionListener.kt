@@ -11,6 +11,7 @@ class B2CollisionListener: ContactListener {
     override fun beginContact(contact: Contact) {
         val eA = contact.fixtureA.body.userData as Entity?
         val eB = contact.fixtureB.body.userData as Entity?
+
         if(eA != null && bullet.has(eA)) {
             bullet.get(eA).delete = true
         }

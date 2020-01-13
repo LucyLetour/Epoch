@@ -15,7 +15,7 @@ class PhysicsSystem(private val world: World):
     private var accumulator = 0f
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
-
+        // Do nothing
     }
 
     override fun update(deltaTime: Float) {

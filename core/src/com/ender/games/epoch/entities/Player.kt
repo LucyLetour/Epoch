@@ -28,6 +28,7 @@ object Player: Entity() {
         angularDamping = 0.2f
     }).apply {
         createFixture(FixtureDef().apply {
+            // TODO Fixture based off of ship
             shape = CircleShape().apply {
                 radius = 3f
             }

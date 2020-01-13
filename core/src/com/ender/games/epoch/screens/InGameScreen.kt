@@ -13,9 +13,7 @@ import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.ender.games.epoch.*
-import com.ender.games.epoch.entities.Asteroid
-import com.ender.games.epoch.entities.B2CollisionListener
-import com.ender.games.epoch.entities.Player
+import com.ender.games.epoch.entities.*
 import com.ender.games.epoch.entities.components.physics
 import com.ender.games.epoch.entities.components.player
 import com.ender.games.epoch.entities.systems.BulletSystem
@@ -143,9 +141,13 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
         targetCameraZoom = START_ZOOM
         camWorld = SmoothCamWorld(player.get(Player).smoothCamSubject)
         engine.addEntity(Player)
-        repeat(100) {
+        //val s = createShip(Ships.ALACRON)
+        //engine.addEntity(s.entity)
+        //engine.addEntity(createShip(Ships.CONTREX).entity)
+        //removeShip(s)
+        /*repeat(100) {
             engine.addEntity(Asteroid((-100..100).random().toFloat(), (-100..100).random().toFloat()))
-        }
+        }*/
         Player.inventory.addItem(LightAmmo())
         Player.inventory.addItem(LightAmmo())
     }
