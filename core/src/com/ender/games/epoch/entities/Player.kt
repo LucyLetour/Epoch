@@ -31,7 +31,7 @@ object Player: Entity() {
             shape = CircleShape().apply {
                 radius = 3f
             }
-            density = 0.5f
+            density = 4000f
         })
     }
 

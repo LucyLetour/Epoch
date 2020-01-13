@@ -23,6 +23,9 @@ class PlayerControllerSystem:
     private val maxOmega = -3f..3f
     private val maxVel = -30f..30f
 
+    private val targetAcceleration = 7f // m/s^2
+    private val targetRotAccel = 2f // theta/s^2
+
     override fun processEntity(entity: Entity?, deltaTime: Float) {
         val oldVel = player.get(entity).smoothCamSubject.velocity.cpy()
 
@@ -30,11 +33,11 @@ class PlayerControllerSystem:
         val rot = body.angle
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            body.applyForceToCenter(cos(rot) * 100f, sin(rot) * 100f, true)
+            body.applyForceToCenter(cos(rot) * (body.mass * targetAcceleration), sin(rot) * (body.mass * targetAcceleration), true) // F = ma
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            body.applyForceToCenter(-cos(rot) * 60f, -sin(rot) * 60f, true)
+            body.applyForceToCenter(-cos(rot) * (body.mass * targetAcceleration), -sin(rot) * (body.mass * targetAcceleration), true) // F = ma
         }
 
         // Move the ship around a circle of radius max_vel
@@ -44,11 +47,11 @@ class PlayerControllerSystem:
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.D) && body.angularVelocity in maxOmega) {
-            body.applyTorque(-500f, true)
+            body.applyTorque(-body.inertia * targetRotAccel, true) // tau = Ia
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.A) && body.angularVelocity in maxOmega) {
-            body.applyTorque(500f, true)
+            body.applyTorque(body.inertia * targetRotAccel, true) // tau = Ia
         }
 
         if ((!Gdx.input.isKeyPressed(Input.Keys.D) && !Gdx.input.isKeyPressed(Input.Keys.A)) || body.angularVelocity !in maxOmega) {

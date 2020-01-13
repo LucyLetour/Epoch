@@ -20,7 +20,7 @@ class Asteroid(xPos: Float, yPos: Float): Entity() {
                     shape = CircleShape().apply {
                         radius = 2f
                     }
-                    density = 0.5f
+                    density = 4000f
                 })
             }
         })
