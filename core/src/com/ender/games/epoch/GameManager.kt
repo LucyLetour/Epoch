@@ -15,21 +15,6 @@ const val START_ZOOM = 2f
 const val MIN_ZOOM = 0.1f
 const val MAX_ZOOM = 0.7f
 
-//Controls speed of camera for moving
-const val MOVE_SPEED = 0.2f
-const val MOVE_FACTOR = 0.5f
-
-//This is to determine where actors are drawn(For click detection)
-const val TILE_WIDTH = 394
-const val TILE_HEIGHT = 455
-
-const val SPRITE_SIZE = 300
-const val PLANET_PADDING = 100
-
-//The view range and speed of the player. This should (maybe) be moved to a specific player class
-const val PLAYER_VIEW_RANGE = 10
-const val SHIP_SPEED = 1000.0f
-
 const val BULLET_LIFETIME = 10_000L
 
 enum class Actions {
@@ -85,9 +70,9 @@ object GAME_MANAGER {
             GameState.IN_GAME -> {
                 with(game!!.screen as InGameScreen) {
                     //screenProcessor = InGameInputListener(this)
-                    zirconInputProcessor = ZirconInputListener(
+                    /*zirconInputProcessor = ZirconInputListener(
                             this.zirconApplication.tileGrid.currentTileset().width,
-                            this.zirconApplication.tileGrid.currentTileset().height)
+                            this.zirconApplication.tileGrid.currentTileset().height)*/
                 }
             }
             else -> {
@@ -99,7 +84,7 @@ object GAME_MANAGER {
 
 
         //inputMultiplexer.addProcessor(screenProcessor)
-        inputMultiplexer.addProcessor(zirconInputProcessor)
+        //inputMultiplexer.addProcessor(zirconInputProcessor)
 
         Gdx.input.inputProcessor = inputMultiplexer
     }

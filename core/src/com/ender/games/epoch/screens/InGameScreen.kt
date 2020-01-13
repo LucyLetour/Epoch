@@ -33,8 +33,8 @@ import kotlin.math.min
 
 class InGameScreen(private val game: Epochkt): ScreenAdapter() {
 
-    var zirconApplication: LibgdxApplication
-        private set
+    //var zirconApplication: LibgdxApplication
+    //    private set
 
     val world = World(Vector2(0f, 0f), true).apply {
         setContactListener(B2CollisionListener())
@@ -61,7 +61,7 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
     }
 
     init {
-        val tileset = BuiltInCP437TilesetResource.WANDERLUST_16X16
+        /*val tileset = BuiltInCP437TilesetResource.WANDERLUST_16X16
         zirconApplication = LibgdxApplications.buildApplication(
                 AppConfigs.newConfig()
                         .withDefaultTileset(tileset)
@@ -71,8 +71,7 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
                         .build()
         )
         zirconApplication.start()
-        setupZircon()
-
+        setupZircon()*/
     }
 
     override fun render(delta: Float) {
@@ -89,27 +88,8 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
         //Handle camera zoom
         game.camera.zoom = 6f//Interpolation.fade.apply(game.camera.zoom, targetCameraZoom, ZOOM_SPEED)
 
-        //Handle moving the camera
-        //camDeltaX = physics.get(Player).body!!.position.x - game.camera.position.x
-        //camDeltaY = physics.get(Player).body!!.position.y - game.camera.position.y
-        //val targetPos = Vector3(physics.get(Player).body!!.position.x, physics.get(Player).body!!.position.y, 0f)
-
-        //camDeltaX = Interpolation.linear.apply(camDeltaX, 0f, MOVE_SPEED)
-        //camDeltaY = Interpolation.linear.apply(camDeltaY, 0f, MOVE_SPEED)
-        //game.camera.translate(camDeltaX, camDeltaY)
-        //val camPos = game.camera.position.scl(1f - delta)
-        //targetPos.scl(delta)
-
-        //val t = camPos.cpy()
-
-        //println("delta = ${t.add(targetPos).sub(game.camera.position)}")
-
         camWorld.update(delta)
-        //println("x=${camWorld.x}, y=${camWorld.y}")
-        //game.camera.position.set(camPos.add(targetPos))
         game.camera.position.set(Vector3(camWorld.pos.x, camWorld.pos.y, game.camera.position.z))
-        //Draw the tile actors
-        //tileActorStage.draw()
 
         batch.begin()
         run {
@@ -129,7 +109,7 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
         }
         guiBatch.end()
 
-        zirconApplication.render()
+        //zirconApplication.render()
 
         physicsDebugRenderer.render(world, game.camera.combined)
 
@@ -143,11 +123,11 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
         engine.addEntity(Player)
         //val s = createShip(Ships.ALACRON)
         //engine.addEntity(s.entity)
-        //engine.addEntity(createShip(Ships.CONTREX).entity)
+        engine.addEntity(createShip(Ships.CONTREX).entity)
         //removeShip(s)
-        /*repeat(100) {
-            engine.addEntity(Asteroid((-100..100).random().toFloat(), (-100..100).random().toFloat()))
-        }*/
+        repeat(100) {
+            engine.addEntity(Asteroid((-1000..1000).random().toFloat(), (-1000..1000).random().toFloat()))
+        }
         Player.inventory.addItem(LightAmmo())
         Player.inventory.addItem(LightAmmo())
     }
