@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.ender.games.epoch.*
 import com.ender.games.epoch.entities.Asteroid
+import com.ender.games.epoch.entities.B2CollisionListener
 import com.ender.games.epoch.entities.Player
 import com.ender.games.epoch.entities.components.physics
 import com.ender.games.epoch.entities.components.player
@@ -37,7 +38,9 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
     var zirconApplication: LibgdxApplication
         private set
 
-    val world = World(Vector2(0f, 0f), true)
+    val world = World(Vector2(0f, 0f), true).apply {
+        setContactListener(B2CollisionListener())
+    }
 
     lateinit var smoothCamSubject: SmoothCamSubject
     lateinit var camWorld: SmoothCamWorld

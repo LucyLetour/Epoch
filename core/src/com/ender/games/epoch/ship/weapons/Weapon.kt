@@ -1,6 +1,5 @@
 package com.ender.games.epoch.ship.weapons
 
-import com.badlogic.gdx.Gdx
 import com.ender.games.epoch.ship.Affixation
 import com.ender.games.epoch.ship.Ship
 import kotlin.reflect.KClass
@@ -55,7 +54,7 @@ abstract class Weapon(level: Int, val rof: Float, val rotationAngle: IntRange, p
                     WeaponState.READY
                 } else {
                     WeaponState.RECHARGING
-                }.also { println(it) }
+                }
     }
 }
 

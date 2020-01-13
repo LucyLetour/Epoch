@@ -20,11 +20,11 @@ import kotlin.math.*
 class PlayerControllerSystem:
         IteratingSystem(Family.all(PlayerComponent::class.java, PhysicsComponent::class.java).get()) {
 
-    private val maxOmega = -3f..3f
+    private val maxOmega = -2f..2f
     private val maxVel = -30f..30f
 
     private val targetAcceleration = 7f // m/s^2
-    private val targetRotAccel = 2f // theta/s^2
+    private val targetRotAccel = 1f // theta/s^2
 
     override fun processEntity(entity: Entity?, deltaTime: Float) {
         val oldVel = player.get(entity).smoothCamSubject.velocity.cpy()

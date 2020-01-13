@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.FixtureDef
 import com.badlogic.gdx.physics.box2d.PolygonShape
 import com.ender.games.epoch.GAME_MANAGER
+import com.ender.games.epoch.entities.components.BulletComponent
 import com.ender.games.epoch.entities.components.PhysicsComponent
 import com.ender.games.epoch.entities.components.physics
 import kotlin.math.cos
@@ -13,14 +14,14 @@ import kotlin.math.sin
 
 val bulletList = mutableListOf<Entity>()
 
-fun createBullet(spawner: Entity, offset: Vector2 = Vector2(0f,0f)): Entity {
+fun createBullet(spawner: Entity, offset: Vector2 = Vector2(4f,0f)): Entity {
     val entityPos = physics.get(spawner).body!!.position
     val entityRot = physics.get(spawner).body!!.angle
-    return GAME_MANAGER.game!!.inGameScreen.engine.createEntity().apply {
+    return GAME_MANAGER.game!!.inGameScreen.engine.createEntity().apply entity@{
         add(PhysicsComponent().apply {
             val bodyDef = BodyDef().apply {
                 type = BodyDef.BodyType.DynamicBody
-                position.set(entityPos.add(offset))
+                position.set(entityPos)
                 bullet = true
             }
             body = GAME_MANAGER.game!!.inGameScreen.world.createBody(bodyDef).apply {
@@ -28,21 +29,30 @@ fun createBullet(spawner: Entity, offset: Vector2 = Vector2(0f,0f)): Entity {
                     shape = PolygonShape().apply {
                         setAsBox(.1f,
                                 .01f,
-                                Vector2(0f, 0f),
+                                offset.rotateRad(entityRot),
                                 entityRot)
                     }
                     density = 1f
                 })
                 linearVelocity = Vector2(500f * cos(entityRot),  500f * sin(entityRot)).add(physics.get(spawner).body!!.linearVelocity)
+                userData = this@entity
             }
+        })
+        add(BulletComponent().apply {
+            aliveSince = System.currentTimeMillis()
         })
     }.also {
         if(bulletList.size > 1000) {
-            with( GAME_MANAGER.game!!.inGameScreen) {
-                world.destroyBody(physics.get(bulletList[0]).body)
-                engine.removeEntity(bulletList.removeAt(0))
-            }
+            removeBullet(bulletList[0])
         }
         bulletList.add(it)
+    }
+}
+
+fun removeBullet(bullet: Entity) {
+    with( GAME_MANAGER.game!!.inGameScreen) {
+        world.destroyBody(physics.get(bullet).body)
+        bulletList.remove(bullet)
+        engine.removeEntity(bullet)
     }
 }

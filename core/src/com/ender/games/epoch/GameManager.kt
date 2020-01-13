@@ -30,6 +30,8 @@ const val PLANET_PADDING = 100
 const val PLAYER_VIEW_RANGE = 10
 const val SHIP_SPEED = 1000.0f
 
+const val BULLET_LIFETIME = 10_000L
+
 enum class Actions {
     MOVE,
     INTERACT
