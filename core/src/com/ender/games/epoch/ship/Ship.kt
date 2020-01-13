@@ -20,7 +20,7 @@ class Ship(baseStats: Ships, val entity: Entity) {
     var speed = baseStats.speed
 
     val weaponSlots = 2
-    val weaponArray = MutableList<MutablePair<Weapon, KClass<out Munition>>?>(weaponSlots){ null }
+    val weaponArray = MutableList<Weapon?>(weaponSlots){ null }
 
     val maxAffixLvl = 3
 
@@ -35,7 +35,7 @@ class Ship(baseStats: Ships, val entity: Entity) {
     fun affixWeapon(weapon: Weapon, slot: Int) {
         if(weapon.level <= maxAffixLvl) {
             if (weaponArray[slot] == null) {
-                weaponArray[slot] = MutablePair(weapon, weapon.munitionType)
+                weaponArray[slot] = weapon
             }
         } else {
             throw InvalidAffixationException("Weapon level too high")
@@ -44,18 +44,18 @@ class Ship(baseStats: Ships, val entity: Entity) {
 
     fun fire() {
         for(weapon in weaponArray.filterNotNull()) {
-            if(weapon.first.magEmpty()) {
+            if(weapon.magEmpty()) {
                 try {
                     if (entity is Player) {
-                        weapon.first.load((Player.inventory.removeItem(weapon.second) as Munition?))
+                        weapon.load((Player.inventory.removeItem(weapon.munitionType) as Munition?))
                     } else {
-                        weapon.first.load(weapon.second.objectInstance as Munition)
+                        weapon.load(weapon.munitionType.objectInstance as Munition)
                     }
                 } catch (e: InvalidMunitionType) {
                     TODO("Communicate there is no available ammo")
                 }
             } else {
-                weapon.first.fireIfAble()
+                weapon.fireIfAble()
             }
         }
     }
