@@ -26,18 +26,13 @@ object Player: Entity() {
         type = BodyDef.BodyType.DynamicBody
         position.set(0f, 0f)
         angularDamping = 0.2f
-    }).apply {
-        createFixture(FixtureDef().apply {
-            // TODO Fixture based off of ship
-            shape = CircleShape().apply {
-                radius = 3f
-            }
-            density = 4000f
-        })
-    }
+    })
 
     init {
+        generateShipFixtures(ship.baseStats, body)
+
         add(RenderComponent().apply {
+            representativeFixture = body.fixtureList.find { it.userData is ShipKernel }
             alpha = 1f
             region = ASSET_MANAGER.get(Spritesheets.SHIPS).findRegion(ship.ar)
             z = 0

@@ -17,11 +17,6 @@ const val MAX_ZOOM = 0.7f
 
 const val BULLET_LIFETIME = 10_000L
 
-enum class Actions {
-    MOVE,
-    INTERACT
-}
-
 enum class GameState {
     MAIN_MENU,
     PAUSE_MENU,

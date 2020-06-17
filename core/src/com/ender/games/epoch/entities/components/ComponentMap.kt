@@ -7,3 +7,4 @@ val physics: ComponentMapper<PhysicsComponent> = ComponentMapper.getFor(PhysicsC
 val player: ComponentMapper<PlayerComponent> = ComponentMapper.getFor(PlayerComponent::class.java)
 val bulletReq: ComponentMapper<BulletRequestComponent> = ComponentMapper.getFor(BulletRequestComponent::class.java)
 val bullet: ComponentMapper<BulletComponent> = ComponentMapper.getFor(BulletComponent::class.java)
+val weapon: ComponentMapper<WeaponComponent> = ComponentMapper.getFor(WeaponComponent::class.java)

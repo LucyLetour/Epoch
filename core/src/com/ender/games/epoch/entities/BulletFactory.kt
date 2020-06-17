@@ -19,12 +19,11 @@ fun createBullet(spawner: Entity, offset: Vector2 = Vector2(4f,0f)): Entity {
     val entityRot = physics.get(spawner).body!!.angle
     return GAME_MANAGER.game!!.inGameScreen.engine.createEntity().apply entity@{
         add(PhysicsComponent().apply {
-            val bodyDef = BodyDef().apply {
+            body = GAME_MANAGER.game!!.inGameScreen.world.createBody( BodyDef().apply {
                 type = BodyDef.BodyType.DynamicBody
                 position.set(entityPos)
                 bullet = true
-            }
-            body = GAME_MANAGER.game!!.inGameScreen.world.createBody(bodyDef).apply {
+            }).apply {
                 createFixture(FixtureDef().apply {
                     shape = PolygonShape().apply {
                         setAsBox(.1f,

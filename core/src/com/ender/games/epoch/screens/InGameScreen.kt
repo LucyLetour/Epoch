@@ -123,22 +123,17 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
         engine.addEntity(Player)
         //val s = createShip(Ships.ALACRON)
         //engine.addEntity(s.entity)
-        engine.addEntity(createShip(Ships.CONTREX).entity)
+        //engine.addEntity(createShip(Ships.CONTREX).entity)
         //removeShip(s)
-        repeat(100) {
-            engine.addEntity(Asteroid((-1000..1000).random().toFloat(), (-1000..1000).random().toFloat()))
-        }
+        //repeat(100) {
+        //    engine.addEntity(Asteroid((-1000..1000).random().toFloat(), (-1000..1000).random().toFloat()))
+        //}
         Player.inventory.addItem(LightAmmo())
         Player.inventory.addItem(LightAmmo())
     }
 
     fun zoom(delta: Float) {
         targetCameraZoom = max(min(targetCameraZoom + delta, MAX_ZOOM), MIN_ZOOM)
-    }
-
-    fun scroll(deltaX: Float, deltaY: Float) {
-        //camDeltaX += deltaX// * MOVE_FACTOR// * game.camera.zoom / 2f
-        //camDeltaY += deltaY// * MOVE_FACTOR// * game.camera.zoom / 2f
     }
 
     private fun setupZircon() {
