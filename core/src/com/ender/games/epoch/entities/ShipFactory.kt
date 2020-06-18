@@ -44,20 +44,14 @@ fun removeShip(toRemove: Ship) {
 }
 
 fun generateShipFixtures(baseShip: Ships, body: Body) {
-    when(baseShip) {
-        Ships.HEXACRON -> {
-            body.apply {
-                val defs = getShipFixtureDefs(baseShip)
-                defs.forEach { fullDef ->
-                    this.createFixture(fullDef.first).apply {
-                        userData = fullDef.second
-                    }
-                }
-            }.fixtureList.toList()
+    body.apply {
+        val defs = getShipFixtureDefs(baseShip)
+        defs.forEach { fullDef ->
+            this.createFixture(fullDef.first).apply {
+                userData = fullDef.second
+            }
         }
-        else -> {
-            throw InvalidShipException("${baseShip.shipName} does not have hardpoints to initialize")
-        }
-    }
+    }.fixtureList.toList()
 }
+
 
