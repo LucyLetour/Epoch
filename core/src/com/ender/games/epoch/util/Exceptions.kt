@@ -8,4 +8,4 @@ class InvalidAffixationException(reason: String):
 class InvalidShipException(info: String):
         Exception("Invalid Ship. $info.")
 
-class InvalidShipFixtureMap(): Exception()
+class InvalidShipFixtureMap: Exception()

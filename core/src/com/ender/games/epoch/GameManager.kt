@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.ender.games.epoch.screens.InGameScreen
 //import com.ender.games.epoch.screens.inputListeners.InGameInputListener
 import org.hexworks.zircon.internal.listeners.ZirconInputListener
+import kotlin.math.PI
 
 //Controls speed of zoom. Lower is slower
 const val ZOOM_FACTOR = 0.2f
@@ -16,6 +17,8 @@ const val MIN_ZOOM = 0.1f
 const val MAX_ZOOM = 0.7f
 
 const val BULLET_LIFETIME = 10_000L
+
+const val TAU = 2f * PI.toFloat()
 
 enum class GameState {
     MAIN_MENU,

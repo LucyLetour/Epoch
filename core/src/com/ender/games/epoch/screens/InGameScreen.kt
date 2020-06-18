@@ -86,7 +86,7 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
         batch.projectionMatrix = game.camera.combined
 
         //Handle camera zoom
-        game.camera.zoom = 6f//Interpolation.fade.apply(game.camera.zoom, targetCameraZoom, ZOOM_SPEED)
+        game.camera.zoom = 1f//Interpolation.fade.apply(game.camera.zoom, targetCameraZoom, ZOOM_SPEED)
 
         camWorld.update(delta)
         game.camera.position.set(Vector3(camWorld.pos.x, camWorld.pos.y, game.camera.position.z))

@@ -1,6 +1,7 @@
 package com.ender.games.epoch.entities
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.math.Matrix3
 import com.badlogic.gdx.physics.box2d.*
 import com.ender.games.epoch.GAME_MANAGER
 import com.ender.games.epoch.Ships
@@ -8,10 +9,12 @@ import com.ender.games.epoch.entities.components.PhysicsComponent
 import com.ender.games.epoch.entities.components.RenderComponent
 import com.ender.games.epoch.entities.components.physics
 import com.ender.games.epoch.ship.Ship
+import com.ender.games.epoch.ship.ShipKernel
 import com.ender.games.epoch.util.ASSET_MANAGER
 import com.ender.games.epoch.util.InvalidShipException
 import com.ender.games.epoch.util.Spritesheets
 import com.ender.games.epoch.util.getShipFixtureDefs
+import org.lwjgl.util.vector.Matrix2f
 
 fun createShip(baseShip: Ships): Ship {
     return Ship(
@@ -45,11 +48,10 @@ fun generateShipFixtures(baseShip: Ships, body: Body) {
         Ships.HEXACRON -> {
             body.apply {
                 val defs = getShipFixtureDefs(baseShip)
-                createFixture(defs.first()).apply {
-                    userData = ShipKernel()
-                }
-                defs.drop(1).forEach {
-                    this.createFixture(it)
+                defs.forEach { fullDef ->
+                    this.createFixture(fullDef.first).apply {
+                        userData = fullDef.second
+                    }
                 }
             }.fixtureList.toList()
         }
@@ -59,4 +61,3 @@ fun generateShipFixtures(baseShip: Ships, body: Body) {
     }
 }
 
-class ShipKernel()

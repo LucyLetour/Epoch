@@ -30,8 +30,8 @@ class RenderSystem(private val batch: SpriteBatch):
 
         with(Sprite(rC.region)) {
             setOriginBasedPosition(rC.representativeFixture?.body!!.position.x, rC.representativeFixture?.body!!.position.y)
-            rotation = rC.representativeFixture?.body!!.angle// + (rC.representativeFixture?.userData as FixtureTexData).rot) * MathUtils.radiansToDegrees
-            setScale(1 / PIXELS_PER_METER * 6, 1 / PIXELS_PER_METER * 6) // TODO wtf is that 6??
+            rotation = rC.representativeFixture?.body!!.angle * MathUtils.radiansToDegrees// + (rC.representativeFixture?.userData as FixtureTexData).rot) * MathUtils.radiansToDegrees
+            setScale(1 / PIXELS_PER_METER, 1 / PIXELS_PER_METER) // TODO wtf is that 6?? // Removed the *6 from each term...
             color = Color( // Multiplying colors by the alpha gives a cool grey-out effect as alpha increases
                     this.color.r * rC.alpha,
                     this.color.g * rC.alpha,

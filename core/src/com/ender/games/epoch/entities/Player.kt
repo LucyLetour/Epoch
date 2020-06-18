@@ -11,9 +11,11 @@ import com.ender.games.epoch.entities.components.PlayerComponent
 import com.ender.games.epoch.entities.components.RenderComponent
 import com.ender.games.epoch.items.Inventory
 import com.ender.games.epoch.ship.Ship
+import com.ender.games.epoch.ship.ShipKernel
 import com.ender.games.epoch.ship.weapons.LightBlaster
 import com.ender.games.epoch.util.ASSET_MANAGER
 import com.ender.games.epoch.util.Spritesheets
+import kotlin.math.PI
 
 
 object Player: Entity() {

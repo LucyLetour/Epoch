@@ -1,10 +1,7 @@
 package com.ender.games.epoch.smoothCamera
 
-import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.Vector2
-import kotlin.math.absoluteValue
 import kotlin.math.max
-import kotlin.math.pow
 
 const val MAX_FOLLOW_DIST = 2f
 
