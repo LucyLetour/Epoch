@@ -46,9 +46,9 @@ fun removeShip(toRemove: Ship) {
 fun generateShipFixtures(baseShip: Ships, body: Body) {
     body.apply {
         val defs = getShipFixtureDefs(baseShip)
-        defs.forEach { fullDef ->
-            this.createFixture(fullDef.first).apply {
-                userData = fullDef.second
+        defs.forEach { (fixtureDef, shipPart) ->
+            createFixture(fixtureDef).apply {
+                userData = shipPart
             }
         }
     }.fixtureList.toList()

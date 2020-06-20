@@ -48,7 +48,7 @@ class Epochkt(val screenWidth: Int,
 
     fun setActiveScreen(gameState: GameState) {
         when (gameState) {
-            //GameState.MAIN_MENU -> screen = mainMenuScreen
+            // GameState.MAIN_MENU -> screen = mainMenuScreen
             GameState.IN_GAME -> setScreen(inGameScreen)
             else -> {
                 Gdx.app.error("Invalid Screen", "An invalid game state was given")
