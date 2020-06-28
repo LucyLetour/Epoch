@@ -20,7 +20,7 @@ import kotlin.math.*
 class PlayerControllerSystem:
         IteratingSystem(Family.all(PlayerComponent::class.java, PhysicsComponent::class.java).get()) {
 
-    private val maxOmega = -2f..2f
+    private val maxOmega = -6f..6f
     private val maxVel = -30f..30f
 
     private val targetAcceleration = 7f // m/s^2
@@ -42,7 +42,7 @@ class PlayerControllerSystem:
 
         // Move the ship around a circle of radius max_vel
         if(body.linearVelocity.len() !in maxVel) {
-            val max = body.linearVelocity.cpy().nor().scl(30f)
+            val max = body.linearVelocity.cpy().nor().scl(30f) // TODO what is this 30
             body.linearVelocity = max
         }
 
@@ -55,7 +55,7 @@ class PlayerControllerSystem:
         }
 
         if ((!Gdx.input.isKeyPressed(Input.Keys.D) && !Gdx.input.isKeyPressed(Input.Keys.A)) || body.angularVelocity !in maxOmega) {
-            body.applyTorque(Interpolation.pow5Out.apply(0f, -body.angularVelocity * 500f, body.angularVelocity.absoluteValue / 5f), true)
+            body.applyTorque(Interpolation.pow5Out.apply(0f, -body.angularVelocity * 200f, body.angularVelocity.absoluteValue / 5f), true)
         }
 
         if (Gdx.input.isTouched) {

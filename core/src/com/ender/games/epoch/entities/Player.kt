@@ -27,7 +27,7 @@ object Player: Entity() {
     private val body = world.createBody(BodyDef().apply {
         type = BodyDef.BodyType.DynamicBody
         position.set(0f, 0f)
-        angularDamping = 0.2f
+
     })
 
     init {

@@ -58,11 +58,12 @@ fun getShipFixtureDefs(ship: Ships): List<Pair<FixtureDef, ShipPart>> {
                     shape = PolygonShape().apply {
                         set(bound.chunked(2).map { coord ->
                             Vector2(
-                                    (coord.first().toInt().toFloat() - 64f) / PIXELS_PER_METER,
-                                    (coord.last().toInt().toFloat() - 64f) / PIXELS_PER_METER
+                                    (coord.first().toInt().toFloat() - 64f) / PIXELS_PER_METER, // -> 64 = img height(or width) / 2
+                                    (coord.last().toInt().toFloat() - 64f) / PIXELS_PER_METER   // -> ^
                             ).mul(rotationMatrix(3 * TAU / 4))
                         }.toTypedArray())
                     }
+                    density = 440f // 440 kg/m^2
                 },
                 second = when(type) {
                     "WING" -> Wing()
