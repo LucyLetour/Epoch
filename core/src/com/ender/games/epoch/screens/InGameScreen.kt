@@ -7,27 +7,21 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
+import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.ender.games.epoch.*
 import com.ender.games.epoch.entities.*
-import com.ender.games.epoch.entities.components.physics
+import com.ender.games.epoch.entities.components.InputCodeComponent
+import com.ender.games.epoch.entities.components.inputCode
 import com.ender.games.epoch.entities.components.player
-import com.ender.games.epoch.entities.systems.BulletSystem
-import com.ender.games.epoch.entities.systems.PhysicsSystem
-import com.ender.games.epoch.entities.systems.PlayerControllerSystem
-import com.ender.games.epoch.entities.systems.RenderSystem
+import com.ender.games.epoch.entities.systems.*
 import com.ender.games.epoch.ship.weapons.LightAmmo
 import com.ender.games.epoch.smoothCamera.SmoothCamSubject
 import com.ender.games.epoch.smoothCamera.SmoothCamWorld
-import org.hexworks.zircon.api.AppConfigs
-import org.hexworks.zircon.api.LibgdxApplications
-import org.hexworks.zircon.api.Sizes
-import org.hexworks.zircon.api.resource.BuiltInCP437TilesetResource
-import org.hexworks.zircon.internal.application.LibgdxApplication
 import kotlin.math.max
 import kotlin.math.min
 
@@ -53,6 +47,8 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
 
     private val physicsDebugRenderer = Box2DDebugRenderer()
 
+    val ui = Ui()
+
     val engine = PooledEngine().apply {
         addSystem(PhysicsSystem(world))
         addSystem(RenderSystem(batch))
@@ -72,6 +68,7 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
         )
         zirconApplication.start()
         setupZircon()*/
+        engine.addEntity(InputCode.apply { add(InputCodeComponent()) })
     }
 
     override fun render(delta: Float) {
@@ -107,6 +104,8 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
                 font.color = Color.WHITE
             }
         }
+        ui.act(Gdx.graphics.deltaTime)
+        ui.draw()
         guiBatch.end()
 
         //zirconApplication.render()

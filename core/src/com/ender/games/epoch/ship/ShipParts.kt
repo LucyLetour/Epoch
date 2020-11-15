@@ -7,7 +7,7 @@ import com.ender.games.epoch.ship.weapons.Weapon
 
 open class ShipPart
 
-class Hardpoint: ShipPart()//val level: Int, val fixture: Fixture, var weapon: Weapon? = null): ShipPart()
+class Hardpoint(val level: Int, /*val fixture: Fixture, */var weapon: Weapon? = null): ShipPart()
 
 class Thruster: ShipPart()
 

@@ -2,6 +2,9 @@ package com.ender.games.epoch.ship
 
 import com.badlogic.ashley.core.Entity
 import com.ender.games.epoch.Ships
+import com.ender.games.epoch.entities.Player
+import com.ender.games.epoch.ship.weapons.InvalidMunitionType
+import com.ender.games.epoch.ship.weapons.Munition
 import com.ender.games.epoch.ship.weapons.Weapon
 import com.ender.games.epoch.util.InvalidAffixationException
 
@@ -20,10 +23,10 @@ class Ship(val baseStats: Ships, val entity: Entity) {
     var cargoSpace = baseStats.cargoSpace
     var speed = baseStats.speed
 
-    val hardpoints = 2
-    //val hardpointArray = MutableList<Hardpoint>(hardpoints) { idx ->  }
+    private val hardpoints = 2
+    private val hardpointArray = Array(hardpoints) { Hardpoint(3, null) }
 
-    val maxAffixLvl = 3
+    private val maxAffixLvl = 3
 
     fun affixArmor(armorPiece: Armor) {
         if(armorPiece.level <= maxAffixLvl) {
@@ -34,17 +37,17 @@ class Ship(val baseStats: Ships, val entity: Entity) {
     }
 
     fun affixWeapon(weapon: Weapon, slot: Int) {
-        /*if(weapon.level <= hardpointArray[slot].level) {
+        if(weapon.level <= hardpointArray[slot].level) {
             if (hardpointArray[slot].weapon == null) {
                 hardpointArray[slot].weapon = weapon
             }
         } else {
             throw InvalidAffixationException("Weapon level too high")
-        }*/
+        }
     }
 
     fun fire() {
-        /*for(weapon in hardpointArray.mapNotNull { it.weapon }) {
+        for(weapon in hardpointArray.mapNotNull { it.weapon }) {
             if(weapon.magEmpty()) {
                 try {
                     if (entity is Player) {
@@ -58,6 +61,6 @@ class Ship(val baseStats: Ships, val entity: Entity) {
             } else {
                 weapon.fireIfAble()
             }
-        }*/
+        }
     }
 }

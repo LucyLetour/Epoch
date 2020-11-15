@@ -67,7 +67,7 @@ fun getShipFixtureDefs(ship: Ships): List<Pair<FixtureDef, ShipPart>> {
                 },
                 second = when(type) {
                     "WING" -> Wing()
-                    "HARDPOINT" -> Hardpoint()
+                    "HARDPOINT" -> Hardpoint(3)
                     "THRUSTER" -> Thruster()
                     "BODY" -> Body()
                     else -> throw InvalidShipFixtureMap()

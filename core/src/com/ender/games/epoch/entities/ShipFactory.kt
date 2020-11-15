@@ -18,23 +18,23 @@ import org.lwjgl.util.vector.Matrix2f
 
 fun createShip(baseShip: Ships): Ship {
     return Ship(
-            entity = Entity().apply {
-                    add(PhysicsComponent().apply {
-                        body = GAME_MANAGER.game!!.inGameScreen.world.createBody(BodyDef().apply {
-                            type = BodyDef.BodyType.DynamicBody
-                            position.set(6f, 6f)
-                            angularDamping = 0.2f
-                        }).apply {
-                            generateShipFixtures(baseShip, this)
-                        }
-                    })
-                    add(RenderComponent().apply {
-                        alpha = 1f
-                        region = ASSET_MANAGER.get(Spritesheets.SHIPS).findRegion(baseShip.atlasRegion)
-                        z = 0
-                    })
-                },
-            baseStats = baseShip
+        entity = Entity().apply {
+                add(PhysicsComponent().apply {
+                    body = GAME_MANAGER.game!!.inGameScreen.world.createBody(BodyDef().apply {
+                        type = BodyDef.BodyType.DynamicBody
+                        position.set(6f, 6f)
+                        angularDamping = 0.1f
+                    }).apply {
+                        generateShipFixtures(baseShip, this)
+                    }
+                })
+                add(RenderComponent().apply {
+                    alpha = 1f
+                    region = ASSET_MANAGER.get(Spritesheets.SHIPS).findRegion(baseShip.atlasRegion)
+                    z = 0
+                })
+            },
+        baseStats = baseShip
     )
 }
 

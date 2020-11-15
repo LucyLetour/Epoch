@@ -8,35 +8,35 @@ import com.badlogic.gdx.Input
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
+import com.badlogic.gdx.physics.box2d.Body
 import com.ender.games.epoch.GAME_MANAGER
 import com.ender.games.epoch.entities.Player
-import com.ender.games.epoch.entities.components.PhysicsComponent
-import com.ender.games.epoch.entities.components.PlayerComponent
-import com.ender.games.epoch.entities.components.physics
-import com.ender.games.epoch.entities.components.player
+import com.ender.games.epoch.entities.components.*
 import com.ender.games.epoch.entities.createBullet
 import kotlin.math.*
 
 class PlayerControllerSystem:
-        IteratingSystem(Family.all(PlayerComponent::class.java, PhysicsComponent::class.java).get()) {
+        IteratingSystem(Family.all(InputCodeComponent::class.java).get()) {
 
     private val maxOmega = -6f..6f
     private val maxVel = -30f..30f
 
     private val targetAcceleration = 7f // m/s^2
-    private val targetRotAccel = 1f // theta/s^2
+    private val targetRotAccel = 1f // theta/s^2 - In radians I think
+
+    val body by lazy {
+        physics.get(Player).body!!
+    }
 
     override fun processEntity(entity: Entity?, deltaTime: Float) {
-        val oldVel = player.get(entity).smoothCamSubject.velocity.cpy()
-
-        val body = physics.get(entity).body!!
+        val oldVel = player.get(Player).smoothCamSubject.velocity.cpy()
         val rot = body.angle
 
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+        if (inputCode.get(entity).w) {
             body.applyForceToCenter(cos(rot) * (body.mass * targetAcceleration), sin(rot) * (body.mass * targetAcceleration), true) // F = ma
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+        if (inputCode.get(entity).s) {
             body.applyForceToCenter(-cos(rot) * (body.mass * targetAcceleration), -sin(rot) * (body.mass * targetAcceleration), true) // F = ma
         }
 
@@ -46,23 +46,23 @@ class PlayerControllerSystem:
             body.linearVelocity = max
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.D) && body.angularVelocity in maxOmega) {
+        if (inputCode.get(entity).d && body.angularVelocity in maxOmega) {
             body.applyTorque(-body.inertia * targetRotAccel, true) // tau = Ia
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.A) && body.angularVelocity in maxOmega) {
+        if (inputCode.get(entity).a && body.angularVelocity in maxOmega) {
             body.applyTorque(body.inertia * targetRotAccel, true) // tau = Ia
         }
 
-        if ((!Gdx.input.isKeyPressed(Input.Keys.D) && !Gdx.input.isKeyPressed(Input.Keys.A)) || body.angularVelocity !in maxOmega) {
+        if ((!inputCode.get(entity).d && !inputCode.get(entity).a) || body.angularVelocity !in maxOmega) {
             body.applyTorque(Interpolation.pow5Out.apply(0f, -body.angularVelocity * 200f, body.angularVelocity.absoluteValue / 5f), true)
         }
 
-        if (Gdx.input.isTouched) {
+        if (inputCode.get(entity).m1) {
             Player.ship.fire()
         }
 
-        with(player.get(entity).smoothCamSubject) {
+        with(player.get(Player).smoothCamSubject) {
             accel = (body.linearVelocity.cpy().sub(oldVel)).scl(1f / deltaTime)
             //println("${body.linearVelocity}, $oldVel, ${1f/deltaTime}")
             velocity = body.linearVelocity

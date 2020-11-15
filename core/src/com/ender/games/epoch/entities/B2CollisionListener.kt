@@ -15,6 +15,7 @@ class B2CollisionListener: ContactListener {
         if(eA != null && bullet.has(eA)) {
             bullet.get(eA).delete = true
         }
+
         if(eB != null && bullet.has(eB)) {
             bullet.get(eB).delete = true
         }

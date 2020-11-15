@@ -14,7 +14,7 @@ abstract class Weapon(level: Int, val rof: Float, val rotationAngle: IntRange, p
 
     var startReload: Long = 0L
 
-    private fun load(magazine: Munition?) {
+    fun load(magazine: Munition?) {
         if(munitionType.isInstance(magazine)) {
             startReload = System.currentTimeMillis()
             state = WeaponState.LOADING
@@ -27,7 +27,7 @@ abstract class Weapon(level: Int, val rof: Float, val rotationAngle: IntRange, p
         }
     }
 
-    private fun magEmpty() = (curMagazine?.count ?: 0) <= 0
+    fun magEmpty() = (curMagazine?.count ?: 0) <= 0
 
     protected abstract fun fire()
 

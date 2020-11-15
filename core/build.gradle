@@ -9,3 +9,8 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 eclipse.project {
     name = appName + "-core"
 }
+compileKotlin {
+    kotlinOptions {
+        languageVersion = "1.4"
+    }
+}

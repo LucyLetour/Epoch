@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer
 import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.ender.games.epoch.screens.InGameScreen
+import com.ender.games.epoch.screens.inputListeners.InGameInputListener
 //import com.ender.games.epoch.screens.inputListeners.InGameInputListener
 import org.hexworks.zircon.internal.listeners.ZirconInputListener
 import kotlin.math.PI
@@ -37,7 +38,8 @@ enum class Location {
 }
 
 object GAME_MANAGER {
-    private var gameState = GameState.IN_GAME
+    var gameState: GameState = GameState.IN_GAME
+        private set
     var location = Location.OPEN_SPACE
         private set
     private val inputMultiplexer = InputMultiplexer()
@@ -60,17 +62,13 @@ object GAME_MANAGER {
      * @param gameState the current GameState
      */
     private fun setInputProcessorGM(gameState: GameState) {
-        val screenProcessor: InputProcessor
-        val stageProcessor: Stage
-        val zirconInputProcessor: InputProcessor
+        inputMultiplexer.clear()
 
         when (gameState) {
             GameState.IN_GAME -> {
                 with(game!!.screen as InGameScreen) {
-                    //screenProcessor = InGameInputListener(this)
-                    /*zirconInputProcessor = ZirconInputListener(
-                            this.zirconApplication.tileGrid.currentTileset().width,
-                            this.zirconApplication.tileGrid.currentTileset().height)*/
+                    inputMultiplexer.addProcessor(this.ui)
+                    inputMultiplexer.addProcessor(InGameInputListener(this))
                 }
             }
             else -> {
@@ -79,10 +77,6 @@ object GAME_MANAGER {
                 throw RuntimeException()
             }
         }
-
-
-        //inputMultiplexer.addProcessor(screenProcessor)
-        //inputMultiplexer.addProcessor(zirconInputProcessor)
 
         Gdx.input.inputProcessor = inputMultiplexer
     }

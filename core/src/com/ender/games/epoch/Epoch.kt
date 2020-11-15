@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.ender.games.epoch.screens.InGameScreen
 import com.ender.games.epoch.util.ASSET_MANAGER
 import com.ender.games.epoch.util.Spritesheets
-import com.ender.games.epoch.util.Textures
+import com.ender.games.epoch.util.UI
 
 class Epochkt(val screenWidth: Int,
               val screenHeight: Int,
@@ -42,7 +42,8 @@ class Epochkt(val screenWidth: Int,
         with(ASSET_MANAGER) {
             load(Spritesheets.SHIPS)
             load(Spritesheets.PLANETS)
-            load(Textures.HEX_TILE)
+            load(UI.SKIN)
+            load(UI.ATLAS)
         }
     }
 
