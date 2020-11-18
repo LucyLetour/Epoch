@@ -26,6 +26,9 @@ object TileMaps {
 object Textures {
     //public static AssetDescriptor<Texture> name = new AssetDescriptor<>("path/file.png", Texture.class);
     var HEX_TILE = AssetDescriptor("maps/HexagonTile.png", Texture::class.java)
+    var LIGHT_AMMO_TEX = AssetDescriptor("items/lightAmmo.png", Texture::class.java)
+    var MED_AMMO_TEX = AssetDescriptor("items/mediumAmmo.png", Texture::class.java)
+    var HEAVY_AMMO_TEX = AssetDescriptor("items/heavyAmmo.png", Texture::class.java)
 }
 
 object UI {

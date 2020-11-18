@@ -1,8 +1,11 @@
 package com.ender.games.epoch.items
 
+import com.badlogic.gdx.graphics.Texture
 import kotlin.reflect.KClass
 
-interface InventoryItem
+interface InventoryItem {
+    fun getIcon() : Texture
+}
 
 interface Equippable: InventoryItem
 
@@ -46,6 +49,8 @@ object Inventory {
             slots.add(Stack(mutableListOf(item)))
         }
     }
+
+    fun items() = slots.map { it }
 }
 
 
@@ -56,6 +61,8 @@ class Stack<T: InventoryItem>(val list: MutableList<T>) {
     fun size() = list.size
     fun type() = list[0]::class
     fun first() = list.removeAt(0)
+    fun icon() = list.first().getIcon()
+
     fun add(item: T) {
         list.add(item)
     }

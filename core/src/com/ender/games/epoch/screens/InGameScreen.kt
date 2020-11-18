@@ -19,6 +19,7 @@ import com.ender.games.epoch.entities.components.InputCodeComponent
 import com.ender.games.epoch.entities.components.inputCode
 import com.ender.games.epoch.entities.components.player
 import com.ender.games.epoch.entities.systems.*
+import com.ender.games.epoch.ship.weapons.HeavyAmmo
 import com.ender.games.epoch.ship.weapons.LightAmmo
 import com.ender.games.epoch.smoothCamera.SmoothCamSubject
 import com.ender.games.epoch.smoothCamera.SmoothCamWorld
@@ -128,7 +129,7 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
         //    engine.addEntity(Asteroid((-1000..1000).random().toFloat(), (-1000..1000).random().toFloat()))
         //}
         Player.inventory.addItem(LightAmmo())
-        Player.inventory.addItem(LightAmmo())
+        Player.inventory.addItem(HeavyAmmo())
     }
 
     fun zoom(delta: Float) {

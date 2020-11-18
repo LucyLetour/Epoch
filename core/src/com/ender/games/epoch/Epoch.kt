@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.ender.games.epoch.screens.InGameScreen
 import com.ender.games.epoch.util.ASSET_MANAGER
 import com.ender.games.epoch.util.Spritesheets
+import com.ender.games.epoch.util.Textures
 import com.ender.games.epoch.util.UI
 
 class Epochkt(val screenWidth: Int,
@@ -15,7 +16,7 @@ class Epochkt(val screenWidth: Int,
               val debug: Boolean = false): Game() {
 
     val camera = OrthographicCamera()
-    val viewport = ExtendViewport(19.2f, 10.8f, camera)
+    val viewport = ExtendViewport(192f / 4, 108f / 4, camera)
 
     lateinit var inGameScreen: InGameScreen
     //private val mainMenuScreen = MainMenu(this)
@@ -44,6 +45,9 @@ class Epochkt(val screenWidth: Int,
             load(Spritesheets.PLANETS)
             load(UI.SKIN)
             load(UI.ATLAS)
+            load(Textures.LIGHT_AMMO_TEX)
+            load(Textures.MED_AMMO_TEX)
+            load(Textures.HEAVY_AMMO_TEX)
         }
     }
 

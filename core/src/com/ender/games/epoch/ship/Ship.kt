@@ -56,7 +56,7 @@ class Ship(val baseStats: Ships, val entity: Entity) {
                         weapon.load(weapon.munitionType.objectInstance as Munition)
                     }
                 } catch (e: InvalidMunitionType) {
-                    TODO("Communicate there is no available ammo")
+                    // TODO "Communicate there is no available ammo"
                 }
             } else {
                 weapon.fireIfAble()
