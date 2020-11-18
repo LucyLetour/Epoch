@@ -9,22 +9,21 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
-import com.badlogic.gdx.physics.box2d.World
-import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.badlogic.gdx.physics.box2d.*
 import com.ender.games.epoch.*
 import com.ender.games.epoch.entities.*
 import com.ender.games.epoch.entities.components.InputCodeComponent
-import com.ender.games.epoch.entities.components.inputCode
 import com.ender.games.epoch.entities.components.player
 import com.ender.games.epoch.entities.systems.*
 import com.ender.games.epoch.ship.weapons.HeavyAmmo
 import com.ender.games.epoch.ship.weapons.LightAmmo
 import com.ender.games.epoch.smoothCamera.SmoothCamSubject
 import com.ender.games.epoch.smoothCamera.SmoothCamWorld
-import kotlin.math.max
-import kotlin.math.min
+import com.ender.games.epoch.util.HexMap
+import com.ender.games.epoch.util.Room
+import com.ender.games.epoch.util.toPoint
+import com.ender.games.epoch.util.toVec2
+import kotlin.math.*
 
 class InGameScreen(private val game: Epochkt): ScreenAdapter() {
 
@@ -70,6 +69,7 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
         zirconApplication.start()
         setupZircon()*/
         engine.addEntity(InputCode.apply { add(InputCodeComponent()) })
+        setupMap()
     }
 
     override fun render(delta: Float) {
@@ -134,6 +134,68 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
 
     fun zoom(delta: Float) {
         targetCameraZoom = max(min(targetCameraZoom + delta, MAX_ZOOM), MIN_ZOOM)
+    }
+
+    private fun setupMap() {
+        HexMap.gen(5)
+        genBodies()
+    }
+
+    private fun genBodies(room: Room = HexMap.head) {
+        val hexPos = room.coord.toQR().toPoint().toVec2().scl(HEX_ROOM_SIZE / 100f)
+        val side = HEX_ROOM_SIZE
+        val apothem = side * sqrt(3f) / 2f
+
+        val doorCenterOffset = (HEX_DOORWAY_SIZE / 2f) + (side / 2f - HEX_DOORWAY_SIZE / 2f) / 2f
+
+        world.createBody(BodyDef().apply {
+            type = BodyDef.BodyType.StaticBody
+            position.set(hexPos.scl(100f))
+        }).apply {
+            for(i in 0..5) {
+                val sideCenter = Vector2(
+                        apothem * cos(Math.toRadians(i * 60.0)).toFloat(),
+                        apothem * sin(Math.toRadians(i * 60.0)).toFloat()
+                )
+                if(room.parentAt(i)) {
+                    // Pass
+                } else if(!room.hasChild(i)) {
+                    createFixture(FixtureDef().apply {
+                        shape = PolygonShape().apply {
+                            setAsBox(
+                                    HEX_ROOM_WALL_THICKNESS / 2f,
+                                    side / 2f,
+                                    sideCenter,
+                                    Math.toRadians(i * 60.0).toFloat()
+                            )
+                        }
+                    })
+                } else {
+                    createFixture(FixtureDef().apply {
+                        shape = PolygonShape().apply {
+                            setAsBox(
+                                    HEX_ROOM_WALL_THICKNESS / 2f,
+                                    ((side / 2f) - (HEX_DOORWAY_SIZE / 2f)) / 2f,
+                                    sideCenter.cpy().add(sideCenter.cpy().rotate90(-1).nor().scl(doorCenterOffset)),
+                                    Math.toRadians(i * 60.0).toFloat()
+                            )
+                        }
+                    })
+                    createFixture(FixtureDef().apply {
+                        shape = PolygonShape().apply {
+                            setAsBox(
+                                    HEX_ROOM_WALL_THICKNESS / 2f,
+                                    (side  / 2f - HEX_DOORWAY_SIZE / 2f) / 2f,
+                                    sideCenter.cpy().add(sideCenter.cpy().rotate90(1).nor().scl(doorCenterOffset)),
+                                    Math.toRadians(i * 60.0).toFloat()
+                            )
+                        }
+                    })
+                }
+            }
+        }
+
+        room.children.forEach { genBodies(it) }
     }
 
     private fun setupZircon() {

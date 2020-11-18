@@ -9,6 +9,8 @@ import com.ender.games.epoch.screens.inputListeners.InGameInputListener
 //import com.ender.games.epoch.screens.inputListeners.InGameInputListener
 import org.hexworks.zircon.internal.listeners.ZirconInputListener
 import kotlin.math.PI
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 //Controls speed of zoom. Lower is slower
 const val ZOOM_FACTOR = 0.2f
@@ -18,6 +20,14 @@ const val MIN_ZOOM = 0.1f
 const val MAX_ZOOM = 0.7f
 
 const val BULLET_LIFETIME = 10_000L
+
+const val HEX_ROOM_SIZE = 5f
+//val INTERNAL_HEX_SIZE = HEX_ROOM_SIZE * sqrt(3f) / 2
+const val HEX_ROOM_WALL_THICKNESS = 0.2f
+const val HEX_DOORWAY_SIZE = 4f
+
+// E(B) where B is the event of a side of a room having a branch
+const val E_BRANCHES = 2
 
 const val TAU = 2f * PI.toFloat()
 
