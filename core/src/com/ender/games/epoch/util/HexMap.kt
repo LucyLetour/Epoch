@@ -1,7 +1,6 @@
 package com.ender.games.epoch.util
 
 import com.ender.games.epoch.E_BRANCHES
-import com.ender.games.epoch.HEX_ROOM_SIZE
 import kotlin.math.absoluteValue
 import kotlin.math.round
 import kotlin.math.sqrt
@@ -80,7 +79,6 @@ object HexMap {
     fun gen(numRooms: Int) {
         head.children.clear()
         gen(numRooms, head)
-
     }
 
     private fun gen(numRooms: Int, prev: Room) {
@@ -97,19 +95,20 @@ object HexMap {
 
         if(nr > 0) {
             if(prev.children.isEmpty()) {
+                // If the room has an allocated number of rooms to spawn and hasn't spawned any, force one if possible
                 var p = false
                 for(i in 0..5) {
-                    if(nr <= 0) break
                     if(!head.contains(prev.coord + dirs[i]!!)) {
                         prev.children.add(Room(prev.coord + dirs[i]!!, prev))
                         nr--
                         p = true
                     }
                 }
-                if(!p) return
+                // If the room cannot allocate any, propagate up. If the room in question is the head, give up
+                if(!p) if(prev != head) gen(nr, prev) else return
             }
 
-            var dChildRs =
+            val dChildRs =
                     MutableList(prev.children.size) { rnd.nextDouble(0.0, 1.0) }
             val pSum = dChildRs.sum()
             val iChildRs = dChildRs.map { it / pSum * nr}.map { it.toInt() } as MutableList<Int>
