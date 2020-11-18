@@ -105,7 +105,7 @@ object HexMap {
                     }
                 }
                 // If the room cannot allocate any, propagate up. If the room in question is the head, give up
-                if(!p) if(prev != head) gen(nr, prev) else return
+                if(!p) if(prev.parent != head) gen(nr, prev.parent!!) else return
             }
 
             val dChildRs =

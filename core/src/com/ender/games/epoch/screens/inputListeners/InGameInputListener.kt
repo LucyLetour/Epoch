@@ -2,8 +2,6 @@ package com.ender.games.epoch.screens.inputListeners
 
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.InputAdapter
-import com.badlogic.gdx.InputProcessor
-import com.badlogic.gdx.math.Vector2
 import com.ender.games.epoch.entities.components.inputCode
 import com.ender.games.epoch.entities.systems.*
 import com.ender.games.epoch.screens.InGameScreen

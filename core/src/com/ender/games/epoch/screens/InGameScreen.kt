@@ -21,6 +21,7 @@ import com.ender.games.epoch.smoothCamera.SmoothCamSubject
 import com.ender.games.epoch.smoothCamera.SmoothCamWorld
 import com.ender.games.epoch.util.HexMap
 import com.ender.games.epoch.util.Room
+import com.ender.games.epoch.util.bloom.Bloom
 import com.ender.games.epoch.util.toPoint
 import com.ender.games.epoch.util.toVec2
 import kotlin.math.*
@@ -56,6 +57,8 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
         addSystem(BulletSystem())
     }
 
+    val bloom = Bloom()
+
     init {
         /*val tileset = BuiltInCP437TilesetResource.WANDERLUST_16X16
         zirconApplication = LibgdxApplications.buildApplication(
@@ -89,11 +92,15 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
         camWorld.update(delta)
         game.camera.position.set(Vector3(camWorld.pos.x, camWorld.pos.y, game.camera.position.z))
 
+        bloom.capture()
+
         batch.begin()
         run {
             engine.update(delta)
         }
         batch.end()
+
+        bloom.render()
 
         //Draw the GUI
         guiBatch.begin()
@@ -157,40 +164,40 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
                         apothem * cos(Math.toRadians(i * 60.0)).toFloat(),
                         apothem * sin(Math.toRadians(i * 60.0)).toFloat()
                 )
-                if(room.parentAt(i)) {
-                    // Pass
-                } else if(!room.hasChild(i)) {
-                    createFixture(FixtureDef().apply {
-                        shape = PolygonShape().apply {
-                            setAsBox(
-                                    HEX_ROOM_WALL_THICKNESS / 2f,
-                                    side / 2f,
-                                    sideCenter,
-                                    Math.toRadians(i * 60.0).toFloat()
-                            )
-                        }
-                    })
-                } else {
-                    createFixture(FixtureDef().apply {
-                        shape = PolygonShape().apply {
-                            setAsBox(
-                                    HEX_ROOM_WALL_THICKNESS / 2f,
-                                    ((side / 2f) - (HEX_DOORWAY_SIZE / 2f)) / 2f,
-                                    sideCenter.cpy().add(sideCenter.cpy().rotate90(-1).nor().scl(doorCenterOffset)),
-                                    Math.toRadians(i * 60.0).toFloat()
-                            )
-                        }
-                    })
-                    createFixture(FixtureDef().apply {
-                        shape = PolygonShape().apply {
-                            setAsBox(
-                                    HEX_ROOM_WALL_THICKNESS / 2f,
-                                    (side  / 2f - HEX_DOORWAY_SIZE / 2f) / 2f,
-                                    sideCenter.cpy().add(sideCenter.cpy().rotate90(1).nor().scl(doorCenterOffset)),
-                                    Math.toRadians(i * 60.0).toFloat()
-                            )
-                        }
-                    })
+                if(!room.parentAt(i)) { // If the wall comes from the parent, don't spawn any walls (saves 2 boxes)
+                    if(room.hasChild(i)) { // If the wall is connected to a child, spawn a door
+                        createFixture(FixtureDef().apply {
+                            shape = PolygonShape().apply {
+                                setAsBox(
+                                        HEX_ROOM_WALL_THICKNESS / 2f,
+                                        ((side / 2f) - (HEX_DOORWAY_SIZE / 2f)) / 2f,
+                                        sideCenter.cpy().add(sideCenter.cpy().rotate90(-1).nor().scl(doorCenterOffset)),
+                                        Math.toRadians(i * 60.0).toFloat()
+                                )
+                            }
+                        })
+                        createFixture(FixtureDef().apply {
+                            shape = PolygonShape().apply {
+                                setAsBox(
+                                        HEX_ROOM_WALL_THICKNESS / 2f,
+                                        (side  / 2f - HEX_DOORWAY_SIZE / 2f) / 2f,
+                                        sideCenter.cpy().add(sideCenter.cpy().rotate90(1).nor().scl(doorCenterOffset)),
+                                        Math.toRadians(i * 60.0).toFloat()
+                                )
+                            }
+                        })
+                    } else { // Spawn a regular, solid wall
+                        createFixture(FixtureDef().apply {
+                            shape = PolygonShape().apply {
+                                setAsBox(
+                                        HEX_ROOM_WALL_THICKNESS / 2f,
+                                        side / 2f,
+                                        sideCenter,
+                                        Math.toRadians(i * 60.0).toFloat()
+                                )
+                            }
+                        })
+                    }
                 }
             }
         }

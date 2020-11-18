@@ -3,16 +3,9 @@ package com.ender.games.epoch.entities.systems
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family
 import com.badlogic.ashley.systems.IteratingSystem
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
 import com.badlogic.gdx.math.Interpolation
-import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.math.Vector3
-import com.badlogic.gdx.physics.box2d.Body
-import com.ender.games.epoch.GAME_MANAGER
 import com.ender.games.epoch.entities.Player
 import com.ender.games.epoch.entities.components.*
-import com.ender.games.epoch.entities.createBullet
 import kotlin.math.*
 
 class PlayerControllerSystem:
@@ -22,7 +15,7 @@ class PlayerControllerSystem:
     private val maxVel = -30f..30f
 
     private val targetAcceleration = 7f // m/s^2
-    private val targetRotAccel = 1f // theta/s^2 - In radians I think
+    private val targetRotAccel = 7f // theta/s^2 - In radians I think
 
     val body by lazy {
         physics.get(Player).body!!
@@ -64,11 +57,8 @@ class PlayerControllerSystem:
 
         with(player.get(Player).smoothCamSubject) {
             accel = (body.linearVelocity.cpy().sub(oldVel)).scl(1f / deltaTime)
-            //println("${body.linearVelocity}, $oldVel, ${1f/deltaTime}")
             velocity = body.linearVelocity
             pos = body.position
         }
-
-        //player.get(entity).smoothCamSubject.aiming = Vector2(cos(rot), sin(rot))
     }
 }
