@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputAdapter
 import com.ender.games.epoch.entities.components.inputCode
 import com.ender.games.epoch.entities.systems.*
 import com.ender.games.epoch.screens.InGameScreen
+import com.ender.games.epoch.util.BeatManager
 
 class InGameInputListener(private val screen: InGameScreen): InputAdapter() {
     private val inputArray by lazy {
@@ -13,6 +14,15 @@ class InGameInputListener(private val screen: InGameScreen): InputAdapter() {
 
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         inputArray.m1 = true
+        return true
+    }
+
+    override fun keyTyped(character: Char): Boolean {
+        when(character) {
+            'z' -> BeatManager.triggerShop()
+            'x' -> BeatManager.triggerLeaveShop()
+            else -> return false
+        }
         return true
     }
 

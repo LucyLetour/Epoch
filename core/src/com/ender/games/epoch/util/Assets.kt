@@ -29,6 +29,10 @@ object Textures {
     var LIGHT_AMMO_TEX = AssetDescriptor("items/lightAmmo.png", Texture::class.java)
     var MED_AMMO_TEX = AssetDescriptor("items/mediumAmmo.png", Texture::class.java)
     var HEAVY_AMMO_TEX = AssetDescriptor("items/heavyAmmo.png", Texture::class.java)
+    var TEMP_HEXACRON_TEST = AssetDescriptor("ships/HEXACRON.png", Texture::class.java)
+    var WALL_UNIT = AssetDescriptor("maps/wallUnit.png", Texture::class.java)
+    var HEX_UNIT = AssetDescriptor("maps/hexUnit.png", Texture::class.java)
+    var CIRCLE_UNIT = AssetDescriptor("maps/circleUnit.png", Texture::class.java)
 }
 
 object UI {
@@ -38,6 +42,7 @@ object UI {
 
 object Audio {
     var THEME = AssetDescriptor("sfx/music/fallen.wav", Music::class.java)
+    var MUSIC = AssetDescriptor("sfx/music/twin_suns.wav", Music::class.java)
     var LASER_SHOOT = AssetDescriptor("sounds/laser.ogg", Sound::class.java)
     var POWERUP_SOUND = AssetDescriptor("sounds/powerup.ogg", Sound::class.java)
 }

@@ -6,10 +6,8 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.ender.games.epoch.screens.InGameScreen
-import com.ender.games.epoch.util.ASSET_MANAGER
-import com.ender.games.epoch.util.Spritesheets
-import com.ender.games.epoch.util.Textures
-import com.ender.games.epoch.util.UI
+import com.ender.games.epoch.util.*
+import kotlin.properties.Delegates
 
 class Epochkt(val screenWidth: Int,
               val screenHeight: Int,
@@ -48,6 +46,11 @@ class Epochkt(val screenWidth: Int,
             load(Textures.LIGHT_AMMO_TEX)
             load(Textures.MED_AMMO_TEX)
             load(Textures.HEAVY_AMMO_TEX)
+            load(Textures.TEMP_HEXACRON_TEST)
+            load(Audio.MUSIC)
+            load(Textures.HEX_UNIT)
+            load(Textures.WALL_UNIT)
+            load(Textures.CIRCLE_UNIT)
         }
     }
 

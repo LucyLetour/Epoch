@@ -8,4 +8,6 @@ class InputCodeComponent: Component {
     var s: Boolean = false
     var d: Boolean = false
     var m1: Boolean = false
+    var z: Boolean = false
+    var x: Boolean = false
 }

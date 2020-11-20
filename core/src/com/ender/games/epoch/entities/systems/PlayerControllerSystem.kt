@@ -25,6 +25,10 @@ class PlayerControllerSystem:
         val oldVel = player.get(Player).smoothCamSubject.velocity.cpy()
         val rot = body.angle
 
+        if (inputCode.get(entity).z) {
+            body.applyForceToCenter(cos(rot) * (body.mass * targetAcceleration), sin(rot) * (body.mass * targetAcceleration), true) // F = ma
+        }
+
         if (inputCode.get(entity).w) {
             body.applyForceToCenter(cos(rot) * (body.mass * targetAcceleration), sin(rot) * (body.mass * targetAcceleration), true) // F = ma
         }

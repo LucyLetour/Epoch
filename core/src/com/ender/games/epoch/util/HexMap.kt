@@ -6,10 +6,8 @@ import kotlin.math.round
 import kotlin.math.sqrt
 import kotlin.random.Random
 
-data class Room(val coord: HexCoord, val parent: Room?) {
+data class Room(val coord: HexCoord, val parent: Room?, val type: Int = Random(System.nanoTime()).nextInt(0, 6)) {
     val children: MutableList<Room> = mutableListOf()
-
-    fun contains(hCoord: HexCoord): Boolean = hCoord == coord || children.any { it.contains(hCoord) }
 
     fun parentAt(dir: Int) = parent?.coord == coord + dirs[dir]!!
     fun hasChild(dir: Int) = children.map { it.coord }.contains(coord + dirs[dir]!!)
@@ -22,6 +20,25 @@ data class Room(val coord: HexCoord, val parent: Room?) {
     override fun toString(): String {
         return "$coord $children"
     }
+}
+
+fun contains(head: Room, hCoord: HexCoord): Boolean {
+    val frontier = mutableListOf(head)
+    while(frontier.isNotEmpty()) {
+        if(frontier[0].coord == hCoord) return true
+        frontier.addAll(frontier.removeAt(0).children)
+    }
+    return false
+}
+
+fun count(head: Room): Int {
+    val frontier = mutableListOf(head)
+    var count = 0
+    while(frontier.isNotEmpty()) {
+        count++
+        frontier.addAll(frontier.removeAt(0).children)
+    }
+    return count
 }
 
 data class Cube(val x: Float, val y: Float, val z: Float) {
@@ -74,7 +91,7 @@ fun cubeRound(cube: Cube): HexCoord  {
 object HexMap {
     var seed = System.currentTimeMillis()
     private val rnd = Random(seed)
-    val head = Room(HEX_ZERO, null)
+    val head = Room(HEX_ZERO, null, 0)
 
     fun gen(numRooms: Int) {
         head.children.clear()
@@ -86,7 +103,7 @@ object HexMap {
         for(i in 0..5) {
             if(nr <= 0) break
             if(rnd.nextFloat() <= E_BRANCHES / 6.0) {
-                if(!head.contains(prev.coord + dirs[i]!!)) {
+                if(!contains(head, prev.coord + dirs[i]!!)) {
                     prev.children.add(Room(prev.coord + dirs[i]!!, prev))
                     nr--
                 }
@@ -96,25 +113,23 @@ object HexMap {
         if(nr > 0) {
             if(prev.children.isEmpty()) {
                 // If the room has an allocated number of rooms to spawn and hasn't spawned any, force one if possible
-                var p = false
                 for(i in 0..5) {
-                    if(!head.contains(prev.coord + dirs[i]!!)) {
+                    if(!contains(head, prev.coord + dirs[i]!!)) {
                         prev.children.add(Room(prev.coord + dirs[i]!!, prev))
                         nr--
-                        p = true
                     }
                 }
                 // If the room cannot allocate any, propagate up. If the room in question is the head, give up
-                if(!p) if(prev.parent != head) gen(nr, prev.parent!!) else return
-            }
-
-            val dChildRs =
-                    MutableList(prev.children.size) { rnd.nextDouble(0.0, 1.0) }
-            val pSum = dChildRs.sum()
-            val iChildRs = dChildRs.map { it / pSum * nr}.map { it.toInt() } as MutableList<Int>
-            iChildRs[iChildRs.lastIndex] = nr - iChildRs.dropLast(1).sum()
-            prev.children.forEachIndexed { idx, child ->
-                gen(iChildRs[idx], child)
+                // if(!p) if(prev.parent != head) prev.parent?.let { gen(nr, it) } else return
+            } else {
+                val dChildRs =
+                        MutableList(prev.children.size) { rnd.nextDouble(0.0, 1.0) }
+                val pSum = dChildRs.sum()
+                val iChildRs = dChildRs.map { it / pSum * nr }.map { it.toInt() } as MutableList<Int>
+                iChildRs[iChildRs.lastIndex] = nr - iChildRs.dropLast(1).sum()
+                prev.children.forEachIndexed { idx, child ->
+                    gen(iChildRs[idx], child)
+                }
             }
         }
 

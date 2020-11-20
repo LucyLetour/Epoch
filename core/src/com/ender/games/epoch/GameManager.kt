@@ -21,10 +21,16 @@ const val MAX_ZOOM = 0.7f
 
 const val BULLET_LIFETIME = 10_000L
 
-const val HEX_ROOM_SIZE = 5f
-//val INTERNAL_HEX_SIZE = HEX_ROOM_SIZE * sqrt(3f) / 2
-const val HEX_ROOM_WALL_THICKNESS = 0.2f
-const val HEX_DOORWAY_SIZE = 4f
+
+
+object HexRoomConstants {
+    const val HEX_ROOM_SIZE = 20f
+    //val INTERNAL_HEX_SIZE = HEX_ROOM_SIZE * sqrt(3f) / 2
+    const val HEX_ROOM_WALL_THICKNESS = 0.2f
+    const val HEX_DOORWAY_SIZE = 8f
+    const val HEX_SPACING = 1.5f
+    const val INTERIOR_HEX_SCALE = 6f
+}
 
 // E(B) where B is the event of a side of a room having a branch
 const val E_BRANCHES = 2

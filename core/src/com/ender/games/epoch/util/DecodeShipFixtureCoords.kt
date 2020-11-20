@@ -50,8 +50,8 @@ fun getShipFixtureDefs(ship: Ships): List<Pair<FixtureDef, ShipPart>> {
                 second = ShipKernel()
             )
         } else {
-            val type = string.split(" ").first()
-            val bound = string.split(" ").last()
+            val type = string.split("->").first()
+            val bound = string.split("->").last().split(" ")
 
             return@map Pair(
                 first = FixtureDef().apply {
