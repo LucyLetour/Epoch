@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape
 import com.ender.games.epoch.GAME_MANAGER
 import com.ender.games.epoch.HexRoomConstants
 import com.ender.games.epoch.TAU
+import com.ender.games.epoch.entities.Player
 import com.ender.games.epoch.entities.components.*
 import com.ender.games.epoch.util.BeatManager
 import kotlin.math.atan2
@@ -38,7 +39,6 @@ class RenderSystem(private val batch: SpriteBatch, private val wallRenderer: Sha
     override fun processEntity(entity: Entity, deltaTime: Float) {
         val timeSinceStart = System.currentTimeMillis() - BeatManager.start
 
-
         if(render.has(entity)) {
             batch.begin()
             val rC = render.get(entity)
@@ -55,6 +55,9 @@ class RenderSystem(private val batch: SpriteBatch, private val wallRenderer: Sha
                     Color.GREEN
                 }
                 RenderTypes.ENEMY -> {
+                    Color.RED
+                }
+                RenderTypes.FORCE_FIELD -> {
                     Color.RED
                 }
             }
@@ -81,13 +84,15 @@ class RenderSystem(private val batch: SpriteBatch, private val wallRenderer: Sha
         } else {
             wallRenderer.begin(ShapeRenderer.ShapeType.Line)
             wallRenderer.setAutoShapeType(true)
-            wallRenderer.color = Color.GREEN
             val rLC = renderLine.get(entity)
+            wallRenderer.color = if(rLC.rType == RenderTypes.WALL) Color.GREEN else Color.RED
+            //wallRenderer.rotate(0f, 0f, 1f, Math.toDegrees(rLC.representativeFixture!!.body.angle.toDouble()).toFloat())
             when(rLC.representativeFixture!!.shape) {
                 is PolygonShape -> {
                     val f = (rLC.representativeFixture!!.shape as PolygonShape)
                     val verts = List(f.vertexCount) { Vector2.Zero.cpy() }
                             .mapIndexed { idx, it -> f.getVertex(idx, it); it }
+                            .map {it.rotate(Math.toDegrees(rLC.representativeFixture!!.body.angle.toDouble()).toFloat())}
                             .map { it.add(rLC.representativeFixture!!.body.position) }
 
                     verts.forEachIndexed { idx, i ->
@@ -117,25 +122,5 @@ class RenderSystem(private val batch: SpriteBatch, private val wallRenderer: Sha
             }
             wallRenderer.end()
         }
-    }
-
-    private fun isBox(verts: List<Vector2>): Boolean {
-        if(verts.size != 4) return false
-        val v1 = verts[1].cpy().sub(verts[0])
-        val v2 = verts[3].cpy().sub(verts[0])
-        if(v1.dot(v2) == 0f && verts[2].cpy().sub(verts[0]) == v1.cpy().add(v2)) {
-
-            val w = min(verts[1].x - verts[0].x, verts[3].y - verts[0].y)
-            val h = max(verts[1].x - verts[0].x, verts[3].y - verts[0].y)
-            val cx = w / 2f + verts[0].x
-            val cy = h / 2f + verts[0].y
-            verts[3].x = verts[0].angle(verts[1])
-            verts[1].x = cx
-            verts[1].y = cy
-            verts[2].x = w
-            verts[2].y = h
-            return true
-        }
-        return false
     }
 }

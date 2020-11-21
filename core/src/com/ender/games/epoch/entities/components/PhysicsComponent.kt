@@ -6,6 +6,8 @@ import com.badlogic.gdx.utils.Pool
 
 class PhysicsComponent: Component, Pool.Poolable {
     var body: Body? = null
+    var toDestroy = false
+    var toAdd = true
 
     override fun reset() {
         body = null

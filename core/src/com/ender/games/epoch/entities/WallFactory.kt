@@ -21,45 +21,20 @@ const val CIRCLE_UNIT_SIZE = 298f
 fun createWall(f: Fixture): Entity {
     return Entity().apply {
         add(RenderLineComponent().apply {
-            representativeFixture = f
+            representativeFixture = f.apply {
+                f.filterData.categoryBits = 1
+            }
         })
-        //val region: TextureRegion
-        //val scale: Vector2
+    }
+}
 
-        /*when(f.shape) {
-            is PolygonShape -> {
-                /*when((f.shape as PolygonShape).vertexCount) {
-                    6 -> {
-                        add(RenderComponent().apply {
-                            representativeFixture = f
-                            region = TextureRegion(ASSET_MANAGER.get(Textures.HEX_UNIT))
-                            rType = RenderTypes.WALL
-                            scale = Vector2(1f, 1f).scl(1f)//HEX_UNIT_SIZE)
-                        })
-                        println("Hex!")
-                    }
-                    else -> {
-                        /*var v1: Vector2 = Vector2.Zero
-                        (f.shape as PolygonShape).getVertex(0, v1)
-                        var v2: Vector2 = Vector2.Zero
-                        (f.shape as PolygonShape).getVertex(1, v2)
-                        add(RenderComponent().apply {
-                            representativeFixture = f
-                            region = TextureRegion(ASSET_MANAGER.get(Textures.WALL_UNIT))
-                            rType = RenderTypes.WALL
-                            scale = Vector2((v2.x - v2.y) * WALL_UNIT_LENGTH, 1f)
-                        })*/
-                    }
-                }*/
+fun createForceField(f: Fixture): Entity {
+    return Entity().apply {
+        add(RenderLineComponent().apply {
+            representativeFixture = f.apply {
+                f.filterData.groupIndex = -1
             }
-            else -> {
-                /*add(RenderComponent().apply {
-                    representativeFixture = f
-                    region = TextureRegion(ASSET_MANAGER.get(Textures.CIRCLE_UNIT))
-                    rType = RenderTypes.WALL
-                    scale = Vector2(1f, 1f).scl(CIRCLE_UNIT_SIZE * f.shape.radius)
-                })*/
-            }
-        }*/
+            rType = RenderTypes.FORCE_FIELD
+        })
     }
 }

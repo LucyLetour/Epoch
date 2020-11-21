@@ -1,5 +1,6 @@
 package com.ender.games.epoch.screens
 
+import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.ScreenAdapter
@@ -19,8 +20,7 @@ import com.ender.games.epoch.HexRoomConstants.HEX_ROOM_WALL_THICKNESS
 import com.ender.games.epoch.HexRoomConstants.HEX_SPACING
 import com.ender.games.epoch.HexRoomConstants.INTERIOR_HEX_SCALE
 import com.ender.games.epoch.entities.*
-import com.ender.games.epoch.entities.components.InputCodeComponent
-import com.ender.games.epoch.entities.components.player
+import com.ender.games.epoch.entities.components.*
 import com.ender.games.epoch.entities.systems.*
 import com.ender.games.epoch.ship.weapons.HeavyAmmo
 import com.ender.games.epoch.ship.weapons.LightAmmo
@@ -50,10 +50,13 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
 
     private val physicsDebugRenderer = Box2DDebugRenderer()
 
+    private val bodiesToDelete = mutableListOf<Body>()
+    private val bodiesToAdd = mutableListOf<BodyDef>()
+
     val ui = Ui()
 
     val engine = PooledEngine().apply {
-        addSystem(PhysicsSystem(world))
+        addSystem(PhysicsSystem(world, this@InGameScreen))
         addSystem(RenderSystem(batch, wallRenderer))
         addSystem(PlayerControllerSystem())
         addSystem(BulletSystem())
@@ -68,7 +71,10 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
     val bm = BeatManager
 
     var curRoom: HexCoord = HexCoord(0, 0, 0)
-    val clearedRooms = mutableListOf<>()
+    val clearedRooms = mutableListOf(HexCoord(0, 0, 0))
+    var inConnector = false
+    var curFF: Entity? = null
+    var genFF = false
 
     init {
         engine.addEntity(InputCode.apply { add(InputCodeComponent()) })
@@ -101,6 +107,17 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
         run {
             engine.update(delta)
         }
+
+        if(genFF) {
+            curFF = genForceFields(curRoom)
+            genFF = false
+        }
+
+        bodiesToDelete.forEach { world.destroyBody(it) }
+        bodiesToDelete.clear()
+
+        bodiesToAdd.forEach { world.createBody(it) }
+        bodiesToAdd.clear()
 
         bloom.render()
 
@@ -156,7 +173,7 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
     }
 
     private fun genRooms(room: Room = HexMap.head) {
-        val hexPos = room.coord.toQR().toPoint().toVec2().scl(HEX_ROOM_SIZE / 100f).scl(HEX_SPACING)
+        val hexPos = room.coord.toQR().toPoint().toVec2().scl(HEX_ROOM_SIZE).scl(HEX_SPACING)
         val side = HEX_ROOM_SIZE
         val apothem = side * sqrt(3f) / 2f
 
@@ -164,7 +181,7 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
 
         world.createBody(BodyDef().apply {
             type = BodyDef.BodyType.StaticBody
-            position.set(hexPos.scl(100f))
+            position.set(hexPos)
         }).apply {
             for(i in 0..5) {
                 val sideCenter = Vector2(
@@ -223,10 +240,14 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
 
             createFixture(FixtureDef().apply {
                 shape = PolygonShape().apply {
-                    set(Array(6) { i -> Vector2(sin(i / 6f * TAU), cos(i / 6f * TAU)).scl(HEX_ROOM_SIZE - 1f) })
+                    set(Array(6) { i -> Vector2(sin(i / 6f * TAU), cos(i / 6f * TAU)).scl(HEX_ROOM_SIZE - 2f) })
                 }
             }).apply {
                 isSensor = true
+                userData = room.coord
+                filterData = Filter().apply {
+                    maskBits = Short.MAX_VALUE
+                }
             }
 
             getInterior(room.type).forEach { def -> createFixture(def).apply {
@@ -321,4 +342,66 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
             else-> listOf()
         }
     }
+
+    private fun genForceFields(coord: HexCoord): Entity {
+        val hexPos = coord.toQR().toPoint().toVec2().scl(HEX_ROOM_SIZE).scl(HEX_SPACING)
+
+        println("pee")
+        return Entity().apply {
+            add(PhysicsComponent().apply {
+                body = world.createBody(BodyDef().apply {
+                    type = BodyDef.BodyType.KinematicBody
+                    position.set(hexPos)
+                    angularVelocity = .2f
+                }).apply {
+                    val side = HEX_ROOM_SIZE * 2f / sqrt(3f)
+                    val apothem = side / 2f * sqrt(3f)
+                    for(i in 0..5) {
+                        val sideCenter = Vector2(
+                                apothem * cos(Math.toRadians(i * 60.0)).toFloat(),
+                                apothem * sin(Math.toRadians(i * 60.0)).toFloat()
+                        )
+                        createFixture(FixtureDef().apply {
+                            shape = PolygonShape().apply {
+                                setAsBox(
+                                        HEX_ROOM_WALL_THICKNESS / 2f,
+                                        side / 2f,
+                                        sideCenter,
+                                        Math.toRadians(i * 60.0).toFloat()
+                                )
+                            }
+                        }).also {
+                            engine.addEntity(createForceField(it))
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+    fun enterRoom(coord: HexCoord) {
+        if(curRoom != coord) {
+            curRoom = coord
+            if (coord !in clearedRooms) {
+                genFF = true
+                // Do something (spawn enemies?)
+            }
+        }
+    }
+
+    fun removeBody(ent: Entity) {
+        engine.removeEntity(ent)
+        engine.entities.filter { renderLine.has(it) && renderLine.get(it).representativeFixture!!.body ==  physics.get(ent).body!!}.forEach { engine.removeEntity(it) }
+        bodiesToDelete.add(physics.get(ent).body!!)
+    }
+
+    fun clearRoom(coord: HexCoord) {
+        clearedRooms.add(coord)
+        if(curFF != null) {
+            removeBody(curFF!!)
+            curFF = null
+        }
+    }
+
+
 }

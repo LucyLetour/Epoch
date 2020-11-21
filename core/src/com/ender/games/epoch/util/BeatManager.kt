@@ -40,11 +40,23 @@ object BeatManager {
     }
 
     fun triggerShop() {
-        shopWhenAvailable = true
+        shopWhenAvailable = !inShop
     }
 
     fun triggerLeaveShop() {
-        exitShopWhenAvailable = true
+        exitShopWhenAvailable = inShop
+    }
+
+    fun getQuarterNoteT(): Float {
+        return 1f
+    }
+
+    /**
+     * Returns the value of some polynomial of the for (x - c1)*(x-c2)*...*(x-ci)
+     * Where ci is the time in beats of the clap and x is the current seek time of the song in beats
+     */
+    fun getClapT(): Float {
+        return 1f
     }
 
     fun tick(delta: Float) {

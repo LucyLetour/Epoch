@@ -25,15 +25,15 @@ class BulletSystem: IteratingSystem(Family.all(BulletRequestComponent::class.jav
         super.update(deltaTime)
 
         if(!PhysicsSystem.isUpdating) {
+            bulletList.filter {bullet.get(it) != null}.filter { bullet.get(it).delete || (System.currentTimeMillis() - bullet.get(it).aliveSince) > BULLET_LIFETIME}.forEach { removeBullet(it) }
             for(bullet in bulletQueue) {
                 with(GAME_MANAGER.game!!.inGameScreen.engine) {
                     addEntity(createBullet(bulletReq.get(bullet).spawner!!))
                     removeEntity(bullet)
                 }
             }
-        }
 
-        bulletList.filter { bullet.get(it).delete || (System.currentTimeMillis() - bullet.get(it).aliveSince) > BULLET_LIFETIME }.forEach { removeBullet(it) }
+        }
 
         bulletQueue.clear()
     }

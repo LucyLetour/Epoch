@@ -20,7 +20,6 @@ import com.ender.games.epoch.util.Spritesheets
 import com.ender.games.epoch.util.Textures
 import kotlin.math.PI
 
-
 object Player: Entity() {
 
     val inventory = Inventory

@@ -49,6 +49,7 @@ fun generateShipFixtures(baseShip: Ships, body: Body) {
         defs.forEach { (fixtureDef, shipPart) ->
             createFixture(fixtureDef).apply {
                 userData = shipPart
+                filterData.categoryBits = 2
             }
         }
     }.fixtureList.toList()

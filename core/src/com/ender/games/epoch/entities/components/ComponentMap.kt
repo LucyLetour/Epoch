@@ -10,3 +10,4 @@ val bulletReq: ComponentMapper<BulletRequestComponent> = ComponentMapper.getFor(
 val bullet: ComponentMapper<BulletComponent> = ComponentMapper.getFor(BulletComponent::class.java)
 val weapon: ComponentMapper<WeaponComponent> = ComponentMapper.getFor(WeaponComponent::class.java)
 val inputCode: ComponentMapper<InputCodeComponent> = ComponentMapper.getFor(InputCodeComponent::class.java)
+val enemy: ComponentMapper<EnemyComponent> = ComponentMapper.getFor(EnemyComponent::class.java)

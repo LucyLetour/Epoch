@@ -17,7 +17,7 @@ val bulletList = mutableListOf<Entity>()
 fun createBullet(spawner: Entity, offset: Vector2 = Vector2(4f,0f)): Entity {
     val entityPos = physics.get(spawner).body!!.position
     val entityRot = physics.get(spawner).body!!.angle
-    return GAME_MANAGER.game!!.inGameScreen.engine.createEntity().apply entity@{
+    return Entity().apply entity@{
         add(PhysicsComponent().apply {
             body = GAME_MANAGER.game!!.inGameScreen.world.createBody( BodyDef().apply {
                 type = BodyDef.BodyType.DynamicBody
@@ -50,8 +50,7 @@ fun createBullet(spawner: Entity, offset: Vector2 = Vector2(4f,0f)): Entity {
 
 fun removeBullet(bullet: Entity) {
     with( GAME_MANAGER.game!!.inGameScreen) {
-        world.destroyBody(physics.get(bullet).body)
         bulletList.remove(bullet)
-        engine.removeEntity(bullet)
+        removeBody(bullet)
     }
 }

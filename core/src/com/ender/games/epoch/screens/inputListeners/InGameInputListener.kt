@@ -19,7 +19,7 @@ class InGameInputListener(private val screen: InGameScreen): InputAdapter() {
 
     override fun keyTyped(character: Char): Boolean {
         when(character) {
-            'z' -> BeatManager.triggerShop()
+            'z' -> screen.clearRoom(screen.curRoom)
             'x' -> BeatManager.triggerLeaveShop()
             else -> return false
         }
