@@ -26,16 +26,15 @@ object BeatManager {
 
     private val music: Music = ASSET_MANAGER.get(Audio.MUSIC)
 
-    val start by lazy {
-        GAME_MANAGER.game!!.inGameScreen.startTime
-    }
+    var start = 0L
 
     fun setVolume(vol: Float) {
         music.volume = vol.coerceIn(0f, 1f)
     }
 
     fun start() {
-        start
+        if(music.isPlaying) music.stop()
+        start = GAME_MANAGER.game!!.inGameScreen.startTime
         music.play()
     }
 

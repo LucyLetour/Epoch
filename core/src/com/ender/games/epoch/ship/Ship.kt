@@ -48,19 +48,7 @@ class Ship(val baseStats: Ships, val entity: Entity) {
 
     fun fire() {
         for(weapon in hardpointArray.mapNotNull { it.weapon }) {
-            if(weapon.magEmpty()) {
-                try {
-                    if (entity is Player) {
-                        weapon.load((Player.inventory.removeItem(weapon.munitionType) as Munition?))
-                    } else {
-                        weapon.load(weapon.munitionType.objectInstance as Munition)
-                    }
-                } catch (e: InvalidMunitionType) {
-                    // TODO "Communicate there is no available ammo"
-                }
-            } else {
-                weapon.fireIfAble()
-            }
+            weapon.fireIfAble()
         }
     }
 }

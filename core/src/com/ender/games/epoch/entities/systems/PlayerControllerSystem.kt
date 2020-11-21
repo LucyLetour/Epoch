@@ -6,6 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.Interpolation
 import com.ender.games.epoch.entities.Player
 import com.ender.games.epoch.entities.components.*
+import com.ender.games.epoch.util.BeatManager
 import kotlin.math.*
 
 class PlayerControllerSystem:
@@ -22,6 +23,8 @@ class PlayerControllerSystem:
     }
 
     override fun processEntity(entity: Entity?, deltaTime: Float) {
+        if(BeatManager.measure < 4) return
+
         val oldVel = player.get(Player).smoothCamSubject.velocity.cpy()
         val rot = body.angle
 

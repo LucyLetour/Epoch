@@ -4,6 +4,7 @@ import com.ender.games.epoch.entities.Player
 import com.ender.games.epoch.ship.Affixation
 import com.ender.games.epoch.ship.Ship
 import kotlin.reflect.KClass
+import kotlin.reflect.full.createInstance
 
 abstract class Weapon(level: Int, val rof: Float, val rotationAngle: IntRange, parent: Ship, val munitionType: KClass<out Munition>, val reloadTime: Float):
         Affixation(parent, level) {
@@ -38,9 +39,10 @@ abstract class Weapon(level: Int, val rof: Float, val rotationAngle: IntRange, p
             this.fire()
         } else if(magEmpty()) {
             if(parent.entity is Player) {
-                load(Player.inventory.removeItem(munitionType) as Munition)
+                load(munitionType.createInstance())
+                //load(Player.inventory.removeItem(munitionType) as Munition)
             } else {
-                load(munitionType.objectInstance)
+                load(munitionType.createInstance())
             }
         }
     }

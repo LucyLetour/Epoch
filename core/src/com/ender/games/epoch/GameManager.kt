@@ -28,7 +28,7 @@ object HexRoomConstants {
     //val INTERNAL_HEX_SIZE = HEX_ROOM_SIZE * sqrt(3f) / 2
     const val HEX_ROOM_WALL_THICKNESS = 0.2f
     const val HEX_DOORWAY_SIZE = 8f
-    const val HEX_SPACING = 1.5f
+    const val HEX_SPACING = 1.8f
     const val INTERIOR_HEX_SCALE = 6f
 }
 

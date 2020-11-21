@@ -7,7 +7,6 @@ import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.BitmapFont
-import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.Vector2
@@ -24,7 +23,7 @@ import com.ender.games.epoch.entities.components.*
 import com.ender.games.epoch.entities.systems.*
 import com.ender.games.epoch.ship.weapons.HeavyAmmo
 import com.ender.games.epoch.ship.weapons.LightAmmo
-import com.ender.games.epoch.smoothCamera.SmoothCamSubject
+import com.ender.games.epoch.smoothCamera.SmoothCamPoint
 import com.ender.games.epoch.smoothCamera.SmoothCamWorld
 import com.ender.games.epoch.util.*
 import com.ender.games.epoch.util.bloom.Bloom
@@ -39,9 +38,8 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
 
     lateinit var camWorld: SmoothCamWorld
 
-    private var targetCameraZoom = 0.0f
-    private var camDeltaX = 0.0f
-    private var camDeltaY = 0.0f
+    private var gameInitialized = false
+    private var gameStarted = false
 
     private val batch = SpriteBatch().apply { enableBlending() }
     private val wallRenderer = ShapeRenderer()
@@ -53,6 +51,8 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
     private val bodiesToDelete = mutableListOf<Body>()
     private val bodiesToAdd = mutableListOf<BodyDef>()
 
+    private var spawnEnemies = false
+
     val ui = Ui()
 
     val engine = PooledEngine().apply {
@@ -60,6 +60,8 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
         addSystem(RenderSystem(batch, wallRenderer))
         addSystem(PlayerControllerSystem())
         addSystem(BulletSystem())
+        addSystem(EnemySystem())
+        addSystem(HealthSystem())
     }
 
     private val bloom = Bloom(Gdx.graphics.width, Gdx.graphics.height, false, false, true).apply {
@@ -68,22 +70,38 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
     }
 
     var startTime: Long = 0
-    val bm = BeatManager
+    private val beatManager = BeatManager
 
     var curRoom: HexCoord = HexCoord(0, 0, 0)
-    val clearedRooms = mutableListOf(HexCoord(0, 0, 0))
-    var inConnector = false
+    private val clearedRooms = mutableListOf(HexCoord(0, 0, 0))
     var curFF: Entity? = null
     var genFF = false
 
-    init {
-        engine.addEntity(InputCode.apply { add(InputCodeComponent()) })
+    private fun startGame() {
+        if(!gameInitialized) {
+            engine.addEntity(InputCode.apply { add(InputCodeComponent()) })
+            engine.addEntity(Player)
+            camWorld = SmoothCamWorld(player.get(Player).smoothCamSubject)
+            gameInitialized = true
+        }
+
         startTime = System.currentTimeMillis()
         setupMap()
+
+        genCamPoints()
+
+        beatManager.setVolume(0.5f)
+        beatManager.start()
+
+        gameStarted = true
     }
 
     override fun render(delta: Float) {
         super.render(delta)
+
+        if(!gameStarted) {
+            startGame()
+        }
 
         //GL Stuff
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f)
@@ -94,13 +112,11 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
         batch.projectionMatrix = game.camera.combined
         wallRenderer.projectionMatrix = game.camera.combined
 
-        //Handle camera zoom
-        game.camera.zoom = 1f//Interpolation.fade.apply(game.camera.zoom, targetCameraZoom, ZOOM_SPEED)
-
         camWorld.update(delta)
         game.camera.position.set(Vector3(camWorld.pos.x, camWorld.pos.y, game.camera.position.z))
+        game.camera.zoom = camWorld.zoom
 
-        bm.tick(delta)
+        beatManager.tick(delta)
 
         bloom.capture()
 
@@ -111,6 +127,12 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
         if(genFF) {
             curFF = genForceFields(curRoom)
             genFF = false
+        }
+
+        if(spawnEnemies) {
+            spawnEnemies = false
+            val s = createShip(Ships.ALACRON, curRoom.toQR().toPoint().toVec2().scl(HEX_ROOM_SIZE).scl(HEX_SPACING))
+            engine.addEntity(s.entity)
         }
 
         bodiesToDelete.forEach { world.destroyBody(it) }
@@ -142,26 +164,6 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
         game.camera.update()
     }
 
-    override fun show() {
-        game.camera.zoom = 6f
-        targetCameraZoom = START_ZOOM
-        camWorld = SmoothCamWorld(player.get(Player).smoothCamSubject)
-        engine.addEntity(Player)
-        //val s = createShip(Ships.ALACRON)
-        //engine.addEntity(s.entity)
-        //engine.addEntity(createShip(Ships.CONTREX).entity)
-        //removeShip(s)
-        //repeat(100) {
-        //    engine.addEntity(Asteroid((-1000..1000).random().toFloat(), (-1000..1000).random().toFloat()))
-        //}
-        Player.inventory.addItem(LightAmmo())
-        Player.inventory.addItem(HeavyAmmo())
-
-        startTime = System.currentTimeMillis()
-        bm.setVolume(.0f)
-        bm.start()
-    }
-
     private fun setupMap() {
         HexMap.gen(100)
         while(count(HexMap.head) < 25) {
@@ -170,6 +172,17 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
         //HexMap.gen(0)
         genRooms()
         println(count(HexMap.head))
+    }
+
+    private fun genCamPoints(room: Room = HexMap.head) {
+        val rc = room.coord.toQR().toPoint().toVec2().scl(HEX_ROOM_SIZE).scl(HEX_SPACING)
+        camWorld.points.add(SmoothCamPoint(
+                rc,
+                HEX_ROOM_SIZE,
+                HEX_ROOM_SIZE / 4f,
+                0.4f
+        ))
+        room.children.forEach { genCamPoints(it) }
     }
 
     private fun genRooms(room: Room = HexMap.head) {
@@ -255,7 +268,7 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
             } }
 
             this.fixtureList.forEach {
-                engine.addEntity(createWall(it))
+                if(!it.isSensor) engine.addEntity(createWall(it))
             }
         }
 
@@ -346,7 +359,6 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
     private fun genForceFields(coord: HexCoord): Entity {
         val hexPos = coord.toQR().toPoint().toVec2().scl(HEX_ROOM_SIZE).scl(HEX_SPACING)
 
-        println("pee")
         return Entity().apply {
             add(PhysicsComponent().apply {
                 body = world.createBody(BodyDef().apply {
@@ -384,6 +396,9 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
             curRoom = coord
             if (coord !in clearedRooms) {
                 genFF = true
+
+                spawnEnemies = true
+
                 // Do something (spawn enemies?)
             }
         }
@@ -396,12 +411,15 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
     }
 
     fun clearRoom(coord: HexCoord) {
-        clearedRooms.add(coord)
-        if(curFF != null) {
+        if(coord !in clearedRooms) {
+            clearedRooms.add(coord)
+        }
+
+        if (curFF != null) {
             removeBody(curFF!!)
             curFF = null
         }
     }
 
-
+    fun gameOver() {}
 }

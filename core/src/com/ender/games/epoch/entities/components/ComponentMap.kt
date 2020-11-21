@@ -11,3 +11,5 @@ val bullet: ComponentMapper<BulletComponent> = ComponentMapper.getFor(BulletComp
 val weapon: ComponentMapper<WeaponComponent> = ComponentMapper.getFor(WeaponComponent::class.java)
 val inputCode: ComponentMapper<InputCodeComponent> = ComponentMapper.getFor(InputCodeComponent::class.java)
 val enemy: ComponentMapper<EnemyComponent> = ComponentMapper.getFor(EnemyComponent::class.java)
+val health: ComponentMapper<HealthComponent> = ComponentMapper.getFor(HealthComponent::class.java)
+val ship: ComponentMapper<ShipComponent> = ComponentMapper.getFor(ShipComponent::class.java)

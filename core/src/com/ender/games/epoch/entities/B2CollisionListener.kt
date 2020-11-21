@@ -7,7 +7,9 @@ import com.badlogic.gdx.physics.box2d.ContactListener
 import com.badlogic.gdx.physics.box2d.Manifold
 import com.ender.games.epoch.GAME_MANAGER
 import com.ender.games.epoch.entities.components.bullet
+import com.ender.games.epoch.entities.components.health
 import com.ender.games.epoch.screens.InGameScreen
+import com.ender.games.epoch.ship.Ship
 import com.ender.games.epoch.ship.ShipKernel
 import com.ender.games.epoch.util.HexCoord
 
@@ -19,10 +21,16 @@ class B2CollisionListener(val game: InGameScreen): ContactListener {
 
             if (eA != null && bullet.has(eA)) {
                 bullet.get(eA).delete = true
+                if(contact.fixtureB.body.userData is Entity && health.has(eB)) {
+                    health.get(eB).health -= 1
+                }
             }
 
             if (eB != null && bullet.has(eB)) {
                 bullet.get(eB).delete = true
+                if(contact.fixtureA.body.userData is Entity && health.has(eA)) {
+                    health.get(eA).health -= 1
+                }
             }
         } else { // Room detection
             if(contact.fixtureA.isSensor) {

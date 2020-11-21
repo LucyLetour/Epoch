@@ -10,7 +10,8 @@ class SmoothCamWorld(val subject: SmoothCamSubject) {
     val pos = Vector2(0f, 0f)
     var velX = 0f
     var velY = 0f
-    private var zoom = 1f
+    var zoom = 0f
+        private set
 
     fun getNearestPointOfInterest(p1: SmoothCamPoint): SmoothCamPoint? {
         return points.sortedBy { getDist(p1, it) }[0]
@@ -23,6 +24,8 @@ class SmoothCamWorld(val subject: SmoothCamSubject) {
             val dist = getDist(subject, nearestPoint!!)
             if(dist > nearestPoint.outerRadius) {
                 coeff = 1f
+                pos.set(subject.pos)
+                zoom = 1f
             } else {
                 coeff = max((dist - nearestPoint.innerRadius) / nearestPoint.radiusDist(), 0f)
                 val deltaX = subject.pos.x - nearestPoint.pos.x
@@ -45,7 +48,7 @@ class SmoothCamWorld(val subject: SmoothCamSubject) {
             coeff = 1f
         }
 
-        pos.set(subject.pos)
+        //pos.set(subject.pos)
         //println(subject.accel)
         //println(((pos.dst(subject.pos) / MAX_FOLLOW_DIST).absoluteValue.coerceIn(0f..1f) * 0.2f) + 0.8f)
         //println("$pos -> ${subject.pos} == ${pos.dst(subject.pos)}")
