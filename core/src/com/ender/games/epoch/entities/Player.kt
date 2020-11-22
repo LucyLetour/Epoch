@@ -2,9 +2,7 @@ package com.ender.games.epoch.entities
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.g2d.TextureRegion
-import com.badlogic.gdx.physics.box2d.BodyDef
-import com.badlogic.gdx.physics.box2d.CircleShape
-import com.badlogic.gdx.physics.box2d.FixtureDef
+import com.badlogic.gdx.physics.box2d.*
 import com.ender.games.epoch.GAME_MANAGER
 import com.ender.games.epoch.Ships
 import com.ender.games.epoch.entities.components.PhysicsComponent
@@ -25,15 +23,19 @@ object Player: Entity() {
     val inventory = Inventory
 
     val ship = Ship(Ships.HEXACRON, this)
-    private val world = GAME_MANAGER.game!!.inGameScreen.world
-    private val body = world.createBody(BodyDef().apply {
-        type = BodyDef.BodyType.DynamicBody
-        position.set(0f, 0f)
-        angularDamping = 0.4f
-        linearDamping = 0.3f
-    })
+    private lateinit var world: World
+    private lateinit var body: Body
 
-    init {
+    fun initialize() {
+        world = GAME_MANAGER.game!!.inGameScreen.world
+
+        body = world.createBody(BodyDef().apply {
+            type = BodyDef.BodyType.DynamicBody
+            position.set(0f, 0f)
+            angularDamping = 0.4f
+            linearDamping = 0.3f
+        })
+
         generateShipFixtures(ship.baseStats, body)
 
         add(RenderComponent().apply {

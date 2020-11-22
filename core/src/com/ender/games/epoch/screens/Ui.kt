@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.ender.games.epoch.GAME_MANAGER
+import com.ender.games.epoch.GameState
 import com.ender.games.epoch.entities.Player
 import com.ender.games.epoch.util.ASSET_MANAGER
 import com.ender.games.epoch.util.UI
@@ -32,20 +33,35 @@ class Ui : Stage() {
         table.debug = true
         this.addActor(table)
 
-        setInGameUI()
+        setMainMenuUI()
+    }
+
+    fun setMainMenuUI() {
+        table.clear()
+        table.add(
+                TextButton("Start Game", skin).apply {
+                    addListener(object : ChangeListener() {
+                        override fun changed(event: ChangeEvent?, actor: Actor?) {
+                            GAME_MANAGER.setGameState(GameState.IN_GAME)
+                            setInGameUI()
+                        }
+                    })
+                }
+        )
     }
 
     fun setInGameUI() {
         table.clear()
         table.add(
-                TextButton("Inventory", skin).apply {
+                TextButton("Exit", skin).apply {
                     addListener(object : ChangeListener() {
                         override fun changed(event: ChangeEvent?, actor: Actor?) {
-                            setInventoryUI()
+                            GAME_MANAGER.setGameState(GameState.MAIN_MENU)
+                            setMainMenuUI()
                         }
                     })
                 }
-        ).expand().top().left().pad(30f)
+        )
     }
 
     private fun setInventoryUI() {

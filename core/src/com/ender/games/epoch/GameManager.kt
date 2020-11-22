@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer
 import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.ender.games.epoch.screens.InGameScreen
+import com.ender.games.epoch.screens.MainMenuScreen
 import com.ender.games.epoch.screens.inputListeners.InGameInputListener
 //import com.ender.games.epoch.screens.inputListeners.InGameInputListener
 import org.hexworks.zircon.internal.listeners.ZirconInputListener
@@ -20,8 +21,6 @@ const val MIN_ZOOM = 0.1f
 const val MAX_ZOOM = 0.7f
 
 const val BULLET_LIFETIME = 10_000L
-
-
 
 object HexRoomConstants {
     const val HEX_ROOM_SIZE = 20f
@@ -54,7 +53,7 @@ enum class Location {
 }
 
 object GAME_MANAGER {
-    var gameState: GameState = GameState.IN_GAME
+    var gameState: GameState = GameState.MAIN_MENU
         private set
     var location = Location.OPEN_SPACE
         private set
@@ -85,6 +84,11 @@ object GAME_MANAGER {
                 with(game!!.screen as InGameScreen) {
                     inputMultiplexer.addProcessor(this.ui)
                     inputMultiplexer.addProcessor(InGameInputListener(this))
+                }
+            }
+            GameState.MAIN_MENU -> {
+                with(game!!.screen as MainMenuScreen) {
+                    inputMultiplexer.addProcessor(this.ui)
                 }
             }
             else -> {

@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.ender.games.epoch.screens.InGameScreen
+import com.ender.games.epoch.screens.MainMenuScreen
 import com.ender.games.epoch.util.*
 import kotlin.properties.Delegates
 
@@ -17,7 +18,7 @@ class Epochkt(val screenWidth: Int,
     val viewport = ExtendViewport(192f / 4, 108f / 4, camera)
 
     lateinit var inGameScreen: InGameScreen
-    //private val mainMenuScreen = MainMenu(this)
+    lateinit var mainMenuScreen: MainMenuScreen
 
     override fun create() {
         GAME_MANAGER.game = this
@@ -31,7 +32,8 @@ class Epochkt(val screenWidth: Int,
         }
 
         inGameScreen = InGameScreen(this)
-        GAME_MANAGER.setGameState(GameState.IN_GAME)
+        mainMenuScreen = MainMenuScreen(this)
+        GAME_MANAGER.setGameState(GameState.MAIN_MENU)
 
         camera.setToOrtho(false, viewport.screenWidth.toFloat(), viewport.screenHeight.toFloat())
 
@@ -58,6 +60,7 @@ class Epochkt(val screenWidth: Int,
         when (gameState) {
             // GameState.MAIN_MENU -> screen = mainMenuScreen
             GameState.IN_GAME -> setScreen(inGameScreen)
+            GameState.MAIN_MENU -> setScreen(mainMenuScreen)
             else -> {
                 Gdx.app.error("Invalid Screen", "An invalid game state was given")
                 screen = null

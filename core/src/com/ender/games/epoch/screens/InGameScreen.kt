@@ -77,9 +77,12 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
     var curFF: Entity? = null
     var genFF = false
 
+    var gameOver = false
+
     private fun startGame() {
         if(!gameInitialized) {
             engine.addEntity(InputCode.apply { add(InputCodeComponent()) })
+            Player.initialize()
             engine.addEntity(Player)
             camWorld = SmoothCamWorld(player.get(Player).smoothCamSubject)
             gameInitialized = true
@@ -155,8 +158,10 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
                 font.color = Color.WHITE
             }
         }
-        //ui.act(Gdx.graphics.deltaTime)
-        //ui.draw()
+        if(gameOver) {
+            ui.act(Gdx.graphics.deltaTime)
+            ui.draw()
+        }
         guiBatch.end()
 
         physicsDebugRenderer.render(world, game.camera.combined)
@@ -421,5 +426,7 @@ class InGameScreen(private val game: Epochkt): ScreenAdapter() {
         }
     }
 
-    fun gameOver() {}
+    fun gameOver() {
+        gameOver = true
+    }
 }
